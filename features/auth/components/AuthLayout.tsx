@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 interface AuthLayoutProps {
   children: React.ReactNode;
   imageSrc?: string;
@@ -12,8 +14,16 @@ export default function AuthLayout({
   return (
     <div className="min-h-screen flex">
       {/* Form panel */}
-      <div className="w-full lg:w-[45%] flex items-center justify-center px-6 py-20 bg-surface">
-        <div className="w-full max-w-md">{children}</div>
+      <div className="w-full lg:w-[45%] flex flex-col px-6 pt-8 pb-20 bg-surface">
+        <Link
+          href="/"
+          className="text-[0.6875rem] uppercase tracking-[0.2rem] text-outline hover:text-on-surface-variant transition-colors self-start"
+        >
+          ← Home
+        </Link>
+        <div className="flex-1 flex items-center justify-center">
+          <div className="w-full max-w-md">{children}</div>
+        </div>
       </div>
 
       {/* Image panel */}

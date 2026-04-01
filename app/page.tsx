@@ -21,6 +21,7 @@ export default async function HomePage() {
         subtitle="High-conviction investment ideas in gold, copper, and macro cycles — for investors who think in decades, not quarters."
         primaryCta={{ label: "Explore Theses", href: "/theses" }}
         secondaryCta={{ label: "Get Access", href: "/auth/signup" }}
+        minHeight="min-h-[70vh] md:min-h-screen"
       />
 
       <MacroTicker />

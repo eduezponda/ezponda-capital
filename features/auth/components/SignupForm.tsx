@@ -27,7 +27,7 @@ export default function SignupForm() {
 
         <div className="mt-2">
           <label className="text-[0.6875rem] uppercase tracking-[0.05rem] font-medium text-secondary block mb-2">
-            What's your primary focus?
+            What&apos;s your primary focus?
           </label>
           <select className="w-full bg-surface-container-highest text-on-surface px-6 py-4 rounded outline-none border border-transparent focus:ring-1 focus:ring-tertiary transition-all">
             <option value="">Select an interest…</option>
