@@ -50,7 +50,7 @@ export default async function HomePage() {
             ].map(({ icon, label, sub }) => (
               <div
                 key={label}
-                className="bg-surface-container rounded-lg p-8 border border-outline-variant/10 hover:bg-surface-container-high transition-colors flex flex-col gap-4"
+                className="bg-surface-container rounded-lg p-5 md:p-8 border border-outline-variant/10 hover:bg-surface-container-high transition-colors flex flex-col gap-4"
               >
                 <span
                   className="material-symbols-outlined text-tertiary"

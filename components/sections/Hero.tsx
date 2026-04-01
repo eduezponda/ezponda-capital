@@ -42,7 +42,7 @@ export default function Hero({
       )}
 
       {/* Content */}
-      <Container className={cn("relative z-10 py-40 md:py-48")}>
+      <Container className={cn("relative z-10 py-28 md:py-40 lg:py-48")}>
         <div className="max-w-3xl">
           {eyebrow && (
             <p className="text-[0.6875rem] uppercase tracking-[0.3rem] text-tertiary font-medium mb-6">
@@ -50,7 +50,7 @@ export default function Hero({
             </p>
           )}
 
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-white leading-[1.05] mb-6">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-white leading-[1.05] mb-6">
             {headline}
             {headlineAccent && (
               <>

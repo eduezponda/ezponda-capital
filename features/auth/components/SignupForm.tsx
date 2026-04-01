@@ -18,7 +18,7 @@ export default function SignupForm() {
       </div>
 
       <form className="flex flex-col gap-4">
-        <div className="flex gap-3">
+        <div className="flex flex-col sm:flex-row gap-3">
           <Input id="firstName" type="text" label="First Name" placeholder="Eduardo" className="flex-1" />
           <Input id="lastName"  type="text" label="Last Name"  placeholder="Ezponda"  className="flex-1" />
         </div>
