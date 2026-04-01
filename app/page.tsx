@@ -39,10 +39,14 @@ export default async function HomePage() {
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
-              { icon: "diamond",          label: "Gold",           sub: "Monetary metals" },
-              { icon: "cable",            label: "Copper",         sub: "Industrial metals" },
-              { icon: "public",           label: "Macro Cycles",   sub: "Global dynamics" },
-              { icon: "foundation",       label: "Real Assets",    sub: "Tangible value" },
+              { icon: "diamond", label: "Gold", sub: "Monetary metals" },
+              { icon: "cable", label: "Copper", sub: "Industrial metals" },
+              { icon: "public", label: "Macro Cycles", sub: "Global dynamics" },
+              {
+                icon: "foundation",
+                label: "Real Assets",
+                sub: "Tangible value",
+              },
             ].map(({ icon, label, sub }) => (
               <div
                 key={label}
@@ -50,7 +54,10 @@ export default async function HomePage() {
               >
                 <span
                   className="material-symbols-outlined text-tertiary"
-                  style={{ fontSize: 24, fontVariationSettings: "'FILL' 0, 'wght' 300" }}
+                  style={{
+                    fontSize: 24,
+                    fontVariationSettings: "'FILL' 0, 'wght' 300",
+                  }}
                   aria-hidden="true"
                 >
                   {icon}
@@ -67,10 +74,14 @@ export default async function HomePage() {
 
       {/* Author */}
       <AuthorCard
-        name="Eduardo Ezponda"
+        name="Iñigo Ezponda Igea"
         title="Principal, Ezponda Capital"
         bio="Commodity-focused investor with a macro framework built around real yield cycles, monetary policy divergence, and structural demand shifts in industrial metals. Writing for investors who want the signal without the noise."
-        credentials={["CFA Candidate", "10+ Years Markets", "Gold & Copper Focus"]}
+        credentials={[
+          "CFA Candidate",
+          "10+ Years Markets",
+          "Gold & Copper Focus",
+        ]}
       />
 
       {/* Featured theses */}
