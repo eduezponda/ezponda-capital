@@ -1,103 +1,104 @@
-import Image from "next/image";
+import Link from "next/link";
+import Hero from "@/components/sections/Hero";
+import MacroTicker from "@/features/macro/components/MacroTicker";
+import AuthorCard from "@/components/sections/AuthorCard";
+import MethodologySteps from "@/components/sections/MethodologySteps";
+import SubscribeCTA from "@/components/sections/SubscribeCTA";
+import ThesisGallery from "@/features/theses/components/ThesisGallery";
+import Container from "@/components/layout/Container";
+import { getAllTheses } from "@/lib/api/theses";
 
-export default function Home() {
+export default async function HomePage() {
+  const theses = await getAllTheses();
+  const featured = theses.slice(0, 3);
+
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <>
+      <Hero
+        eyebrow="Commodity Investment Research"
+        headline="Real Assets."
+        headlineAccent="Real Value."
+        subtitle="High-conviction investment ideas in gold, copper, and macro cycles — for investors who think in decades, not quarters."
+        primaryCta={{ label: "Explore Theses", href: "/theses" }}
+        secondaryCta={{ label: "Get Access", href: "/auth/signup" }}
+      />
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      <MacroTicker />
+
+      {/* Strategic anchors */}
+      <section className="py-20 bg-surface-container-lowest">
+        <Container>
+          <div className="mb-10">
+            <p className="text-[0.6875rem] uppercase tracking-[0.25rem] text-tertiary font-medium mb-2">
+              Coverage Universe
+            </p>
+            <h2 className="text-3xl font-bold text-white tracking-tight">
+              Strategic Anchors
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[
+              { icon: "diamond",          label: "Gold",           sub: "Monetary metals" },
+              { icon: "cable",            label: "Copper",         sub: "Industrial metals" },
+              { icon: "public",           label: "Macro Cycles",   sub: "Global dynamics" },
+              { icon: "foundation",       label: "Real Assets",    sub: "Tangible value" },
+            ].map(({ icon, label, sub }) => (
+              <div
+                key={label}
+                className="bg-surface-container rounded-lg p-8 border border-outline-variant/10 hover:bg-surface-container-high transition-colors flex flex-col gap-4"
+              >
+                <span
+                  className="material-symbols-outlined text-tertiary"
+                  style={{ fontSize: 24, fontVariationSettings: "'FILL' 0, 'wght' 300" }}
+                  aria-hidden="true"
+                >
+                  {icon}
+                </span>
+                <div>
+                  <p className="font-bold text-white">{label}</p>
+                  <p className="text-[0.75rem] text-outline mt-0.5">{sub}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      {/* Author */}
+      <AuthorCard
+        name="Eduardo Ezponda"
+        title="Principal, Ezponda Capital"
+        bio="Commodity-focused investor with a macro framework built around real yield cycles, monetary policy divergence, and structural demand shifts in industrial metals. Writing for investors who want the signal without the noise."
+        credentials={["CFA Candidate", "10+ Years Markets", "Gold & Copper Focus"]}
+      />
+
+      {/* Featured theses */}
+      <section className="py-20 bg-surface">
+        <Container>
+          <div className="mb-10 flex items-end justify-between">
+            <div>
+              <p className="text-[0.6875rem] uppercase tracking-[0.25rem] text-tertiary font-medium mb-2">
+                Latest Research
+              </p>
+              <h2 className="text-3xl font-bold text-white tracking-tight">
+                Featured Theses
+              </h2>
+            </div>
+            <Link
+              href="/theses"
+              className="text-[0.75rem] uppercase tracking-[0.08rem] text-outline hover:text-tertiary transition-colors hidden md:block"
+            >
+              View all →
+            </Link>
+          </div>
+
+          <ThesisGallery theses={featured} />
+        </Container>
+      </section>
+
+      <MethodologySteps />
+      <SubscribeCTA />
+    </>
   );
 }
