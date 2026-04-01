@@ -28,7 +28,7 @@ export default function Hero({
   minHeight = "min-h-screen",
 }: HeroProps) {
   return (
-    <section className={cn("relative flex items-center", minHeight, className)}>
+    <section className={cn("relative flex items-start md:items-center", minHeight, className)}>
       {/* Background image */}
       {imageSrc && (
         <>
@@ -42,7 +42,7 @@ export default function Hero({
       )}
 
       {/* Content */}
-      <Container className={cn("relative z-10 py-28 md:py-40 lg:py-48")}>
+      <Container className={cn("relative z-10 py-24 md:py-40 lg:py-48")}>
         <div className="max-w-3xl">
           {eyebrow && (
             <p className="text-[0.6875rem] uppercase tracking-[0.3rem] text-tertiary font-medium mb-6">
