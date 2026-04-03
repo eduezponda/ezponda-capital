@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
+import { MDXRemote } from "next-mdx-remote/rsc";
 import Container from "@/components/layout/Container";
 import Badge from "@/components/ui/Badge";
-import PremiumGate from "@/features/subscription/components/PremiumGate";
 import { getThesisBySlug, getAllTheses } from "@/lib/api/theses";
 import { formatDate } from "@/lib/utils";
 
@@ -34,8 +34,18 @@ export default async function ThesisPage({ params }: PageProps) {
       <Container className="max-w-4xl">
         {/* Header */}
         <div className="mb-12 flex flex-col gap-4">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 flex-wrap">
             <Badge category={thesis.category} />
+            {thesis.ticker && (
+              <span className="text-[0.6875rem] uppercase tracking-[0.08rem] font-bold text-tertiary">
+                {thesis.ticker}
+              </span>
+            )}
+            {thesis.exchange && (
+              <span className="text-[0.6875rem] uppercase tracking-[0.05rem] text-outline">
+                {thesis.exchange}
+              </span>
+            )}
             <span className="text-[0.6875rem] uppercase tracking-[0.05rem] text-outline">
               {formatDate(thesis.date)}
             </span>
@@ -46,19 +56,25 @@ export default async function ThesisPage({ params }: PageProps) {
           <p className="text-[1.125rem] text-on-surface-variant leading-relaxed max-w-2xl">
             {thesis.excerpt}
           </p>
+          {thesis.tags.length > 0 && (
+            <div className="flex flex-wrap gap-2 mt-1">
+              {thesis.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="text-[0.6875rem] uppercase tracking-[0.05rem] text-outline border border-outline-variant/40 rounded-full px-2.5 py-1"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
           <div className="h-px bg-outline-variant/30 mt-4" />
         </div>
 
-        {/* Gated content */}
-        <PremiumGate>
-          <div className="prose prose-invert max-w-none">
-            {thesis.content ? (
-              <div dangerouslySetInnerHTML={{ __html: thesis.content }} />
-            ) : (
-              <p className="text-outline italic">Full thesis content coming soon.</p>
-            )}
-          </div>
-        </PremiumGate>
+        {/* MDX content */}
+        <div className="thesis-prose">
+          <MDXRemote source={thesis.source} />
+        </div>
       </Container>
     </div>
   );

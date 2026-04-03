@@ -1,3 +1,22 @@
+import fs from "fs";
+import path from "path";
+import matter from "gray-matter";
+
+export interface ThesisFrontmatter {
+  title: string;
+  slug: string;
+  date: string;
+  category: "Gold" | "Copper" | "Macro" | "Real Assets";
+  ticker: string;
+  exchange: string;
+  tier: "free" | "premium";
+  status: string;
+  summary: string;
+  coverImage: string;
+  ogImage?: string;
+  tags: string[];
+}
+
 export interface ThesisMeta {
   slug: string;
   title: string;
@@ -7,75 +26,77 @@ export interface ThesisMeta {
   tier: "free" | "premium";
   image?: string;
   tags: string[];
+  ticker: string;
+  exchange: string;
 }
 
-export interface Thesis extends ThesisMeta {
-  content: string; // raw MDX/HTML string — future: parse from file
+export interface ThesisWithContent extends ThesisMeta {
+  source: string;
 }
 
-// Stub data — future: load from /content/theses/*.mdx via gray-matter / next-mdx-remote
-const THESES_DB: Thesis[] = [
-  {
-    slug: "golden-hegemony",
-    title: "Golden Hegemony: Why Gold Wins the Next Decade",
-    excerpt:
-      "As central banks rebuild reserves and the dollar's reserve status erodes, gold reasserts its role as the ultimate store of value. A structural case for $5,000/oz.",
-    category: "Gold",
-    date: "2025-03-01",
-    tier: "premium",
-    image: undefined,
-    tags: ["gold", "central banks", "dedollarization", "reserves"],
-    content: "",
-  },
-  {
-    slug: "copper-supercycle",
-    title: "Copper Supercycle: The Metal Powering the Energy Transition",
-    excerpt:
-      "Electric vehicles, grid infrastructure, and AI data centers are converging on a single bottleneck: copper. Supply cannot keep up.",
-    category: "Copper",
-    date: "2025-02-10",
-    tier: "premium",
-    image: undefined,
-    tags: ["copper", "energy transition", "EV", "infrastructure"],
-    content: "",
-  },
-  {
-    slug: "de-dollarization",
-    title: "De-Dollarization: The Slow Fracture of the Global Reserve System",
-    excerpt:
-      "BRICS expansion, bilateral trade in local currencies, and gold accumulation by sovereign funds signal a structural shift decades in the making.",
-    category: "Macro",
-    date: "2025-01-20",
-    tier: "premium",
-    image: undefined,
-    tags: ["macro", "dollar", "BRICS", "monetary system"],
-    content: "",
-  },
-  {
-    slug: "infrastructure-2-0",
-    title: "Infrastructure 2.0: Real Assets in the Age of Fiscal Expansion",
-    excerpt:
-      "Government spending on roads, ports, and power grids is the most underappreciated commodity demand driver of this cycle.",
-    category: "Real Assets",
-    date: "2025-01-05",
-    tier: "premium",
-    image: undefined,
-    tags: ["real assets", "infrastructure", "fiscal", "commodities"],
-    content: "",
-  },
-];
+const CONTENT_DIR = path.join(process.cwd(), "content", "theses");
+
+function readAllFrontmatters(): ThesisMeta[] {
+  if (!fs.existsSync(CONTENT_DIR)) return [];
+
+  const files = fs
+    .readdirSync(CONTENT_DIR)
+    .filter((f) => f.endsWith(".mdx"));
+
+  return files
+    .map((file) => {
+      const raw = fs.readFileSync(path.join(CONTENT_DIR, file), "utf-8");
+      const { data } = matter(raw);
+      const fm = data as ThesisFrontmatter;
+      return {
+        slug: fm.slug ?? file.replace(/\.mdx$/, ""),
+        title: fm.title,
+        excerpt: fm.summary,
+        category: fm.category,
+        date: fm.date,
+        tier: fm.tier ?? "free",
+        image: fm.coverImage,
+        tags: fm.tags ?? [],
+        ticker: fm.ticker ?? "",
+        exchange: fm.exchange ?? "",
+      };
+    })
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+}
 
 export async function getAllTheses(category?: string): Promise<ThesisMeta[]> {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const metas: ThesisMeta[] = THESES_DB.map(({ content: _content, ...meta }) => meta);
+  const metas = readAllFrontmatters();
   if (!category || category === "all") return metas;
   return metas.filter(
     (t) => t.category.toLowerCase() === category.toLowerCase()
   );
 }
 
-export async function getThesisBySlug(slug: string): Promise<Thesis | null> {
-  return THESES_DB.find((t) => t.slug === slug) ?? null;
+export async function getThesisBySlug(
+  slug: string
+): Promise<ThesisWithContent | null> {
+  if (!fs.existsSync(CONTENT_DIR)) return null;
+
+  const filePath = path.join(CONTENT_DIR, `${slug}.mdx`);
+  if (!fs.existsSync(filePath)) return null;
+
+  const raw = fs.readFileSync(filePath, "utf-8");
+  const { data, content } = matter(raw);
+  const fm = data as ThesisFrontmatter;
+
+  return {
+    slug: fm.slug ?? slug,
+    title: fm.title,
+    excerpt: fm.summary,
+    category: fm.category,
+    date: fm.date,
+    tier: fm.tier ?? "free",
+    image: fm.coverImage,
+    tags: fm.tags ?? [],
+    ticker: fm.ticker ?? "",
+    exchange: fm.exchange ?? "",
+    source: content,
+  };
 }
 
 export const CATEGORIES = ["All", "Gold", "Copper", "Macro", "Real Assets"] as const;

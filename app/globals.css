@@ -98,6 +98,103 @@ body {
   direction: ltr;
 }
 
+/* ─── Thesis MDX Prose ───────────────────────────────────────── */
+.thesis-prose {
+  color: var(--color-on-surface-variant);
+  font-size: 1.0625rem;
+  line-height: 1.75;
+}
+
+.thesis-prose h2 {
+  color: var(--color-on-surface);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  letter-spacing: -0.01em;
+}
+
+.thesis-prose h3 {
+  color: var(--color-on-surface);
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.thesis-prose p {
+  margin-top: 0;
+  margin-bottom: 1.25rem;
+}
+
+.thesis-prose strong {
+  color: var(--color-on-surface);
+  font-weight: 600;
+}
+
+.thesis-prose hr {
+  border: none;
+  border-top: 1px solid var(--color-outline-variant);
+  margin: 2rem 0;
+  opacity: 0.4;
+}
+
+.thesis-prose ul {
+  list-style: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.thesis-prose ol {
+  list-style: decimal;
+  padding-left: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.thesis-prose li {
+  margin-bottom: 0.5rem;
+}
+
+.thesis-prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.875rem;
+}
+
+.thesis-prose th {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  color: var(--color-on-surface);
+  font-weight: 600;
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid var(--color-outline-variant);
+  background-color: var(--color-surface-container-low);
+}
+
+.thesis-prose td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--color-outline-variant);
+  color: var(--color-on-surface-variant);
+}
+
+.thesis-prose tr:last-child td {
+  border-bottom: none;
+}
+
+.thesis-prose em {
+  color: var(--color-outline);
+  font-style: italic;
+}
+
+.thesis-prose a {
+  color: var(--color-tertiary);
+  text-decoration: underline;
+  text-decoration-color: var(--color-tertiary-container);
+}
+
 /* ─── Autofill override ──────────────────────────────────────── */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
