@@ -164,24 +164,25 @@ body {
 
 .thesis-prose th {
   text-align: left;
-  padding: 0.75rem 1rem;
+  padding: 0.6rem 1rem;
   color: var(--color-on-surface);
   font-weight: 600;
   font-size: 0.6875rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  border-bottom: 1px solid var(--color-outline-variant);
-  background-color: var(--color-surface-container-low);
+  border: 1px solid rgba(184, 115, 51, 0.3);
+  background: rgba(184, 115, 51, 0.08);
 }
 
 .thesis-prose td {
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid var(--color-outline-variant);
+  padding: 0.6rem 1rem;
+  border: 1px solid rgba(184, 115, 51, 0.2);
   color: var(--color-on-surface-variant);
+  vertical-align: top;
 }
 
-.thesis-prose tr:last-child td {
-  border-bottom: none;
+.thesis-prose tr:nth-child(even) td {
+  background: rgba(184, 115, 51, 0.04);
 }
 
 .thesis-prose em {

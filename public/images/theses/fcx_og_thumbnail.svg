@@ -1,0 +1,51 @@
+<svg width="100%" viewBox="0 0 680 366" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  
+<mask id="imagine-text-gaps-t4yg93" maskUnits="userSpaceOnUse"><rect x="0" y="0" width="680" height="366" fill="white"/><rect x="58.22711181640625" y="54.17766189575195" width="63.545772552490234" height="16.08902645111084" fill="black" rx="2"/><rect x="36" y="103.17766571044922" width="108.80878448486328" height="17.600154876708984" fill="black" rx="2"/><rect x="36" y="128.24404907226562" width="380.8697814941406" height="47.06715774536133" fill="black" rx="2"/><rect x="37.24443435668945" y="182.13316345214844" width="230.44068908691406" height="23.644668579101562" fill="black" rx="2"/><rect x="35.24443817138672" y="235.9109649658203" width="283.1916198730469" height="19.11128330230713" fill="black" rx="2"/><rect x="36" y="318.17767333984375" width="222.0135498046875" height="16.08902645111084" fill="black" rx="2"/><rect x="519.3834228515625" y="318.17767333984375" width="124.61660766601562" height="16.08902645111084" fill="black" rx="2"/></mask></defs>
+
+<!-- Background -->
+<rect width="680" height="356" fill="#080e1c" style="fill:rgb(8, 14, 28);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+<!-- Left copper bar accent -->
+<rect x="0" y="0" width="5" height="356" fill="#b87333" style="fill:rgb(184, 115, 51);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+<!-- Geometric copper circles -->
+<circle cx="520" cy="178" r="160" fill="none" stroke="#b87333" stroke-width="0.6" opacity="0.15" style="fill:none;stroke:rgb(184, 115, 51);color:rgb(0, 0, 0);stroke-width:0.6px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.15;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+<circle cx="520" cy="178" r="120" fill="none" stroke="#b87333" stroke-width="0.5" opacity="0.2" style="fill:none;stroke:rgb(184, 115, 51);color:rgb(0, 0, 0);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.2;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+<circle cx="520" cy="178" r="80" fill="none" stroke="#d4944a" stroke-width="0.8" opacity="0.25" style="fill:none;stroke:rgb(212, 148, 74);color:rgb(0, 0, 0);stroke-width:0.8px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.25;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+<circle cx="520" cy="178" r="40" fill="#b87333" opacity="0.08" style="fill:rgb(184, 115, 51);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.08;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+<!-- Cross lines -->
+<line x1="520" y1="18" x2="520" y2="338" stroke="#b87333" stroke-width="0.4" opacity="0.15" mask="url(#imagine-text-gaps-t4yg93)" style="fill:rgb(0, 0, 0);stroke:rgb(184, 115, 51);color:rgb(0, 0, 0);stroke-width:0.4px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.15;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+<line x1="360" y1="178" x2="680" y2="178" stroke="#b87333" stroke-width="0.4" opacity="0.15" style="fill:rgb(0, 0, 0);stroke:rgb(184, 115, 51);color:rgb(0, 0, 0);stroke-width:0.4px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.15;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+<!-- Diagonal lines pattern top right -->
+<line x1="580" y1="0" x2="680" y2="100" stroke="#b87333" stroke-width="0.3" opacity="0.1" style="fill:rgb(0, 0, 0);stroke:rgb(184, 115, 51);color:rgb(0, 0, 0);stroke-width:0.3px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+<line x1="620" y1="0" x2="680" y2="60" stroke="#b87333" stroke-width="0.3" opacity="0.1" style="fill:rgb(0, 0, 0);stroke:rgb(184, 115, 51);color:rgb(0, 0, 0);stroke-width:0.3px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+<line x1="640" y1="0" x2="680" y2="40" stroke="#b87333" stroke-width="0.3" opacity="0.1" style="fill:rgb(0, 0, 0);stroke:rgb(184, 115, 51);color:rgb(0, 0, 0);stroke-width:0.3px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+<line x1="540" y1="0" x2="680" y2="140" stroke="#b87333" stroke-width="0.3" opacity="0.1" style="fill:rgb(0, 0, 0);stroke:rgb(184, 115, 51);color:rgb(0, 0, 0);stroke-width:0.3px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+<!-- Category pill -->
+<rect x="40" y="50" width="100" height="24" rx="12" fill="none" stroke="#b87333" stroke-width="0.8" opacity="0.6" style="fill:none;stroke:rgb(184, 115, 51);color:rgb(0, 0, 0);stroke-width:0.8px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.6;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+<text x="90" y="66" font-size="11" text-anchor="middle" letter-spacing="2" font-weight="500" style="fill:rgba(240, 192, 112, 0.5);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Georgia, serif;font-size:11px;font-weight:500;text-anchor:middle;dominant-baseline:auto">COPPER</text>
+
+<!-- Ticker -->
+<text x="40" y="115" font-size="12" letter-spacing="4" opacity="0.75" style="fill:rgb(232, 168, 92);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.75;font-family:&quot;Courier New&quot;, monospace;font-size:12px;font-weight:400;text-anchor:start;dominant-baseline:auto">NYSE: FCX</text>
+
+<!-- Title -->
+<text x="40" y="165" font-size="38" font-weight="700" letter-spacing="-1" style="fill:rgb(240, 192, 112);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Georgia, serif;font-size:38px;font-weight:700;text-anchor:start;dominant-baseline:auto">Freeport-McMoRan</text>
+
+<!-- Subtitle -->
+<text x="42" y="200" font-size="17" letter-spacing="0.5" style="fill:rgb(184, 115, 51);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Georgia, serif;font-size:17px;font-weight:400;text-anchor:start;dominant-baseline:auto">The Central Bank of Copper</text>
+
+<!-- Divider -->
+<line x1="40" y1="225" x2="300" y2="225" stroke="#b87333" stroke-width="0.8" opacity="0.4" style="fill:rgb(0, 0, 0);stroke:rgb(184, 115, 51);color:rgb(0, 0, 0);stroke-width:0.8px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.4;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+<!-- Summary line -->
+<text x="40" y="250" font-size="13" style="fill:rgba(240, 192, 112, 0.5);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Georgia, serif;font-size:13px;font-weight:400;text-anchor:start;dominant-baseline:auto">World's largest publicly traded copper producer</text>
+
+<!-- Bottom -->
+<line x1="40" y1="310" x2="640" y2="310" stroke="#b87333" stroke-width="0.4" opacity="0.2" style="fill:rgb(0, 0, 0);stroke:rgb(184, 115, 51);color:rgb(0, 0, 0);stroke-width:0.4px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.2;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+<text x="40" y="330" font-size="11" letter-spacing="1" style="fill:rgba(240, 192, 112, 0.5);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Georgia, serif;font-size:11px;font-weight:400;text-anchor:start;dominant-baseline:auto">INVESTMENT THESIS  ·  APRIL 2026</text>
+<text x="640" y="330" font-size="11" text-anchor="end" letter-spacing="1" style="fill:rgba(240, 192, 112, 0.5);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Georgia, serif;font-size:11px;font-weight:400;text-anchor:end;dominant-baseline:auto">EZPONDA CAPITAL</text>
+</svg>

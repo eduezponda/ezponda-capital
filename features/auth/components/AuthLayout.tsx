@@ -19,9 +19,9 @@ export default function AuthLayout({
           href="/"
           className="text-[0.6875rem] uppercase tracking-[0.2rem] text-outline hover:text-on-surface-variant transition-colors self-start"
         >
-          ← Home
+          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="inline-block mr-1 align-[-1px]"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>Home
         </Link>
-        <div className="flex-1 flex items-center justify-center">
+        <div className="flex-1 flex items-center justify-center mt-8 md:mt-0">
           <div className="w-full max-w-md">{children}</div>
         </div>
       </div>

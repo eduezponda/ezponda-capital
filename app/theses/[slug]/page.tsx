@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
+import remarkGfm from "remark-gfm";
 import Container from "@/components/layout/Container";
 import Badge from "@/components/ui/Badge";
 import { getThesisBySlug, getAllTheses } from "@/lib/api/theses";
@@ -71,9 +72,19 @@ export default async function ThesisPage({ params }: PageProps) {
           <div className="h-px bg-outline-variant/30 mt-4" />
         </div>
 
+        {/* Cover image */}
+        {thesis.image && (
+          <img
+            src={thesis.image}
+            alt={thesis.title}
+            className="w-full rounded-xl mb-10 object-cover"
+            style={{ aspectRatio: "1200/630" }}
+          />
+        )}
+
         {/* MDX content */}
         <div className="thesis-prose">
-          <MDXRemote source={thesis.source} />
+          <MDXRemote source={thesis.source} options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }} />
         </div>
       </Container>
     </div>
