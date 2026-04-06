@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
+import { getStripe } from "@/lib/stripe";
 
 // Stripe SDK v17+ moved current_period_* off the top-level Subscription type.
 // The fields are still present in the API response at runtime — this helper reads them safely.
@@ -9,9 +10,8 @@ function subPeriod(sub: Stripe.Subscription, field: "current_period_start" | "cu
   return new Date(ts * 1000).toISOString();
 }
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
-
 export async function POST(req: NextRequest) {
+  const stripe = getStripe();
   const rawBody = await req.text();
   const sig = req.headers.get("stripe-signature");
 
