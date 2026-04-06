@@ -31,7 +31,7 @@ export default async function ThesisPage({ params }: PageProps) {
   if (!thesis) notFound();
 
   return (
-    <div className="pt-28 pb-20 bg-surface min-h-screen">
+    <div className="pt-28 pb-20 bg-surface min-h-screen overflow-x-hidden">
       <Container className="max-w-4xl">
         {/* Header */}
         <div className="mb-12 flex flex-col gap-4">
@@ -77,7 +77,7 @@ export default async function ThesisPage({ params }: PageProps) {
           <img
             src={thesis.image}
             alt={thesis.title}
-            className="w-full rounded-xl mb-10 object-cover"
+            className="w-full max-w-full rounded-xl mb-10 object-cover"
             style={{ aspectRatio: "1200/630" }}
           />
         )}
