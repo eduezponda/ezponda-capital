@@ -12,14 +12,10 @@ export default function ThesisGallery({ theses }: Props) {
       </p>
     );
   }
-  const [featured, ...rest] = theses;
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <div className="md:col-span-2">
-        <ThesisCard {...featured} date={formatDate(featured.date)} featured />
-      </div>
-      {rest.map((t) => (
-        <ThesisCard key={t.slug} {...t} date={formatDate(t.date)} />
+    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+      {theses.map((t, i) => (
+        <ThesisCard key={t.slug} {...t} date={formatDate(t.date)} featured={i === 0} />
       ))}
     </div>
   );
