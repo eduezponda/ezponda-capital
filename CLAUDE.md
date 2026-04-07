@@ -208,9 +208,25 @@ Thesis data is currently stub inline in `lib/api/theses.ts`. Future: load from `
 
 ---
 
+## Auth
+
+- Provider: Supabase Auth
+- Method: email and password only — no OAuth, no magic links
+- Registration: open, anyone can self-register
+- Email confirmation: disabled
+- Session: managed by `@supabase/ssr` via cookies, refreshed in middleware on every request
+- On signup/login success: redirect to `/theses`
+- Role hierarchy: superadmin > subscriber > free
+- Tier mapping: superadmin + subscriber → premium · free → free access
+- Protected routes: everything except `/`, `/theses`, `/commodities`, `/sovereign`, `/auth/login`, `/auth/signup`
+- Do NOT add OAuth providers without explicit instruction
+- Do NOT enable email confirmation without explicit instruction
+
+---
+
 ## Planned (Not Yet Implemented)
 
-- NextAuth.js v5 integration (Google + LinkedIn + credentials)
+- Stripe Checkout + webhook for tier upgrades
 - Stripe Checkout + webhook for tier upgrades
 - MDX content loader (`/content/theses/*.mdx` → gray-matter parsing)
 - `/api/indicators` route (currently returns mock data)
