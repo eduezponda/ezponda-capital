@@ -1,11 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Container from "./Container";
+import { createSupabaseBrowserClient } from "@/lib/supabase/client";
+import type { User } from "@supabase/supabase-js";
 
 const NAV_LINKS = [
   { label: "Home",        href: "/" },
@@ -16,9 +18,34 @@ const NAV_LINKS = [
 
 export default function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const supabase = createSupabaseBrowserClient();
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   const close = () => setMenuOpen(false);
+
+  async function handleLogout() {
+    const supabase = createSupabaseBrowserClient();
+    await supabase.auth.signOut();
+    router.push("/");
+    router.refresh();
+  }
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-surface/80 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
@@ -58,18 +85,29 @@ export default function Navbar() {
 
           {/* Desktop auth buttons */}
           <div className="hidden md:flex items-center gap-3">
-            <Link
-              href="/auth/login"
-              className="text-[0.75rem] uppercase tracking-[0.1rem] font-medium text-on-surface-variant hover:text-white transition-colors"
-            >
-              Login
-            </Link>
-            <Link
-              href="/auth/signup"
-              className="gold-gradient text-black text-[0.75rem] uppercase tracking-[0.08rem] font-bold px-5 py-2 rounded-full hover:shadow-[0_0_24px_rgba(255,224,132,0.3)] transition-all"
-            >
-              Get Access
-            </Link>
+            {user ? (
+              <button
+                onClick={handleLogout}
+                className="text-[0.75rem] uppercase tracking-[0.1rem] font-medium text-on-surface-variant hover:text-white transition-colors"
+              >
+                Logout
+              </button>
+            ) : (
+              <>
+                <Link
+                  href="/auth/login"
+                  className="text-[0.75rem] uppercase tracking-[0.1rem] font-medium text-on-surface-variant hover:text-white transition-colors"
+                >
+                  Login
+                </Link>
+                <Link
+                  href="/auth/signup"
+                  className="gold-gradient text-black text-[0.75rem] uppercase tracking-[0.08rem] font-bold px-5 py-2 rounded-full hover:shadow-[0_0_24px_rgba(255,224,132,0.3)] transition-all"
+                >
+                  Get Access
+                </Link>
+              </>
+            )}
           </div>
 
           {/* Mobile hamburger */}
@@ -112,20 +150,31 @@ export default function Navbar() {
             <div className="h-px bg-outline-variant/20 my-3" />
 
             <div className="flex flex-col gap-3">
-              <Link
-                href="/auth/login"
-                onClick={close}
-                className="text-[0.75rem] uppercase tracking-[0.1rem] font-medium text-on-surface-variant hover:text-white transition-colors py-3"
-              >
-                Login
-              </Link>
-              <Link
-                href="/auth/signup"
-                onClick={close}
-                className="gold-gradient text-black text-[0.75rem] uppercase tracking-[0.08rem] font-bold px-5 py-3.5 rounded-full text-center hover:shadow-[0_0_24px_rgba(255,224,132,0.3)] transition-all"
-              >
-                Get Access
-              </Link>
+              {user ? (
+                <button
+                  onClick={() => { close(); handleLogout(); }}
+                  className="text-[0.75rem] uppercase tracking-[0.1rem] font-medium text-on-surface-variant hover:text-white transition-colors py-3 text-left"
+                >
+                  Logout
+                </button>
+              ) : (
+                <>
+                  <Link
+                    href="/auth/login"
+                    onClick={close}
+                    className="text-[0.75rem] uppercase tracking-[0.1rem] font-medium text-on-surface-variant hover:text-white transition-colors py-3"
+                  >
+                    Login
+                  </Link>
+                  <Link
+                    href="/auth/signup"
+                    onClick={close}
+                    className="gold-gradient text-black text-[0.75rem] uppercase tracking-[0.08rem] font-bold px-5 py-3.5 rounded-full text-center hover:shadow-[0_0_24px_rgba(255,224,132,0.3)] transition-all"
+                  >
+                    Get Access
+                  </Link>
+                </>
+              )}
             </div>
           </Container>
         </div>

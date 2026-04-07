@@ -1,9 +1,39 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Input from "@/components/ui/Input";
+import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 
 export default function LoginForm() {
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setError(null);
+    setIsLoading(true);
+
+    const supabase = createSupabaseBrowserClient();
+    const { error: authError } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (authError) {
+      setError(authError.message);
+      setIsLoading(false);
+      return;
+    }
+
+    router.push("/theses");
+    router.refresh();
+  }
+
   return (
     <div className="flex flex-col gap-8">
       {/* Header */}
@@ -45,19 +75,41 @@ export default function LoginForm() {
       </div>
 
       {/* Email/Password form */}
-      <form className="flex flex-col gap-4">
-        <Input id="email" type="email" label="Email" placeholder="you@example.com" />
-        <Input id="password" type="password" label="Password" placeholder="••••••••" />
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <Input
+          id="email"
+          type="email"
+          label="Email"
+          placeholder="you@example.com"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <Input
+          id="password"
+          type="password"
+          label="Password"
+          placeholder="••••••••"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
         <div className="flex justify-end">
           <Link href="#" className="text-[0.75rem] text-outline hover:text-tertiary transition-colors">
             Forgot password?
           </Link>
         </div>
+
+        {error && (
+          <p className="text-[0.8125rem] text-red-400">{error}</p>
+        )}
+
         <button
           type="submit"
-          className="gold-gradient text-black font-bold text-[0.75rem] uppercase tracking-[0.08rem] px-8 py-4 rounded-xl hover:shadow-[0_0_30px_rgba(255,224,132,0.25)] active:scale-95 transition-all mt-2"
+          disabled={isLoading}
+          className="gold-gradient text-black font-bold text-[0.75rem] uppercase tracking-[0.08rem] px-8 py-4 rounded-xl hover:shadow-[0_0_30px_rgba(255,224,132,0.25)] active:scale-95 transition-all mt-2 disabled:opacity-60 disabled:cursor-not-allowed"
         >
-          Login
+          {isLoading ? "Logging in…" : "Login"}
         </button>
       </form>
 

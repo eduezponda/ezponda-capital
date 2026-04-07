@@ -1,4 +1,4 @@
-// Stub session layer — replace with NextAuth.js v5 once integrated
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export type Tier = "free" | "premium";
 
@@ -9,19 +9,33 @@ export interface UserSession {
   tier: Tier;
 }
 
-/**
- * Returns the current session, or null if unauthenticated.
- * Future: import { auth } from "@/lib/auth"; return auth();
- */
 export async function getSession(): Promise<UserSession | null> {
-  // Stub: always unauthenticated until NextAuth is wired
-  return null;
+  const supabase = await createSupabaseServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) return null;
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role, full_name")
+    .eq("id", user.id)
+    .single();
+
+  const tier: Tier =
+    profile?.role === "superadmin" || profile?.role === "subscriber"
+      ? "premium"
+      : "free";
+
+  return {
+    id: user.id,
+    email: user.email ?? "",
+    name: profile?.full_name ?? undefined,
+    tier,
+  };
 }
 
-/**
- * Returns the session or throws a redirect to /auth/login.
- * Use in RSC page.tsx files that require authentication.
- */
 export async function requireAuth(): Promise<UserSession> {
   const session = await getSession();
   if (!session) {
