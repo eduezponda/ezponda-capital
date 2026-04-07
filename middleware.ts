@@ -2,6 +2,9 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
+const PROTECTED_ROUTES = ["/theses", "/commodities", "/sovereign"];
+const AUTH_ROUTES = ["/auth/login", "/auth/signup"];
+
 export async function middleware(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request });
 
@@ -26,15 +29,27 @@ export async function middleware(request: NextRequest) {
     }
   );
 
-  // Always call getUser() — this refreshes the session token if needed
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // Protect /theses/[slug] — redirect unauthenticated users to login
-  if (!user) {
+  const { pathname } = request.nextUrl;
+
+  const isProtected = PROTECTED_ROUTES.some((route) =>
+    pathname === route || pathname.startsWith(route + "/")
+  );
+  const isAuthRoute = AUTH_ROUTES.some((route) => pathname === route);
+
+  if (isProtected && !user) {
     const url = request.nextUrl.clone();
     url.pathname = "/auth/login";
+    url.searchParams.set("next", pathname);
+    return NextResponse.redirect(url);
+  }
+
+  if (isAuthRoute && user) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/theses";
     return NextResponse.redirect(url);
   }
 
@@ -42,5 +57,7 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/theses/:slug+"],
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+  ],
 };

@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Input from "@/components/ui/Input";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 
 export default function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -30,7 +31,8 @@ export default function LoginForm() {
       return;
     }
 
-    router.push("/theses");
+    const next = searchParams.get("next") ?? "/theses";
+    router.push(next);
     router.refresh();
   }
 

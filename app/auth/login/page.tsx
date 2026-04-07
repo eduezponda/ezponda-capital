@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import AuthLayout from "@/features/auth/components/AuthLayout";
 import LoginForm from "@/features/auth/components/LoginForm";
 
@@ -9,7 +10,9 @@ export const metadata = {
 export default function LoginPage() {
   return (
     <AuthLayout imageCaption="Q1 2025 Macro Outlook">
-      <LoginForm />
+      <Suspense>
+        <LoginForm />
+      </Suspense>
     </AuthLayout>
   );
 }
