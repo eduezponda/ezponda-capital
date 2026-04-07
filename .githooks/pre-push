@@ -1,0 +1,15 @@
+#!/bin/sh
+
+current_branch=$(git symbolic-ref HEAD 2>/dev/null | sed 's|refs/heads/||')
+
+if [ "$current_branch" = "main" ]; then
+  echo "Pushing to main — running production build check..."
+  npm run build
+  if [ $? -ne 0 ]; then
+    echo "Build failed. Push to main aborted. Fix errors before merging."
+    exit 1
+  fi
+  echo "Build passed. Pushing to main..."
+fi
+
+exit 0

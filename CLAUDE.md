@@ -190,6 +190,24 @@ Thesis data is currently stub inline in `lib/api/theses.ts`. Future: load from `
 
 ---
 
+## Branch strategy
+
+- Feature work goes on branches: `feature/<name>`, `fix/<name>`, `chore/<name>`
+- Push freely to feature branches — no build check required
+- Only merge to main when the feature is complete and tested locally
+- Pre-push hook runs `npm run build` automatically on push to main
+- Never commit new features directly to main
+
+---
+
+## Validation
+
+- Routine checks: `npx tsc --noEmit && npm run lint`
+- Before merging to main: `npm run build` (hook enforces this automatically)
+- Do NOT run `npm run build` for routine development — too slow
+
+---
+
 ## Planned (Not Yet Implemented)
 
 - NextAuth.js v5 integration (Google + LinkedIn + credentials)
