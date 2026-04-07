@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Container from "./Container";
 
@@ -77,13 +78,11 @@ export default function Navbar() {
             onClick={() => setMenuOpen((v) => !v)}
             aria-label={menuOpen ? "Close menu" : "Open menu"}
           >
-            <span
-              className="material-symbols-outlined"
-              style={{ fontSize: 24, fontVariationSettings: "'FILL' 0, 'wght' 300" }}
-              aria-hidden="true"
-            >
-              {menuOpen ? "close" : "menu"}
-            </span>
+            {menuOpen ? (
+              <X size={24} aria-hidden="true" />
+            ) : (
+              <Menu size={24} aria-hidden="true" />
+            )}
           </button>
         </div>
       </Container>
