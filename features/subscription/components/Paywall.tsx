@@ -30,7 +30,7 @@ export default function Paywall({ previewContent }: PaywallProps) {
         </p>
 
         <div className="w-full max-w-md">
-          <UpgradeCTA compact />
+          <UpgradeCTA compact mode="stripe" priceId="price_1TJXvzKe83gRrUXhfkaTgFXt" />
         </div>
       </div>
     </div>

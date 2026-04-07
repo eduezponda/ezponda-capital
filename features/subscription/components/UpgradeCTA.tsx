@@ -1,4 +1,5 @@
 import Link from "next/link";
+import SubscribeButton from "./SubscribeButton";
 
 interface UpgradeCTAProps {
   headline?: string;
@@ -6,6 +7,8 @@ interface UpgradeCTAProps {
   ctaLabel?: string;
   ctaHref?: string;
   compact?: boolean;
+  mode?: "stripe" | "link";
+  priceId?: string;
 }
 
 export default function UpgradeCTA({
@@ -14,6 +17,8 @@ export default function UpgradeCTA({
   ctaLabel = "Get Premium",
   ctaHref = "/auth/signup",
   compact = false,
+  mode = "link",
+  priceId,
 }: UpgradeCTAProps) {
   return (
     <div className="glass-panel border border-tertiary/15 rounded-lg p-8 md:p-10 flex flex-col gap-5">
@@ -39,19 +44,23 @@ export default function UpgradeCTA({
         )}
       </div>
 
-      <Link
-        href={ctaHref}
-        className="gold-gradient text-black font-bold text-[0.75rem] uppercase tracking-[0.08rem] px-7 py-3.5 rounded-xl inline-flex items-center gap-2 hover:shadow-[0_0_30px_rgba(255,224,132,0.25)] active:scale-95 transition-all self-start"
-      >
-        {ctaLabel}
-        <span
-          className="material-symbols-outlined"
-          style={{ fontSize: 16, fontVariationSettings: "'FILL' 0, 'wght' 400" }}
-          aria-hidden="true"
+      {mode === "stripe" && priceId ? (
+        <SubscribeButton priceId={priceId} label={ctaLabel} />
+      ) : (
+        <Link
+          href={ctaHref}
+          className="gold-gradient text-black font-bold text-[0.75rem] uppercase tracking-[0.08rem] px-7 py-3.5 rounded-xl inline-flex items-center gap-2 hover:shadow-[0_0_30px_rgba(255,224,132,0.25)] active:scale-95 transition-all self-start"
         >
-          arrow_forward
-        </span>
-      </Link>
+          {ctaLabel}
+          <span
+            className="material-symbols-outlined"
+            style={{ fontSize: 16, fontVariationSettings: "'FILL' 0, 'wght' 400" }}
+            aria-hidden="true"
+          >
+            arrow_forward
+          </span>
+        </Link>
+      )}
     </div>
   );
 }
