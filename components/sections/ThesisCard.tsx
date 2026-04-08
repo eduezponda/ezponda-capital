@@ -60,9 +60,17 @@ export default function ThesisCard({
             </span>
           )}
         </div>
-        <h3 className={cn("font-bold text-white tracking-tight leading-tight", featured ? "text-2xl md:text-3xl" : "text-xl")}>
-          {title}
-        </h3>
+        {tier === "premium" ? (
+          <div className="relative">
+            <h3 className={cn("font-bold text-white tracking-tight leading-tight blur-sm select-none pointer-events-none", featured ? "text-2xl md:text-3xl" : "text-xl")}>
+              {title}
+            </h3>
+          </div>
+        ) : (
+          <h3 className={cn("font-bold text-white tracking-tight leading-tight", featured ? "text-2xl md:text-3xl" : "text-xl")}>
+            {title}
+          </h3>
+        )}
         {featured && (
           <p className="text-[0.875rem] text-on-surface-variant leading-relaxed line-clamp-2">
             {excerpt}
