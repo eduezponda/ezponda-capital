@@ -10,6 +10,14 @@ if [ "$current_branch" = "main" ]; then
     exit 1
   fi
   echo "Build passed. Pushing to main..."
+else
+  echo "Pushing to $current_branch — running type check..."
+  npx tsc --noEmit --skipLibCheck
+  if [ $? -ne 0 ]; then
+    echo "Type check failed. Fix errors before pushing."
+    exit 1
+  fi
+  echo "Type check passed. Pushing..."
 fi
 
 exit 0

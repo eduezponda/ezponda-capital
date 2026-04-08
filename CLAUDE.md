@@ -166,9 +166,16 @@ feature branch  →  focused commits  →  PR on GitHub  →  human approves  �
 
 ## Validation
 
-- Routine: `npx tsc --noEmit` — fast type check
-- Before PR: `npm run build` (the pre-push hook enforces this on main)
-- Do NOT run `npm run build` for routine development — too slow
+Three levels — each enforced by the pre-push hook (`.githooks/pre-push`):
+
+| When | Check | How |
+|---|---|---|
+| Committing to feature branch | None required | Push freely |
+| Before creating a PR | `npm run build` | Run manually to catch all errors |
+| Push to main | `npm run build` | Hook enforces automatically, blocks on failure |
+
+Feature branch pushes run `npx tsc --noEmit --skipLibCheck` automatically (fast, ~5s).
+Do NOT run `npm run build` during routine development — it's too slow.
 
 ---
 
