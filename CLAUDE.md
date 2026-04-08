@@ -156,6 +156,16 @@ Gating stack: `PremiumGate` (RSC) → `Paywall` → `UpgradeCTA`. `UpgradeCTA` a
 
 ---
 
+## Git Workflow
+
+- Every new feature or fix must be developed in a dedicated branch: `feature/<name>` or `fix/<name>`
+- Each branch should have multiple focused commits, one per logical change
+- When the feature is complete and builds cleanly, open a pull request to main — never push directly to main
+- Commit messages follow conventional commits: `feat:`, `fix:`, `chore:`, `refactor:`, `docs:`
+- Branch names are lowercase kebab-case: `feature/stripe-subscribe-button`, `fix/middleware-auth-routes`
+
+---
+
 ## Validation
 
 - Routine checks: `npx tsc --noEmit && npm run lint`
