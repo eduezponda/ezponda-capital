@@ -3,21 +3,21 @@
 current_branch=$(git symbolic-ref HEAD 2>/dev/null | sed 's|refs/heads/||')
 
 if [ "$current_branch" = "main" ]; then
-  echo "Pushing to main — running production build check..."
+  echo "Committing to main — running production build check..."
   npm run build
   if [ $? -ne 0 ]; then
-    echo "Build failed. Push to main aborted."
+    echo "Build failed. Commit aborted."
     exit 1
   fi
-  echo "Build passed. Pushing to main..."
+  echo "Build passed."
 else
   echo "Running type check..."
   npx tsc --noEmit
   if [ $? -ne 0 ]; then
-    echo "Type check failed. Fix errors before pushing."
+    echo "Type check failed. Fix errors before committing."
     exit 1
   fi
-  echo "Type check passed. Pushing..."
+  echo "Type check passed."
 fi
 
 exit 0

@@ -166,16 +166,16 @@ feature branch  →  focused commits  →  PR on GitHub  →  human approves  �
 
 ## Validation
 
-Three levels — each enforced by the pre-push hook (`.githooks/pre-push`):
+Two hooks in `.githooks/` (versioned, activated via `core.hookspath=.githooks`):
 
-| When | Check | How |
+| Hook | Feature branch | `main` |
 |---|---|---|
-| Committing to feature branch | None required | Push freely |
-| Before creating a PR | `npm run build` | Run manually to catch all errors |
-| Push to main | `npm run build` | Hook enforces automatically, blocks on failure |
+| `pre-commit` | `npx tsc --noEmit` | `npm run build` |
+| `pre-push` | `npx tsc --noEmit` | `npm run build` |
 
-Feature branch pushes run `npx tsc --noEmit --skipLibCheck` automatically (fast, ~5s).
-Do NOT run `npm run build` during routine development — it's too slow.
+- Feature branches: fast type check on every commit and push — no full build
+- `main`: full production build required — blocks commit or push on failure
+- Do NOT run `npm run build` manually during development — use `npx tsc --noEmit` for quick checks
 
 ---
 
