@@ -10,135 +10,108 @@
 
 ## Setup Checklist
 
-### 1 — Supabase project ✅
+### 1 — Supabase ✅
 
-1. Create a new project at [supabase.com](https://supabase.com)
-2. Go to **Settings → API** and copy:
-   - Project URL → `NEXT_PUBLIC_SUPABASE_URL`
-   - `anon` public key → `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-   - `service_role` secret key → `SUPABASE_SERVICE_ROLE_KEY`
-3. Open the **SQL Editor** and run the contents of `supabase/schema.sql`
-4. Verify the `profiles`, `subscriptions`, `email_list`, and `commodity_prices` tables were created
-5. Verify RLS is enabled on all four tables (Table Editor → select table → RLS tab)
+- Project created, schema applied (`supabase/schema.sql`)
+- Auth configured: email/password, email confirmation enabled
+- Site URL and Redirect URLs set in Authentication → URL Configuration
+- RLS enabled on all tables with correct policies
 
 ### 2 — Environment variables ✅
 
-Copy `.env.local.example` to `.env.local` and fill in all values:
+All variables set in `.env.local` (local) and Vercel (production):
 
-```bash
-cp .env.local.example .env.local
-```
+| Variable                             | Source                                        |
+| ------------------------------------ | --------------------------------------------- |
+| `NEXT_PUBLIC_SUPABASE_URL`           | Supabase → Settings → API                     |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY`      | Supabase → Settings → API                     |
+| `SUPABASE_SERVICE_ROLE_KEY`          | Supabase → Settings → API                     |
+| `STRIPE_SECRET_KEY`                  | Stripe → Developers → API keys                |
+| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Stripe → Developers → API keys                |
+| `STRIPE_WEBHOOK_SECRET`              | Stripe → Developers → Webhooks                |
+| `COMMODITY_API_KEY`                  | Commodity data provider (stub until real key) |
+| `NEXT_PUBLIC_APP_URL`                | `https://ezponda-capital.vercel.app`          |
+| `CRON_SECRET`                        | Random string — `openssl rand -hex 32`        |
 
-| Variable                             | Where to find it                                          |
-| ------------------------------------ | --------------------------------------------------------- |
-| `NEXT_PUBLIC_SUPABASE_URL`           | Supabase → Settings → API                                 |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY`      | Supabase → Settings → API                                 |
-| `SUPABASE_SERVICE_ROLE_KEY`          | Supabase → Settings → API                                 |
-| `STRIPE_SECRET_KEY`                  | Stripe Dashboard → Developers → API keys                  |
-| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Stripe Dashboard → Developers → API keys                  |
-| `STRIPE_WEBHOOK_SECRET`              | Stripe Dashboard → Developers → Webhooks (after step 4)   |
-| `COMMODITY_API_KEY`                  | Your chosen commodity data provider (stub until real key) |
-| `NEXT_PUBLIC_APP_URL`                | `https://ezponda-capital.vercel.app`                      |
-| `CRON_SECRET`                        | Random string — `openssl rand -hex 32`                    |
+### 3 — Stripe ✅
 
-### 3 — Stripe product setup ✅
+- Product: "Ezponda Capital Premium" (`prod_UI8CMDmtrRTYUP`)
+- Price ID: `price_1TJXvzKe83gRrUXhfkaTgFXt` (monthly, EUR, test mode)
+- Webhook registered at `https://ezponda-capital.vercel.app/api/stripe/webhook`
+- Events: `checkout.session.completed`, `customer.subscription.updated`, `customer.subscription.deleted`
 
-1. Create a **Product** in Stripe (Test mode): "Ezponda Capital Premium"
-   - Product ID: `prod_UI8CMDmtrRTYUP`
-2. Add a recurring **Price** (monthly, EUR)
-   - Price ID: `price_1TJXvzKe83gRrUXhfkaTgFXt`
-3. This Price ID is what gets passed to `/api/stripe/create-checkout` as `priceId`
-
-### 4 — Stripe webhook registration ✅
-
-**Production:**
-
-1. Webhook endpoint: `https://ezponda-capital.vercel.app/api/stripe/webhook`
-2. Events configured:
-   - `checkout.session.completed`
-   - `customer.subscription.updated`
-   - `customer.subscription.deleted`
-3. `STRIPE_WEBHOOK_SECRET` added to Vercel environment variables
-
-**Local development** (when needed):
+Local webhook forwarding (when needed):
 
 ```bash
 stripe listen --forward-to localhost:3000/api/stripe/webhook
 ```
 
-Copy the webhook signing secret into `.env.local` as `STRIPE_WEBHOOK_SECRET`.
+### 4 — Deploy ✅
 
-### 5 — Deploy to Vercel ✅
-
-1. Repo connected: `eduezponda/ezponda-capital`
-2. Production URL: `https://ezponda-capital.vercel.app`
-3. All environment variables added to Vercel
-4. `vercel.json` configured with daily cron (Hobby plan limit):
+- Vercel project connected to `eduezponda/ezponda-capital`
+- Production URL: `https://ezponda-capital.vercel.app`
+- Vercel cron configured (daily at 08:00 UTC):
 
 ```json
 { "crons": [{ "path": "/api/commodities/refresh", "schedule": "0 8 * * *" }] }
 ```
 
-5. Verify cron at Vercel → Project → Cron Jobs
+### 5 — Auth frontend ✅
 
-### 6 — Seed superadmins ⬅️ CURRENT STEP
+- LoginForm and SignupForm connected to Supabase Auth
+- Middleware protects `/theses`, `/commodities`, `/sovereign`
+- Session and role read from `profiles` table via `getSession()`
+- Confirm email flow active — new users land on `/auth/confirm-email`
 
-After first users have signed up:
+### 6 — Superadmins ✅
 
-1. Add real email addresses to `SUPERADMIN_EMAILS` in `scripts/seed-superadmins.ts`:
-   - Iñigo Ezponda Igea
-   - Eduardo (developer)
-2. Run:
-
-```bash
-   npx dotenv-cli -e .env.local npx tsx scripts/seed-superadmins.ts
-```
-
-Or with env vars set manually:
-
-```bash
-   NEXT_PUBLIC_SUPABASE_URL=... SUPABASE_SERVICE_ROLE_KEY=... npx tsx scripts/seed-superadmins.ts
-```
-
-> **Note:** This step only makes sense once users have registered via the auth system.
-> The frontend auth flow (signup/login wired to Supabase) must be built first.
+- Iñigo and Eduardo registered via UI and assigned `role = superadmin` directly in Supabase Table Editor
+- Superadmins get `premium` tier automatically via `entitlements.ts`
+- To add future superadmins: Supabase → Table Editor → `profiles` → edit `role` field
 
 ---
 
-## Pending work
+## Pending
 
-- ⬜ Wire frontend auth (signup/login) to Supabase Auth — currently frontend-only stubs
-- ⬜ Connect `/api/stripe/create-checkout` to a real "Subscribe" button in the frontend
-- ⬜ Replace mock commodity prices with a real API (Metals-API, Polygon.io, etc.)
-- ⬜ Run seed-superadmins script once Iñigo and Eduardo have registered
-- ⬜ Switch Stripe from Test mode to Live mode when ready to accept real payments
+### Subscribe button ⬅️ NEXT
+
+Wire the Stripe Checkout flow to the frontend:
+
+1. `SubscribeButton.tsx` — client component that calls `POST /api/stripe/create-checkout`
+2. `UpgradeCTA` in mode `stripe` — renders `SubscribeButton` instead of a static link
+3. `Paywall` — passes `mode="stripe"` and `priceId` to `UpgradeCTA`
+
+The endpoint `POST /api/stripe/create-checkout` is already complete — it creates a Stripe Checkout session and returns a `url`. The frontend just needs to redirect to it.
+
+### Real commodity prices
+
+`app/api/commodities/refresh/route.ts` currently uses hardcoded mock values. To wire a real feed:
+
+1. Choose a provider: Metals-API (recommended for MVP), Polygon.io, or TradingEconomics
+2. Set `COMMODITY_API_KEY` in `.env.local` and Vercel
+3. Replace the mock array with a real API call, mapping to `{ symbol, name, price, change_pct, currency, unit }`
+
+### Stripe Live Mode (when ready to charge)
+
+1. Create product and price in Stripe Live mode
+2. Register a new webhook for production with live keys
+3. Replace test keys with live keys in Vercel environment variables
 
 ---
 
 ## API Routes
 
-| Method | Path                          | Auth                 | Description                                                     |
-| ------ | ----------------------------- | -------------------- | --------------------------------------------------------------- |
-| GET    | `/api/commodities/prices`     | Public               | Latest price per symbol from Supabase                           |
-| GET    | `/api/commodities/refresh`    | `CRON_SECRET` header | Upserts fresh prices (called by Vercel cron daily at 08:00 UTC) |
-| POST   | `/api/email-list/subscribe`   | Public               | Subscribes email to newsletter                                  |
-| POST   | `/api/stripe/create-checkout` | Supabase session     | Creates Stripe Checkout session                                 |
-| POST   | `/api/stripe/webhook`         | Stripe signature     | Handles subscription lifecycle events                           |
+| Method | Path                          | Auth                 | Description                                         |
+| ------ | ----------------------------- | -------------------- | --------------------------------------------------- |
+| GET    | `/api/commodities/prices`     | Public               | Latest price per symbol from Supabase               |
+| GET    | `/api/commodities/refresh`    | `CRON_SECRET` header | Upserts fresh prices (Vercel cron, daily 08:00 UTC) |
+| POST   | `/api/email-list/subscribe`   | Public               | Adds email to newsletter list                       |
+| POST   | `/api/stripe/create-checkout` | Supabase session     | Creates Stripe Checkout session                     |
+| POST   | `/api/stripe/webhook`         | Stripe signature     | Handles subscription lifecycle events               |
 
 ---
 
-## Replacing mock commodity prices
-
-`app/api/commodities/refresh/route.ts` uses hardcoded mock values. To wire a real feed:
-
-1. Set `COMMODITY_API_KEY` in `.env.local` and in Vercel environment variables
-2. Replace the `MOCK_PRICES` array with an API call to your chosen provider
-   (e.g. Metals-API, TradingEconomics, Polygon.io)
-3. Map the response to the `{ symbol, name, price, change_pct, currency, unit }` shape
-
----
-
-## Database schema summary
+## Database schema
 
 ```
 profiles          id · email · full_name · role · stripe_customer_id · created_at
@@ -149,7 +122,7 @@ commodity_prices  id · symbol · name · price · change_pct · currency · uni
 
 RLS rules:
 
-- `profiles`: users read/update own row; superadmins read all
-- `subscriptions`: users read own; superadmins read all
-- `email_list`: anyone can insert; superadmins read/update
-- `commodity_prices`: public read
+- `profiles` — users read/update own row; superadmins read all
+- `subscriptions` — users read own; superadmins read all
+- `email_list` — anyone can insert; superadmins read/update
+- `commodity_prices` — public read
