@@ -29,7 +29,7 @@ All variables set in `.env.local` (local) and Vercel (production):
 | `STRIPE_SECRET_KEY`                  | Stripe → Developers → API keys                |
 | `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Stripe → Developers → API keys                |
 | `STRIPE_WEBHOOK_SECRET`              | Stripe → Developers → Webhooks                |
-| `COMMODITY_API_KEY`                  | Commodity data provider (stub until real key) |
+| `COMMODITY_API_KEY`                  | GoldAPI.io access token                        |
 | `NEXT_PUBLIC_APP_URL`                | `https://ezponda-capital.vercel.app`          |
 | `CRON_SECRET`                        | Random string — `openssl rand -hex 32`        |
 
@@ -59,9 +59,10 @@ stripe listen --forward-to localhost:3000/api/stripe/webhook
 ### 5 — Auth frontend ✅
 
 - LoginForm and SignupForm connected to Supabase Auth
-- Middleware protects `/theses`, `/commodities`, `/sovereign`
 - Session and role read from `profiles` table via `getSession()`
-- Confirm email flow active — new users land on `/auth/confirm-email`
+- Middleware refreshes session only — no route blocking
+- Content gating is per-thesis via `PremiumGate`, driven by MDX `tier` frontmatter field
+- New users land on `/auth/confirm-email` after signup
 
 ### 6 — Superadmins ✅
 
@@ -69,27 +70,27 @@ stripe listen --forward-to localhost:3000/api/stripe/webhook
 - Superadmins get `premium` tier automatically via `entitlements.ts`
 - To add future superadmins: Supabase → Table Editor → `profiles` → edit `role` field
 
+### 7 — Subscribe button ✅
+
+- `SubscribeButton.tsx` — POSTs to `/api/stripe/create-checkout`, redirects to Stripe Checkout URL
+- `UpgradeCTA` renders `SubscribeButton` when `mode="stripe"` + `priceId` are passed
+- `Paywall` passes `mode="stripe" priceId="price_1TJXvzKe83gRrUXhfkaTgFXt"` to `UpgradeCTA`
+
+### 8 — Commodity prices (GoldAPI.io) ✅
+
+- `app/api/commodities/refresh/route.ts` fetches XAU, XAG, XPT, XPD from `https://www.goldapi.io/api/{symbol}/USD`
+- Auth: `x-access-token: COMMODITY_API_KEY`
+- Runs daily at 08:00 UTC via Vercel cron, inserts rows into `commodity_prices`
+
+### 9 — Thesis gating ✅
+
+- Each thesis MDX file has a `tier: "free" | "premium"` frontmatter field
+- Free theses render fully for all visitors
+- Premium theses wrap the MDX body in `<PremiumGate>` — subscribers and superadmins see full content, others see `Paywall`
+
 ---
 
 ## Pending
-
-### Subscribe button ⬅️ NEXT
-
-Wire the Stripe Checkout flow to the frontend:
-
-1. `SubscribeButton.tsx` — client component that calls `POST /api/stripe/create-checkout`
-2. `UpgradeCTA` in mode `stripe` — renders `SubscribeButton` instead of a static link
-3. `Paywall` — passes `mode="stripe"` and `priceId` to `UpgradeCTA`
-
-The endpoint `POST /api/stripe/create-checkout` is already complete — it creates a Stripe Checkout session and returns a `url`. The frontend just needs to redirect to it.
-
-### Real commodity prices
-
-`app/api/commodities/refresh/route.ts` currently uses hardcoded mock values. To wire a real feed:
-
-1. Choose a provider: Metals-API (recommended for MVP), Polygon.io, or TradingEconomics
-2. Set `COMMODITY_API_KEY` in `.env.local` and Vercel
-3. Replace the mock array with a real API call, mapping to `{ symbol, name, price, change_pct, currency, unit }`
 
 ### Stripe Live Mode (when ready to charge)
 

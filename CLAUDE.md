@@ -17,8 +17,9 @@ Conversion funnel: browse theses → click thesis → hit paywall → login/sign
 - **Fonts:** Inter (100–900) via `next/font`
 - **Auth:** Supabase Auth via `@supabase/ssr`
 - **Database:** Supabase (Postgres) — `lib/supabase/client.ts`, `server.ts`, `admin.ts`
-- **Payments:** Stripe — `lib/stripe.ts`, API routes partially implemented
-- **Content:** MDX via `next-mdx-remote` + `gray-matter` (installed, thesis data currently stub inline)
+- **Payments:** Stripe — `lib/stripe.ts`, Checkout + webhook fully wired
+- **Content:** MDX via `next-mdx-remote` + `gray-matter` — theses live in `content/theses/*.mdx`
+- **Commodity prices:** GoldAPI.io — refreshed daily via Vercel cron → Supabase
 
 ---
 
@@ -36,8 +37,8 @@ Conversion funnel: browse theses → click thesis → hit paywall → login/sign
 ```
 app/                        # Next.js App Router pages and API routes
   api/                      # commodities prices/refresh, email-list, stripe checkout/webhook
-  auth/login, signup/       # Auth pages
-  theses/[slug]/            # Premium-gated thesis detail
+  auth/login, signup/       # Auth pages (confirm-email for post-signup flow)
+  theses/[slug]/            # Thesis detail — free or PremiumGate'd based on MDX tier field
   commodities/, sovereign/  # Public pages
 
 components/
@@ -47,7 +48,7 @@ components/
 
 features/
   auth/                     # AuthLayout, LoginForm, SignupForm, session.ts
-  subscription/             # PremiumGate, Paywall, UpgradeCTA, entitlements.ts
+  subscription/             # PremiumGate, Paywall, UpgradeCTA, SubscribeButton, entitlements.ts
   theses/                   # ThesisGallery, ThesisFilter
   commodities/              # CommoditySection, commodities.ts
   macro/                    # MacroTicker
@@ -59,8 +60,8 @@ lib/
   stripe.ts                 # Lazy Stripe initializer
   utils.ts                  # cn(), formatDate(), formatPrice(), formatPct()
 
-middleware.ts               # Session refresh + route protection
-scripts/                    # seed-superadmins.ts
+content/theses/             # MDX thesis files — frontmatter drives gallery + gating
+middleware.ts               # Session refresh only — no route blocking
 ```
 
 ---
@@ -112,25 +113,26 @@ All Inter. Labels: uppercase + wide tracking.
 ## Monetization Layer
 
 ```
-Public     → thesis gallery, previews, macro teaser
-Premium    → /theses/[slug] full content, live prices, sovereign deep-dives
+Public   → thesis gallery, previews, macro teaser
+Premium  → /theses/[slug] full content (when tier: "premium" in MDX frontmatter)
 ```
 
-Gating stack: `PremiumGate` (RSC) → `Paywall` → `UpgradeCTA`. `UpgradeCTA` also used standalone on `/sovereign` and `/commodities`.
+Gating stack: `PremiumGate` (RSC) → `Paywall` → `UpgradeCTA` → `SubscribeButton` → Stripe Checkout.
+
+Individual thesis pages read `tier` from MDX frontmatter. `tier: "free"` renders fully; `tier: "premium"` wraps the body in `<PremiumGate>`. The gallery is always public.
 
 ---
 
 ## Auth
 
-- Provider: Supabase Auth
-- Method: email and password only — no OAuth, no magic links
-- Registration: open, anyone can self-register
+- Provider: Supabase Auth — email and password only, no OAuth, no magic links
+- Registration: open — anyone can self-register
 - Email confirmation: disabled
-- Session: managed by `@supabase/ssr` via cookies, refreshed in middleware on every request
-- On signup/login success: redirect to `/theses`
-- Role hierarchy: superadmin > subscriber > free
-- Tier mapping: superadmin + subscriber → premium · free → free access
-- Protected routes: everything except `/`, `/theses`, `/commodities`, `/sovereign`, `/auth/login`, `/auth/signup`
+- Session: managed by `@supabase/ssr` via cookies, refreshed in `middleware.ts` on every request
+- On login/signup success: redirect to `/theses`
+- Role hierarchy: `superadmin` > `subscriber` > `free`
+- Tier mapping: `superadmin` + `subscriber` → premium access · `free` → free access only
+- No routes are blocked at middleware level — content gating happens at the component level via `PremiumGate`
 - Do NOT add OAuth providers without explicit instruction
 - Do NOT enable email confirmation without explicit instruction
 
@@ -146,36 +148,32 @@ Gating stack: `PremiumGate` (RSC) → `Paywall` → `UpgradeCTA`. `UpgradeCTA` a
 
 ---
 
-## Branch Strategy
-
-- Feature work goes on branches: `feature/<name>`, `fix/<name>`, `chore/<name>`
-- Push freely to feature branches — no build check required
-- Only merge to main when the feature is complete and tested locally
-- Pre-push hook runs `npm run build` automatically on push to main
-- Never commit new features directly to main
-
----
-
 ## Git Workflow
 
-- Every new feature or fix must be developed in a dedicated branch: `feature/<name>` or `fix/<name>`
-- Each branch should have multiple focused commits, one per logical change
-- When the feature is complete and builds cleanly, open a pull request to main — never push directly to main
-- Commit messages follow conventional commits: `feat:`, `fix:`, `chore:`, `refactor:`, `docs:`
-- Branch names are lowercase kebab-case: `feature/stripe-subscribe-button`, `fix/middleware-auth-routes`
+Branches: `feature/<name>`, `fix/<name>`, `chore/<name>`, `docs/<name>`
+
+```
+feature branch  →  focused commits  →  PR on GitHub  →  human approves  →  merge  →  delete branch
+```
+
+- One logical change per commit. Conventional commits: `feat:`, `fix:`, `chore:`, `refactor:`, `docs:`
+- Branch names: lowercase kebab-case (`feature/stripe-subscribe-button`)
+- Open a PR when the feature is complete and builds cleanly — never push features directly to main
+- Pre-push hook (`.githooks/pre-push`) runs `npm run build` automatically on any push to main
+- After merge: `git checkout main && git pull && git branch -d <branch>`
 
 ---
 
 ## Validation
 
-- Routine checks: `npx tsc --noEmit && npm run lint`
-- Before merging to main: `npm run build` (hook enforces this automatically)
+- Routine: `npx tsc --noEmit` — fast type check
+- Before PR: `npm run build` (the pre-push hook enforces this on main)
 - Do NOT run `npm run build` for routine development — too slow
 
 ---
 
-## Planned (Not Yet Implemented)
+## Phase 2 (not started)
 
-- Stripe Checkout + webhook for tier upgrades (routes exist, not fully wired end-to-end)
-- MDX content loader (`/content/theses/*.mdx` → gray-matter parsing — deps installed, theses still stub inline)
-- Dashboard / "terminal" (Phase 2)
+- Stripe Live Mode — swap test keys for live keys, new webhook endpoint
+- Dashboard / "terminal" — subscriber-only data view
+- Additional thesis content — add MDX files to `content/theses/`
