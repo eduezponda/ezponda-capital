@@ -76,6 +76,7 @@ body {
 }
 
 .animate-marquee {
+  /* Duration is set via inline style from Ticker.tsx for consistent px/s rate. */
   animation: marquee 30s linear infinite;
   will-change: transform;
 }

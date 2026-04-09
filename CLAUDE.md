@@ -150,17 +150,27 @@ Individual thesis pages read `tier` from MDX frontmatter. `tier: "free"` renders
 
 ## Git Workflow
 
+**This is the mandatory default for every feature, fix, or chore — no exceptions.**
+
 Branches: `feature/<name>`, `fix/<name>`, `chore/<name>`, `docs/<name>`
 
 ```
-feature branch  →  focused commits  →  PR on GitHub  →  human approves  →  merge  →  delete branch
+feature branch  →  focused commits  →  PR on GitHub  →  Eduardo approves  →  Eduardo merges  →  delete branch
 ```
 
+### Rules Claude must follow automatically
+
+1. **Always start on a branch.** Every change starts with `git checkout -b <type>/<name>` — never commit directly to `main`.
+2. **Type-check only on feature branches.** Run `npx tsc --noEmit` for quick validation. Do NOT run `npm run build` on feature branches.
+3. **Open a PR when ready.** Use `gh pr create` targeting `main`. Never merge the PR — Eduardo approves and merges manually.
+4. **Clean up after merge.** Once Eduardo merges: `git checkout main && git pull && git branch -d <branch>`.
+
+### Commit conventions
 - One logical change per commit. Conventional commits: `feat:`, `fix:`, `chore:`, `refactor:`, `docs:`
 - Branch names: lowercase kebab-case (`feature/stripe-subscribe-button`)
-- Open a PR when the feature is complete and builds cleanly — never push features directly to main
-- Pre-push hook (`.githooks/pre-push`) runs `npm run build` automatically on any push to main
-- After merge: `git checkout main && git pull && git branch -d <branch>`
+
+### Pre-push hook
+`.githooks/pre-push` runs `npm run build` automatically on any push to `main` — guards the production branch.
 
 ---
 

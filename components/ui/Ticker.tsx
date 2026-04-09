@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef, useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
 export interface TickerItem {
@@ -13,6 +14,9 @@ interface TickerProps {
   items: TickerItem[];
   className?: string;
 }
+
+// Consistent scroll speed regardless of viewport or content length.
+const PX_PER_SEC = 100;
 
 function TickerRow({ items }: { items: TickerItem[] }) {
   return (
@@ -47,7 +51,6 @@ function TickerRow({ items }: { items: TickerItem[] }) {
             {item.direction === "up" ? "↑" : item.direction === "down" ? "↓" : "—"}{" "}
             {item.change}
           </span>
-          {/* separator */}
           <div className="w-8 h-px bg-outline-variant" />
         </div>
       ))}
@@ -56,6 +59,18 @@ function TickerRow({ items }: { items: TickerItem[] }) {
 }
 
 export default function Ticker({ items, className }: TickerProps) {
+  const rowRef = useRef<HTMLDivElement>(null);
+  // Start with a reasonable fallback; corrected after first paint.
+  const [duration, setDuration] = useState(30);
+
+  useEffect(() => {
+    if (rowRef.current) {
+      // offsetWidth includes the pr-12 padding, so this is exactly the
+      // distance translateX(-50%) will travel — giving a consistent px/s rate.
+      setDuration(rowRef.current.offsetWidth / PX_PER_SEC);
+    }
+  }, [items]);
+
   return (
     <div
       className={cn(
@@ -63,10 +78,22 @@ export default function Ticker({ items, className }: TickerProps) {
         className
       )}
     >
-      <div className="flex animate-marquee gap-12 items-center">
-        {/* Duplicated for seamless loop */}
-        <TickerRow items={items} />
-        <TickerRow items={items} />
+      {/*
+       * Each row div uses gap-12 between items AND pr-12 trailing padding.
+       * This means the spacing at the loop boundary equals the spacing between
+       * any two adjacent items — making the reset of translateX(-50%) invisible.
+       * Container width = 2 × rowRef.offsetWidth → -50% = exactly one row width. ✓
+       */}
+      <div
+        className="flex animate-marquee items-center"
+        style={{ animationDuration: `${duration}s` }}
+      >
+        <div ref={rowRef} className="flex items-center gap-12 pr-12">
+          <TickerRow items={items} />
+        </div>
+        <div className="flex items-center gap-12 pr-12" aria-hidden>
+          <TickerRow items={items} />
+        </div>
       </div>
     </div>
   );
