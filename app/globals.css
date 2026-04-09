@@ -71,13 +71,14 @@ body {
 
 /* ─── Ticker / Marquee ───────────────────────────────────────── */
 @keyframes marquee {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  from { transform: translateX(0); }
+  to   { transform: translateX(var(--marquee-translate)); }
 }
 
 .animate-marquee {
-  /* Duration is set via inline style from Ticker.tsx for consistent px/s rate. */
-  animation: marquee 30s linear infinite;
+  /* Duration and --marquee-translate are set via inline style from Ticker.tsx.
+     The class is only applied after measurement so these values are never absent. */
+  animation: marquee linear infinite;
   will-change: transform;
 }
 
