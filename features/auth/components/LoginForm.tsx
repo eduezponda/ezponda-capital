@@ -3,10 +3,12 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 import Input from "@/components/ui/Input";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 
 export default function LoginForm() {
+  const t = useTranslations("auth.login");
   const router = useRouter();
   const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
@@ -44,9 +46,9 @@ export default function LoginForm() {
           <span className="text-sm font-bold uppercase tracking-[0.2rem] text-white">Ezponda</span>
           <span className="text-sm font-bold uppercase tracking-[0.2rem] text-gold">Capital</span>
         </Link>
-        <h1 className="text-2xl font-bold text-white tracking-tight">Login to Terminal</h1>
+        <h1 className="text-2xl font-bold text-white tracking-tight">{t("heading")}</h1>
         <p className="text-[0.875rem] text-outline mt-1">
-          Access your investment research dashboard.
+          {t("subheading")}
         </p>
       </div>
 
@@ -59,20 +61,20 @@ export default function LoginForm() {
             <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
             <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
           </svg>
-          Continue with Google
+          {t("google")}
         </button>
         <button className="w-full flex items-center justify-center gap-3 bg-[#0077b5] text-white text-[0.8125rem] font-medium rounded-[1rem] px-6 py-4 hover:bg-[#006097] transition-colors">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
             <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
           </svg>
-          Continue with LinkedIn
+          {t("linkedin")}
         </button>
       </div>
 
       {/* Divider */}
       <div className="flex items-center gap-4">
         <div className="flex-1 h-px bg-outline-variant/40" />
-        <span className="text-[0.6875rem] uppercase tracking-[0.05rem] text-outline">or</span>
+        <span className="text-[0.6875rem] uppercase tracking-[0.05rem] text-outline">{t("or")}</span>
         <div className="flex-1 h-px bg-outline-variant/40" />
       </div>
 
@@ -81,8 +83,8 @@ export default function LoginForm() {
         <Input
           id="email"
           type="email"
-          label="Email"
-          placeholder="you@example.com"
+          label={t("email")}
+          placeholder={t("emailPlaceholder")}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
@@ -90,15 +92,15 @@ export default function LoginForm() {
         <Input
           id="password"
           type="password"
-          label="Password"
-          placeholder="••••••••"
+          label={t("password")}
+          placeholder={t("passwordPlaceholder")}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
         <div className="flex justify-end">
           <Link href="#" className="text-[0.75rem] text-outline hover:text-tertiary transition-colors">
-            Forgot password?
+            {t("forgot")}
           </Link>
         </div>
 
@@ -111,14 +113,14 @@ export default function LoginForm() {
           disabled={isLoading}
           className="gold-gradient text-black font-bold text-[0.75rem] uppercase tracking-[0.08rem] px-8 py-4 rounded-xl hover:shadow-[0_0_30px_rgba(255,224,132,0.25)] active:scale-95 transition-all mt-2 disabled:opacity-60 disabled:cursor-not-allowed"
         >
-          {isLoading ? "Logging in…" : "Login"}
+          {isLoading ? t("submitting") : t("submit")}
         </button>
       </form>
 
       <p className="text-center text-[0.8125rem] text-outline">
-        Don&apos;t have access?{" "}
+        {t("footer")}{" "}
         <Link href="/auth/signup" className="text-tertiary hover:underline">
-          Request Access
+          {t("footerLink")}
         </Link>
       </p>
     </div>

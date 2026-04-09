@@ -1,45 +1,29 @@
+import { getTranslations } from "next-intl/server";
 import Hero from "@/components/sections/Hero";
 import MacroTicker from "@/features/macro/components/MacroTicker";
 import UpgradeCTA from "@/features/subscription/components/UpgradeCTA";
 import Container from "@/components/layout/Container";
 
-const SOVEREIGN_THEMES = [
-  {
-    icon: "account_balance",
-    title: "Central Bank Reserves",
-    description:
-      "Sovereign wealth funds and central banks are quietly accumulating gold and real assets at record pace, diversifying away from dollar-denominated instruments.",
-  },
-  {
-    icon: "public",
-    title: "De-Dollarization",
-    description:
-      "Bilateral trade settlements in local currencies, BRICS expansion, and the weaponization of the dollar are accelerating a structural monetary shift.",
-  },
-  {
-    icon: "show_chart",
-    title: "Fiscal Dominance",
-    description:
-      "Government debt levels globally have reached a point where central banks cannot raise rates without causing fiscal crises — a structural tailwind for hard assets.",
-  },
-  {
-    icon: "trending_up",
-    title: "Real Yield Regime",
-    description:
-      "The era of deeply negative real yields supercharged gold. As real rates normalize, the commodity thesis evolves — but does not disappear.",
-  },
-];
+const THEME_ICONS = ["account_balance", "public", "show_chart", "trending_up"];
 
-export default function SovereignPage() {
+export default async function SovereignPage() {
+  const t = await getTranslations("sovereign");
+
+  const themes = THEME_ICONS.map((icon, i) => ({
+    icon,
+    title: t(`theme${i}Title` as Parameters<typeof t>[0]),
+    description: t(`theme${i}Desc` as Parameters<typeof t>[0]),
+  }));
+
   return (
     <>
       <Hero
-        eyebrow="Macro & Sovereign"
-        headline="Sovereign Forces."
-        headlineAccent="Real Consequences."
-        subtitle="The macro undercurrents shaping commodity demand for the next decade — central banks, monetary systems, and fiscal reality."
-        primaryCta={{ label: "View Theses", href: "/theses" }}
-        secondaryCta={{ label: "Get Access", href: "/auth/signup" }}
+        eyebrow={t("heroEyebrow")}
+        headline={t("heroHeadline")}
+        headlineAccent={t("heroAccent")}
+        subtitle={t("heroSubtitle")}
+        primaryCta={{ label: t("heroPrimary"), href: "/theses" }}
+        secondaryCta={{ label: t("heroSecondary"), href: "/auth/signup" }}
         minHeight="min-h-[70vh]"
       />
 
@@ -50,18 +34,18 @@ export default function SovereignPage() {
         <Container>
           <div className="mb-14 max-w-xl">
             <p className="text-[0.6875rem] uppercase tracking-[0.25rem] text-tertiary font-medium mb-3">
-              Structural Forces
+              {t("frameworkEyebrow")}
             </p>
             <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
-              The Macro Framework
+              {t("frameworkTitle")}
             </h2>
             <p className="text-[0.9375rem] text-on-surface-variant leading-relaxed mt-4">
-              Every commodity thesis at Ezponda Capital is anchored in a sovereign macro view. These are the structural forces we track.
+              {t("frameworkDesc")}
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {SOVEREIGN_THEMES.map((theme) => (
+            {themes.map((theme) => (
               <div
                 key={theme.title}
                 className="bg-surface-container-low rounded-lg p-8 border border-outline-variant/10 hover:bg-surface-container-high transition-colors"
@@ -94,8 +78,8 @@ export default function SovereignPage() {
         <Container>
           <div className="max-w-xl mx-auto">
             <UpgradeCTA
-              headline="Unlock the Full Sovereign View"
-              body="Access deep-dive sovereign macro reports, updated monthly — covering central bank flows, reserve composition shifts, and real yield dynamics."
+              headline={t("upgradeHeadline")}
+              body={t("upgradeBody")}
             />
           </div>
         </Container>

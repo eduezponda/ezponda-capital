@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import Hero from "@/components/sections/Hero";
 import MacroTicker from "@/features/macro/components/MacroTicker";
 import ThesisGallery from "@/features/theses/components/ThesisGallery";
@@ -11,16 +12,19 @@ interface PageProps {
 }
 
 export default async function ThesesPage({ searchParams }: PageProps) {
-  const { category } = await searchParams;
+  const [{ category }, t] = await Promise.all([
+    searchParams,
+    getTranslations("theses"),
+  ]);
   const theses = await getAllTheses(category);
 
   return (
     <>
       <Hero
-        eyebrow="Research Library"
-        headline="Investment"
-        headlineAccent="Theses"
-        subtitle="Structured, high-conviction research on commodity markets. Each thesis represents a multi-year view backed by macro analysis."
+        eyebrow={t("heroEyebrow")}
+        headline={t("heroHeadline")}
+        headlineAccent={t("heroAccent")}
+        subtitle={t("heroSubtitle")}
         minHeight="min-h-[60vh]"
       />
 
@@ -39,9 +43,9 @@ export default async function ThesesPage({ searchParams }: PageProps) {
       </section>
 
       <SubscribeCTA
-        eyebrow="Premium Access"
-        title="Access Institutional Insights"
-        subtitle="Subscribe to unlock full thesis content and live macro data."
+        eyebrow={t("subscribeEyebrow")}
+        title={t("subscribeTitle")}
+        subtitle={t("subscribeSubtitle")}
       />
     </>
   );

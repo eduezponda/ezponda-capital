@@ -1,14 +1,16 @@
+import { getTranslations } from "next-intl/server";
 import AuthLayout from "@/features/auth/components/AuthLayout";
 import SignupForm from "@/features/auth/components/SignupForm";
 
-export const metadata = {
-  title: "Request Access — Ezponda Capital",
-  description: "Join a curated group of commodity-focused investors.",
-};
+export async function generateMetadata() {
+  const t = await getTranslations("auth.signup");
+  return { title: t("title"), description: t("description") };
+}
 
-export default function SignupPage() {
+export default async function SignupPage() {
+  const t = await getTranslations("auth.signup");
   return (
-    <AuthLayout imageCaption="Gold bull case — 10-year structural view">
+    <AuthLayout imageCaption={t("imageCaption")}>
       <SignupForm />
     </AuthLayout>
   );

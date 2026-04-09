@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 import Badge from "@/components/ui/Badge";
 import { cn } from "@/lib/utils";
 
@@ -14,7 +15,7 @@ interface ThesisCardProps {
   featured?: boolean;
 }
 
-export default function ThesisCard({
+export default async function ThesisCard({
   slug,
   title,
   excerpt,
@@ -25,6 +26,8 @@ export default function ThesisCard({
   className,
   featured = false,
 }: ThesisCardProps) {
+  const t = await getTranslations("theses");
+
   return (
     <Link
       href={`/theses/${slug}`}
@@ -56,7 +59,7 @@ export default function ThesisCard({
               <span className="material-symbols-outlined text-base" style={{ fontVariationSettings: "'FILL' 1, 'wght' 400" }}>
                 lock
               </span>
-              Premium
+              {t("premiumLabel")}
             </span>
           )}
         </div>

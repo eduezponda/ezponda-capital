@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 import Hero from "@/components/sections/Hero";
 import MacroTicker from "@/features/macro/components/MacroTicker";
 import AuthorCard from "@/components/sections/AuthorCard";
@@ -9,18 +10,23 @@ import Container from "@/components/layout/Container";
 import { getAllTheses } from "@/lib/api/theses";
 
 export default async function HomePage() {
-  const theses = await getAllTheses();
+  const [theses, t] = await Promise.all([
+    getAllTheses(),
+    getTranslations("home"),
+  ]);
+  const tAuthor = await getTranslations("author");
+  const tSubscribe = await getTranslations("subscribe");
   const featured = theses.slice(0, 3);
 
   return (
     <>
       <Hero
-        eyebrow="Commodity Investment Research"
-        headline="Real Assets."
-        headlineAccent="Real Value."
-        subtitle="High-conviction investment ideas in gold, copper, and macro cycles — for investors who think in decades, not quarters."
-        primaryCta={{ label: "Explore Theses", href: "/theses" }}
-        secondaryCta={{ label: "Get Access", href: "/auth/signup" }}
+        eyebrow={t("heroEyebrow")}
+        headline={t("heroHeadline")}
+        headlineAccent={t("heroAccent")}
+        subtitle={t("heroSubtitle")}
+        primaryCta={{ label: t("heroPrimary"), href: "/theses" }}
+        secondaryCta={{ label: t("heroSecondary"), href: "/auth/signup" }}
         minHeight="min-h-[70vh] md:min-h-screen"
       />
 
@@ -31,23 +37,19 @@ export default async function HomePage() {
         <Container>
           <div className="mb-10">
             <p className="text-[0.6875rem] uppercase tracking-[0.25rem] text-tertiary font-medium mb-2">
-              Coverage Universe
+              {t("coverageEyebrow")}
             </p>
             <h2 className="text-3xl font-bold text-white tracking-tight">
-              Strategic Anchors
+              {t("coverageTitle")}
             </h2>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
-              { icon: "diamond", label: "Gold", sub: "Monetary metals" },
-              { icon: "cable", label: "Copper", sub: "Industrial metals" },
-              { icon: "public", label: "Macro Cycles", sub: "Global dynamics" },
-              {
-                icon: "foundation",
-                label: "Real Assets",
-                sub: "Tangible value",
-              },
+              { icon: "diamond",    label: t("goldLabel"),       sub: t("goldSub") },
+              { icon: "cable",      label: t("copperLabel"),     sub: t("copperSub") },
+              { icon: "public",     label: t("macroCyclesLabel"), sub: t("macroCyclesSub") },
+              { icon: "foundation", label: t("realAssetsLabel"),  sub: t("realAssetsSub") },
             ].map(({ icon, label, sub }) => (
               <div
                 key={label}
@@ -75,13 +77,13 @@ export default async function HomePage() {
 
       {/* Author */}
       <AuthorCard
-        name="Iñigo Ezponda Igea"
-        title="Principal, Ezponda Capital"
-        bio="Commodity-focused investor with a macro framework built around real yield cycles, monetary policy divergence, and structural demand shifts in industrial metals. Writing for investors who want the signal without the noise."
+        name={tAuthor("name")}
+        title={tAuthor("title")}
+        bio={tAuthor("bio")}
         credentials={[
-          "CFA Candidate",
-          "10+ Years Markets",
-          "Gold & Copper Focus",
+          tAuthor("credential0"),
+          tAuthor("credential1"),
+          tAuthor("credential2"),
         ]}
       />
 
@@ -91,17 +93,17 @@ export default async function HomePage() {
           <div className="mb-10 flex items-end justify-between">
             <div>
               <p className="text-[0.6875rem] uppercase tracking-[0.25rem] text-tertiary font-medium mb-2">
-                Latest Research
+                {t("researchEyebrow")}
               </p>
               <h2 className="text-3xl font-bold text-white tracking-tight">
-                Featured Theses
+                {t("researchTitle")}
               </h2>
             </div>
             <Link
               href="/theses"
               className="text-[0.75rem] uppercase tracking-[0.08rem] text-outline hover:text-tertiary transition-colors hidden md:block"
             >
-              View all →
+              {t("viewAll")}
             </Link>
           </div>
 
@@ -110,7 +112,11 @@ export default async function HomePage() {
       </section>
 
       <MethodologySteps />
-      <SubscribeCTA />
+      <SubscribeCTA
+        eyebrow={tSubscribe("eyebrow")}
+        title={tSubscribe("title")}
+        subtitle={tSubscribe("subtitle")}
+      />
     </>
   );
 }

@@ -1,15 +1,18 @@
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 import Container from "./Container";
 
-const FOOTER_LINKS = [
-  { label: "About",    href: "#" },
-  { label: "Theses",   href: "/theses" },
-  { label: "Contact",  href: "#" },
-  { label: "Legal",    href: "#" },
-  { label: "Privacy",  href: "#" },
-];
+export default async function Footer() {
+  const t = await getTranslations("footer");
 
-export default function Footer() {
+  const FOOTER_LINKS = [
+    { label: t("links.about"),   href: "#" },
+    { label: t("links.theses"),  href: "/theses" },
+    { label: t("links.contact"), href: "#" },
+    { label: t("links.legal"),   href: "#" },
+    { label: t("links.privacy"), href: "#" },
+  ];
+
   return (
     <footer className="bg-surface-container-lowest border-t border-outline-variant/20 py-16">
       <Container>
@@ -25,7 +28,7 @@ export default function Footer() {
               </span>
             </div>
             <p className="text-[0.6875rem] text-outline max-w-xs">
-              High-conviction commodity investment research. Gold, copper, and macro cycles.
+              {t("tagline")}
             </p>
           </div>
 
@@ -48,7 +51,7 @@ export default function Footer() {
               href="https://x.com/inigoezponda"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Twitter"
+              aria-label={t("twitterAria")}
               className="w-9 h-9 rounded-full border border-outline-variant/40 flex items-center justify-center text-outline hover:text-tertiary hover:border-tertiary/40 transition-all"
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
@@ -59,7 +62,7 @@ export default function Footer() {
               href="https://www.linkedin.com/in/inigo-ezponda/"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="LinkedIn"
+              aria-label={t("linkedInAria")}
               className="w-9 h-9 rounded-full border border-outline-variant/40 flex items-center justify-center text-outline hover:text-tertiary hover:border-tertiary/40 transition-all"
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
@@ -71,7 +74,7 @@ export default function Footer() {
 
         <div className="mt-10 pt-6 border-t border-outline-variant/20">
           <p className="text-[0.625rem] text-outline/60 uppercase tracking-[0.05rem]">
-            © {new Date().getFullYear()} Ezponda Capital. All rights reserved. Not financial advice.
+            {t("copyright", { year: new Date().getFullYear() })}
           </p>
         </div>
       </Container>

@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import Container from "@/components/layout/Container";
 
 interface AuthorCardProps {
@@ -8,13 +9,15 @@ interface AuthorCardProps {
   credentials?: string[];
 }
 
-export default function AuthorCard({
+export default async function AuthorCard({
   name,
   title,
   bio,
   image,
   credentials = [],
 }: AuthorCardProps) {
+  const t = await getTranslations("author");
+
   return (
     <section className="py-20 bg-surface-container-low">
       <Container>
@@ -42,7 +45,7 @@ export default function AuthorCard({
           <div className="flex flex-col gap-3 max-w-2xl">
             <div>
               <p className="text-[0.6875rem] uppercase tracking-[0.2rem] text-tertiary font-medium mb-1">
-                Principal
+                {t("role")}
               </p>
               <h3 className="text-2xl font-bold text-white">{name}</h3>
               <p className="text-[0.875rem] text-outline mt-0.5">{title}</p>

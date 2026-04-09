@@ -3,10 +3,12 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import Input from "@/components/ui/Input";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 
 export default function SignupForm() {
+  const t = useTranslations("auth.signup");
   const router = useRouter();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -38,7 +40,7 @@ export default function SignupForm() {
     }
 
     if (data.user?.identities?.length === 0) {
-      setError("An account with this email already exists.");
+      setError(t("emailExists"));
       setIsLoading(false);
       return;
     }
@@ -54,9 +56,9 @@ export default function SignupForm() {
           <span className="text-sm font-bold uppercase tracking-[0.2rem] text-white">Ezponda</span>
           <span className="text-sm font-bold uppercase tracking-[0.2rem] text-gold">Capital</span>
         </Link>
-        <h1 className="text-2xl font-bold text-white tracking-tight">Request Access</h1>
+        <h1 className="text-2xl font-bold text-white tracking-tight">{t("heading")}</h1>
         <p className="text-[0.875rem] text-outline mt-1">
-          Join a curated group of commodity-focused investors.
+          {t("subheading")}
         </p>
       </div>
 
@@ -65,8 +67,8 @@ export default function SignupForm() {
           <Input
             id="firstName"
             type="text"
-            label="First Name"
-            placeholder="Eduardo"
+            label={t("firstName")}
+            placeholder={t("firstNamePlaceholder")}
             className="flex-1"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
@@ -75,8 +77,8 @@ export default function SignupForm() {
           <Input
             id="lastName"
             type="text"
-            label="Last Name"
-            placeholder="Ezponda"
+            label={t("lastName")}
+            placeholder={t("lastNamePlaceholder")}
             className="flex-1"
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
@@ -86,8 +88,8 @@ export default function SignupForm() {
         <Input
           id="email"
           type="email"
-          label="Email"
-          placeholder="you@example.com"
+          label={t("email")}
+          placeholder={t("emailPlaceholder")}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
@@ -95,8 +97,8 @@ export default function SignupForm() {
         <Input
           id="password"
           type="password"
-          label="Password"
-          placeholder="••••••••"
+          label={t("password")}
+          placeholder={t("passwordPlaceholder")}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
@@ -104,14 +106,14 @@ export default function SignupForm() {
 
         <div className="mt-2">
           <label className="text-[0.6875rem] uppercase tracking-[0.05rem] font-medium text-secondary block mb-2">
-            What&apos;s your primary focus?
+            {t("focus")}
           </label>
           <select className="w-full bg-surface-container-highest text-on-surface px-6 py-4 rounded outline-none border border-transparent focus:ring-1 focus:ring-tertiary transition-all">
-            <option value="">Select an interest…</option>
-            <option value="gold">Gold &amp; Precious Metals</option>
-            <option value="copper">Copper &amp; Industrial Metals</option>
-            <option value="macro">Macro &amp; Global Cycles</option>
-            <option value="all">All of the above</option>
+            <option value="">{t("focusPlaceholder")}</option>
+            <option value="gold">{t("focusGold")}</option>
+            <option value="copper">{t("focusCopper")}</option>
+            <option value="macro">{t("focusMacro")}</option>
+            <option value="all">{t("focusAll")}</option>
           </select>
         </div>
 
@@ -124,14 +126,14 @@ export default function SignupForm() {
           disabled={isLoading}
           className="gold-gradient text-black font-bold text-[0.75rem] uppercase tracking-[0.08rem] px-8 py-4 rounded-xl hover:shadow-[0_0_30px_rgba(255,224,132,0.25)] active:scale-95 transition-all mt-2 disabled:opacity-60 disabled:cursor-not-allowed"
         >
-          {isLoading ? "Creating account…" : "Request Access"}
+          {isLoading ? t("submitting") : t("submit")}
         </button>
       </form>
 
       <p className="text-center text-[0.8125rem] text-outline">
-        Already have an account?{" "}
+        {t("footer")}{" "}
         <Link href="/auth/login" className="text-tertiary hover:underline">
-          Login
+          {t("footerLink")}
         </Link>
       </p>
     </div>
