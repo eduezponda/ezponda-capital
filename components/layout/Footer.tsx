@@ -1,9 +1,11 @@
+"use client";
+
 import Link from "next/link";
-import { getTranslations } from "next-intl/server";
+import { useTranslations } from "next-intl";
 import Container from "./Container";
 
-export default async function Footer() {
-  const t = await getTranslations("footer");
+export default function Footer() {
+  const t = useTranslations("footer");
 
   const FOOTER_LINKS = [
     { label: t("links.about"),   href: "#" },
