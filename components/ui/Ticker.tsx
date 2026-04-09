@@ -15,7 +15,6 @@ interface TickerProps {
   className?: string;
 }
 
-// Consistent scroll speed regardless of viewport or content length.
 const PX_PER_SEC = 100;
 
 function TickerRow({ items }: { items: TickerItem[] }) {
@@ -60,16 +59,18 @@ function TickerRow({ items }: { items: TickerItem[] }) {
 
 export default function Ticker({ items, className }: TickerProps) {
   const rowRef = useRef<HTMLDivElement>(null);
-  // Start with a reasonable fallback; corrected after first paint.
-  const [duration, setDuration] = useState(30);
+  const [rowWidth, setRowWidth] = useState<number | null>(null);
 
   useEffect(() => {
-    if (rowRef.current) {
-      // offsetWidth includes the pr-12 padding, so this is exactly the
-      // distance translateX(-50%) will travel — giving a consistent px/s rate.
-      setDuration(rowRef.current.offsetWidth / PX_PER_SEC);
-    }
+    if (!rowRef.current) return;
+    // getBoundingClientRect gives sub-pixel precision; offsetWidth rounds to
+    // integers and can differ from the browser's actual layout value by up to
+    // 1px per row — enough to cause a visible jump at the loop reset point.
+    setRowWidth(rowRef.current.getBoundingClientRect().width);
   }, [items]);
+
+  const ready = rowWidth !== null;
+  const duration = ready ? rowWidth / PX_PER_SEC : 0;
 
   return (
     <div
@@ -79,14 +80,21 @@ export default function Ticker({ items, className }: TickerProps) {
       )}
     >
       {/*
-       * Each row div uses gap-12 between items AND pr-12 trailing padding.
-       * This means the spacing at the loop boundary equals the spacing between
-       * any two adjacent items — making the reset of translateX(-50%) invisible.
-       * Container width = 2 × rowRef.offsetWidth → -50% = exactly one row width. ✓
+       * The animation is withheld until rowWidth is measured so that
+       * animationDuration and --marquee-translate are never wrong even briefly.
+       * translateX travels exactly -rowWidth px, landing at the pixel-perfect
+       * start of the second copy regardless of container width or rounding.
        */}
       <div
-        className="flex animate-marquee items-center"
-        style={{ animationDuration: `${duration}s` }}
+        className={cn("flex items-center", ready && "animate-marquee")}
+        style={
+          ready
+            ? ({
+                "--marquee-translate": `-${rowWidth}px`,
+                animationDuration: `${duration}s`,
+              } as React.CSSProperties)
+            : undefined
+        }
       >
         <div ref={rowRef} className="flex items-center gap-12 pr-12">
           <TickerRow items={items} />
