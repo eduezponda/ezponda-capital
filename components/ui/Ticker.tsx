@@ -15,7 +15,8 @@ interface TickerProps {
   className?: string;
 }
 
-const PX_PER_SEC = 100;
+const DESKTOP_PX_PER_SEC = 80;
+const MOBILE_PX_PER_SEC = 45; // noticeably slower on narrow viewports
 
 function TickerRow({ items }: { items: TickerItem[] }) {
   return (
@@ -60,17 +61,19 @@ function TickerRow({ items }: { items: TickerItem[] }) {
 export default function Ticker({ items, className }: TickerProps) {
   const rowRef = useRef<HTMLDivElement>(null);
   const [rowWidth, setRowWidth] = useState<number | null>(null);
+  const [pxPerSec, setPxPerSec] = useState(DESKTOP_PX_PER_SEC);
 
   useEffect(() => {
     if (!rowRef.current) return;
     // getBoundingClientRect gives sub-pixel precision; offsetWidth rounds to
-    // integers and can differ from the browser's actual layout value by up to
-    // 1px per row — enough to cause a visible jump at the loop reset point.
+    // integers and can differ by up to 1px — enough to cause a visible jump.
     setRowWidth(rowRef.current.getBoundingClientRect().width);
+    // md breakpoint matches Tailwind's 768px threshold.
+    setPxPerSec(window.innerWidth < 768 ? MOBILE_PX_PER_SEC : DESKTOP_PX_PER_SEC);
   }, [items]);
 
   const ready = rowWidth !== null;
-  const duration = ready ? rowWidth / PX_PER_SEC : 0;
+  const duration = ready ? rowWidth / pxPerSec : 0;
 
   return (
     <div
@@ -80,10 +83,12 @@ export default function Ticker({ items, className }: TickerProps) {
       )}
     >
       {/*
+       * shrink-0 w-max on each row div prevents the flex container from
+       * compressing them into the viewport width — without these the two divs
+       * overlap because the outer flex tries to fit them into a bounded width.
+       *
        * The animation is withheld until rowWidth is measured so that
-       * animationDuration and --marquee-translate are never wrong even briefly.
-       * translateX travels exactly -rowWidth px, landing at the pixel-perfect
-       * start of the second copy regardless of container width or rounding.
+       * --marquee-translate and animationDuration are never wrong even briefly.
        */}
       <div
         className={cn("flex items-center", ready && "animate-marquee")}
@@ -96,10 +101,10 @@ export default function Ticker({ items, className }: TickerProps) {
             : undefined
         }
       >
-        <div ref={rowRef} className="flex items-center gap-12 pr-12">
+        <div ref={rowRef} className="flex items-center gap-12 pr-12 shrink-0 w-max">
           <TickerRow items={items} />
         </div>
-        <div className="flex items-center gap-12 pr-12" aria-hidden>
+        <div className="flex items-center gap-12 pr-12 shrink-0 w-max" aria-hidden>
           <TickerRow items={items} />
         </div>
       </div>
