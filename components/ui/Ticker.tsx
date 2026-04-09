@@ -16,7 +16,7 @@ interface TickerProps {
 }
 
 const DESKTOP_PX_PER_SEC = 80;
-const MOBILE_PX_PER_SEC = 45; // noticeably slower on narrow viewports
+const MOBILE_PX_PER_SEC = 30; // noticeably slower on narrow viewports
 
 function TickerRow({ items }: { items: TickerItem[] }) {
   return (
