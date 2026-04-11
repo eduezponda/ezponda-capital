@@ -9,7 +9,6 @@ const METALS = [
   { symbol: "XAG", name: "Silver",    unit: "oz",   currency: "USD" },
   { symbol: "XPT", name: "Platinum",  unit: "oz",   currency: "USD" },
   { symbol: "XPD", name: "Palladium", unit: "oz",   currency: "USD" },
-  { symbol: "BTC", name: "Bitcoin",   unit: "coin", currency: "USD" },
 ];
 
 type PriceRow = {
@@ -47,6 +46,32 @@ async function fetchMetalPrice(
   }
 }
 
+async function fetchBitcoinPrice(): Promise<PriceRow | null> {
+  const apiKey = process.env.BITCOIN_API_KEY;
+  if (!apiKey) {
+    console.error("[refresh] BITCOIN_API_KEY is not set — skipping BTC");
+    return null;
+  }
+  try {
+    const res = await fetch("https://api.api-ninjas.com/v1/bitcoin", {
+      headers: { "X-Api-Key": apiKey },
+    });
+    if (!res.ok) throw new Error(`api-ninjas responded ${res.status} for BTC`);
+    const data = await res.json();
+    return {
+      symbol: "BTC",
+      name: "Bitcoin",
+      price: data.price,
+      change_pct: data["24h_price_change_percent"],
+      currency: "USD",
+      unit: "coin",
+    };
+  } catch (err) {
+    console.error("[refresh] Failed to fetch BTC:", err);
+    return null;
+  }
+}
+
 export async function GET(req: NextRequest) {
   const authHeader = req.headers.get("authorization");
   const expected = `Bearer ${process.env.CRON_SECRET}`;
@@ -69,6 +94,10 @@ export async function GET(req: NextRequest) {
     );
 
     const priceRows = results.filter((r): r is PriceRow => r !== null);
+
+    // Fetch Bitcoin from api-ninjas.com (separate provider)
+    const btcRow = await fetchBitcoinPrice();
+    if (btcRow) priceRows.push(btcRow);
 
     if (priceRows.length === 0) {
       return NextResponse.json({ error: "All price fetches failed" }, { status: 500 });

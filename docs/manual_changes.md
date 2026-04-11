@@ -13,6 +13,7 @@ Already configured (no changes needed for this feature):
 | `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Stripe Dashboard | Already set |
 | `STRIPE_WEBHOOK_SECRET` | Stripe Dashboard | Already set |
 | `NEXT_PUBLIC_APP_URL` | Vercel project settings | Already set |
+| `BITCOIN_API_KEY` | [api-ninjas.com](https://api-ninjas.com) dashboard | **Needs setup** |
 
 ## Payment Keys
 

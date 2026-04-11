@@ -6,6 +6,7 @@ const LABEL_MAP: Record<string, string> = {
   XAG: "Silver (XAG/USD)",
   XPT: "Platinum",
   XPD: "Palladium",
+  BTC: "Bitcoin (BTC/USD)",
 };
 
 const STUB: TickerItem[] = [
