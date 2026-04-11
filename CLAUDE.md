@@ -210,6 +210,14 @@ supabase db push                # apply pending local migrations to the remote D
 
 ---
 
+## Vercel Deployment
+
+Vercel Hobby plan only supports cron jobs that run once per day maximum.
+Any cron expression that runs more than once per day will fail deployment.
+Valid example: `0 8 * * *`. Never use `* * * * *` or `0 * * * *`.
+
+---
+
 ## Phase 2 (not started)
 
 - Stripe Live Mode — swap test keys for live keys, new webhook endpoint
