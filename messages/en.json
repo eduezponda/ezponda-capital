@@ -170,13 +170,15 @@
     "ctaLabel": "Get Premium",
     "processing": "Processing…",
     "checkoutError": "Could not start checkout. Please try again.",
-    "paywallMessage": "This thesis is available to premium subscribers only."
+    "paywallMessage": "This thesis is available to premium subscribers only.",
+    "premiumHeadline": "Unlock our exclusive investment theses",
+    "premiumBody": "Premium subscribers get full access to all theses, live macro data, and in-depth commodity analysis."
   },
   "guestWall": {
-    "headline": "Sign Up to Access This Research",
-    "body": "Create a free account in seconds — get instant access to our free research library.",
-    "signupFree": "Sign Up Free",
-    "login": "Log In"
+    "headline": "Login to access our free investment theses",
+    "body": "Registration takes 30 seconds. Instant access to free commodity research — no credit card required.",
+    "signupCta": "Create free account",
+    "loginCta": "Login"
   },
   "profile": {
     "title": "Your Profile",

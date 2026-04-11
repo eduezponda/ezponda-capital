@@ -37,7 +37,7 @@ export default async function GuestWall({ previewContent }: GuestWallProps) {
             href="/auth/signup"
             className="gold-gradient text-black font-bold text-[0.75rem] uppercase tracking-[0.08rem] px-7 py-3.5 rounded-xl inline-flex items-center gap-2 hover:shadow-[0_0_30px_rgba(255,224,132,0.25)] active:scale-95 transition-all"
           >
-            {t("signupFree")}
+            {t("signupCta")}
             <span
               className="material-symbols-outlined"
               style={{ fontSize: 16, fontVariationSettings: "'FILL' 0, 'wght' 400" }}
@@ -50,7 +50,7 @@ export default async function GuestWall({ previewContent }: GuestWallProps) {
             href="/auth/login"
             className="glass-panel border border-outline-variant/30 text-white font-medium text-[0.75rem] uppercase tracking-[0.08rem] px-7 py-3.5 rounded-xl hover:bg-surface-container-high/60 transition-all"
           >
-            {t("login")}
+            {t("loginCta")}
           </Link>
         </div>
       </div>

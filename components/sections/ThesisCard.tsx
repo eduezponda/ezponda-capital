@@ -52,8 +52,8 @@ export default async function ThesisCard({
         className
       )}
     >
-      {/* Background image */}
-      {image && (
+      {/* Background image — hidden when content is gated */}
+      {image && !shouldBlur && (
         <>
           <img
             src={image}

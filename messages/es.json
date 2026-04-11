@@ -170,13 +170,15 @@
     "ctaLabel": "Obtener Premium",
     "processing": "Procesando…",
     "checkoutError": "No se pudo iniciar el pago. Por favor, inténtelo de nuevo.",
-    "paywallMessage": "Esta tesis está disponible exclusivamente para suscriptores premium."
+    "paywallMessage": "Esta tesis está disponible exclusivamente para suscriptores premium.",
+    "premiumHeadline": "Desbloquea nuestras tesis de inversión exclusivas",
+    "premiumBody": "Los suscriptores premium obtienen acceso completo a todas las tesis, datos macro en tiempo real y análisis detallado de materias primas."
   },
   "guestWall": {
-    "headline": "Regístrese para Acceder a Esta Investigación",
-    "body": "Cree una cuenta gratuita en segundos — acceda al instante a nuestra biblioteca de investigación gratuita.",
-    "signupFree": "Registro Gratuito",
-    "login": "Iniciar Sesión"
+    "headline": "Inicie sesión para acceder a nuestras tesis de inversión gratuitas",
+    "body": "El registro toma 30 segundos. Acceso instantáneo a investigación de materias primas — sin tarjeta de crédito.",
+    "signupCta": "Crear cuenta gratuita",
+    "loginCta": "Iniciar Sesión"
   },
   "profile": {
     "title": "Tu Perfil",
