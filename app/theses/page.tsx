@@ -6,17 +6,20 @@ import ThesisFilter from "@/features/theses/components/ThesisFilter";
 import SubscribeCTA from "@/components/sections/SubscribeCTA";
 import Container from "@/components/layout/Container";
 import { getAllTheses } from "@/lib/api/theses";
+import { getSession } from "@/features/auth/lib/session";
 
 interface PageProps {
   searchParams: Promise<{ category?: string }>;
 }
 
 export default async function ThesesPage({ searchParams }: PageProps) {
-  const [{ category }, t] = await Promise.all([
+  const [{ category }, t, session] = await Promise.all([
     searchParams,
     getTranslations("theses"),
+    getSession(),
   ]);
   const theses = await getAllTheses(category);
+  const isPremium = session?.tier === "premium";
 
   return (
     <>
@@ -32,21 +35,21 @@ export default async function ThesesPage({ searchParams }: PageProps) {
 
       <section className="py-20 bg-surface">
         <Container>
-          {/* Filter bar */}
           <div className="mb-10">
             <ThesisFilter active={category ?? "all"} />
           </div>
 
-          {/* Gallery */}
           <ThesisGallery theses={theses} />
         </Container>
       </section>
 
-      <SubscribeCTA
-        eyebrow={t("subscribeEyebrow")}
-        title={t("subscribeTitle")}
-        subtitle={t("subscribeSubtitle")}
-      />
+      {!isPremium && (
+        <SubscribeCTA
+          eyebrow={t("subscribeEyebrow")}
+          title={t("subscribeTitle")}
+          subtitle={t("subscribeSubtitle")}
+        />
+      )}
     </>
   );
 }

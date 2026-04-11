@@ -3,11 +3,16 @@ import Hero from "@/components/sections/Hero";
 import MacroTicker from "@/features/macro/components/MacroTicker";
 import UpgradeCTA from "@/features/subscription/components/UpgradeCTA";
 import Container from "@/components/layout/Container";
+import { getSession } from "@/features/auth/lib/session";
 
 const THEME_ICONS = ["account_balance", "public", "show_chart", "trending_up"];
 
 export default async function SovereignPage() {
-  const t = await getTranslations("sovereign");
+  const [t, session] = await Promise.all([
+    getTranslations("sovereign"),
+    getSession(),
+  ]);
+  const isPremium = session?.tier === "premium";
 
   const themes = THEME_ICONS.map((icon, i) => ({
     icon,
@@ -23,7 +28,7 @@ export default async function SovereignPage() {
         headlineAccent={t("heroAccent")}
         subtitle={t("heroSubtitle")}
         primaryCta={{ label: t("heroPrimary"), href: "/theses" }}
-        secondaryCta={{ label: t("heroSecondary"), href: "/auth/signup" }}
+        secondaryCta={!session ? { label: t("heroSecondary"), href: "/auth/signup" } : undefined}
         minHeight="min-h-[70vh]"
       />
 
@@ -73,17 +78,21 @@ export default async function SovereignPage() {
         </Container>
       </section>
 
-      {/* Upgrade CTA */}
-      <section className="py-20 bg-surface-container-lowest">
-        <Container>
-          <div className="max-w-xl mx-auto">
-            <UpgradeCTA
-              headline={t("upgradeHeadline")}
-              body={t("upgradeBody")}
-            />
-          </div>
-        </Container>
-      </section>
+      {!isPremium && (
+        <section className="py-20 bg-surface-container-lowest">
+          <Container>
+            <div className="max-w-xl mx-auto">
+              <UpgradeCTA
+                headline={t("upgradeHeadline")}
+                body={t("upgradeBody")}
+                ctaHref={session ? undefined : "/auth/signup"}
+                mode={session ? "stripe" : "link"}
+                priceId={session ? "price_1TJXvzKe83gRrUXhfkaTgFXt" : undefined}
+              />
+            </div>
+          </Container>
+        </section>
+      )}
     </>
   );
 }

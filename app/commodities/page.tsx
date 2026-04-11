@@ -8,14 +8,17 @@ import UpgradeCTA from "@/features/subscription/components/UpgradeCTA";
 import Container from "@/components/layout/Container";
 import { getCommodities } from "@/features/commodities/lib/commodities";
 import { getIndicators } from "@/lib/api/indicators";
+import { getSession } from "@/features/auth/lib/session";
 
 export default async function CommoditiesPage() {
-  const [commodities, indicators, t] = await Promise.all([
+  const [commodities, indicators, t, session] = await Promise.all([
     getCommodities(),
     getIndicators(),
     getTranslations("commodities"),
+    getSession(),
   ]);
   const tMacro = await getTranslations("macro");
+  const isPremium = session?.tier === "premium";
 
   return (
     <>
@@ -24,7 +27,7 @@ export default async function CommoditiesPage() {
         headline={t("heroHeadline")}
         headlineAccent={t("heroAccent")}
         subtitle={t("heroSubtitle")}
-        primaryCta={{ label: t("heroPrimary"), href: "/auth/signup" }}
+        primaryCta={!session ? { label: t("heroPrimary"), href: "/auth/signup" } : { label: t("heroPrimary"), href: "/theses" }}
         secondaryCta={{ label: t("heroSecondary"), href: "/theses" }}
         minHeight="min-h-[70vh]"
       />
@@ -48,23 +51,29 @@ export default async function CommoditiesPage() {
         title={tMacro("title")}
       />
 
-      {/* Upgrade CTA */}
-      <section className="py-20 bg-surface">
-        <Container>
-          <div className="max-w-lg mx-auto">
-            <UpgradeCTA
-              headline={t("upgradeHeadline")}
-              body={t("upgradeBody")}
-            />
-          </div>
-        </Container>
-      </section>
+      {!isPremium && (
+        <section className="py-20 bg-surface">
+          <Container>
+            <div className="max-w-lg mx-auto">
+              <UpgradeCTA
+                headline={t("upgradeHeadline")}
+                body={t("upgradeBody")}
+                ctaHref={session ? undefined : "/auth/signup"}
+                mode={session ? "stripe" : "link"}
+                priceId={session ? "price_1TJXvzKe83gRrUXhfkaTgFXt" : undefined}
+              />
+            </div>
+          </Container>
+        </section>
+      )}
 
-      <SubscribeCTA
-        eyebrow={t("subscribeEyebrow")}
-        title={t("subscribeTitle")}
-        subtitle={t("subscribeSubtitle")}
-      />
+      {!isPremium && (
+        <SubscribeCTA
+          eyebrow={t("subscribeEyebrow")}
+          title={t("subscribeTitle")}
+          subtitle={t("subscribeSubtitle")}
+        />
+      )}
     </>
   );
 }
