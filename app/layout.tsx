@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import LayoutWrapper from "@/components/layout/LayoutWrapper";
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale, getMessages } from "next-intl/server";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -15,11 +17,14 @@ export const metadata: Metadata = {
     "High-conviction investment ideas in gold, copper, and macro cycles. Premium research for serious investors.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const locale = await getLocale();
+  const messages = await getMessages();
+
   return (
-    <html lang="en" className={inter.className}>
+    <html lang={locale} className={inter.className}>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -30,7 +35,9 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased">
-        <LayoutWrapper>{children}</LayoutWrapper>
+        <NextIntlClientProvider messages={messages}>
+          <LayoutWrapper>{children}</LayoutWrapper>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

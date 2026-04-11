@@ -1,10 +1,13 @@
+import { getTranslations } from "next-intl/server";
 import UpgradeCTA from "./UpgradeCTA";
 
 interface PaywallProps {
   previewContent?: React.ReactNode;
 }
 
-export default function Paywall({ previewContent }: PaywallProps) {
+export default async function Paywall({ previewContent }: PaywallProps) {
+  const t = await getTranslations("subscription");
+
   return (
     <div className="relative">
       {/* Blurred preview */}
@@ -26,7 +29,7 @@ export default function Paywall({ previewContent }: PaywallProps) {
           </span>
         </div>
         <p className="text-[0.875rem] text-outline max-w-sm">
-          This thesis is available to premium subscribers only.
+          {t("paywallMessage")}
         </p>
 
         <div className="w-full max-w-md">

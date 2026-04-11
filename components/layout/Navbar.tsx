@@ -4,23 +4,26 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import Container from "./Container";
+import LanguageToggle from "./LanguageToggle";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 import type { User } from "@supabase/supabase-js";
 
-const NAV_LINKS = [
-  { label: "Home",        href: "/" },
-  { label: "Theses",      href: "/theses" },
-  { label: "Commodities", href: "/commodities" },
-  { label: "Sovereign",   href: "/sovereign" },
-];
-
 export default function Navbar() {
+  const t = useTranslations("nav");
   const pathname = usePathname();
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
+
+  const NAV_LINKS = [
+    { label: t("home"),        href: "/" },
+    { label: t("theses"),      href: "/theses" },
+    { label: t("commodities"), href: "/commodities" },
+    { label: t("sovereign"),   href: "/sovereign" },
+  ];
 
   useEffect(() => {
     const supabase = createSupabaseBrowserClient();
@@ -83,14 +86,16 @@ export default function Navbar() {
             })}
           </div>
 
-          {/* Desktop auth buttons */}
+          {/* Desktop auth buttons + language toggle */}
           <div className="hidden md:flex items-center gap-3">
+            <LanguageToggle />
+            <div className="w-px h-4 bg-outline-variant/40" />
             {user ? (
               <button
                 onClick={handleLogout}
                 className="text-[0.75rem] uppercase tracking-[0.1rem] font-medium text-on-surface-variant hover:text-white transition-colors"
               >
-                Logout
+                {t("logout")}
               </button>
             ) : (
               <>
@@ -98,13 +103,13 @@ export default function Navbar() {
                   href="/auth/login"
                   className="text-[0.75rem] uppercase tracking-[0.1rem] font-medium text-on-surface-variant hover:text-white transition-colors"
                 >
-                  Login
+                  {t("login")}
                 </Link>
                 <Link
                   href="/auth/signup"
                   className="gold-gradient text-black text-[0.75rem] uppercase tracking-[0.08rem] font-bold px-5 py-2 rounded-full hover:shadow-[0_0_24px_rgba(255,224,132,0.3)] transition-all"
                 >
-                  Get Access
+                  {t("getAccess")}
                 </Link>
               </>
             )}
@@ -114,7 +119,7 @@ export default function Navbar() {
           <button
             className="md:hidden flex items-center justify-center w-11 h-11 text-on-surface-variant hover:text-white transition-colors"
             onClick={() => setMenuOpen((v) => !v)}
-            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            aria-label={menuOpen ? t("closeMenu") : t("openMenu")}
           >
             {menuOpen ? (
               <X size={24} aria-hidden="true" />
@@ -155,7 +160,7 @@ export default function Navbar() {
                   onClick={() => { close(); handleLogout(); }}
                   className="text-[0.75rem] uppercase tracking-[0.1rem] font-medium text-on-surface-variant hover:text-white transition-colors py-3 text-left"
                 >
-                  Logout
+                  {t("logout")}
                 </button>
               ) : (
                 <>
@@ -164,17 +169,20 @@ export default function Navbar() {
                     onClick={close}
                     className="text-[0.75rem] uppercase tracking-[0.1rem] font-medium text-on-surface-variant hover:text-white transition-colors py-3"
                   >
-                    Login
+                    {t("login")}
                   </Link>
                   <Link
                     href="/auth/signup"
                     onClick={close}
                     className="gold-gradient text-black text-[0.75rem] uppercase tracking-[0.08rem] font-bold px-5 py-3.5 rounded-full text-center hover:shadow-[0_0_24px_rgba(255,224,132,0.3)] transition-all"
                   >
-                    Get Access
+                    {t("getAccess")}
                   </Link>
                 </>
               )}
+              <div className="pt-1">
+                <LanguageToggle />
+              </div>
             </div>
           </Container>
         </div>

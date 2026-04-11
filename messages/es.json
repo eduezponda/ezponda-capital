@@ -1,0 +1,199 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "theses": "Tesis",
+    "commodities": "Materias Primas",
+    "sovereign": "Soberano",
+    "login": "Iniciar Sesión",
+    "logout": "Cerrar Sesión",
+    "getAccess": "Obtener Acceso",
+    "openMenu": "Abrir menú",
+    "closeMenu": "Cerrar menú"
+  },
+  "footer": {
+    "tagline": "Investigación de inversión en materias primas de alta convicción. Oro, cobre y ciclos macroeconómicos.",
+    "links": {
+      "about": "Sobre nosotros",
+      "theses": "Tesis",
+      "contact": "Contacto",
+      "legal": "Legal",
+      "privacy": "Privacidad"
+    },
+    "copyright": "© {year} Ezponda Capital. Todos los derechos reservados. No constituye asesoramiento financiero.",
+    "twitterAria": "Twitter",
+    "linkedInAria": "LinkedIn"
+  },
+  "home": {
+    "heroEyebrow": "Investigación de Inversión en Materias Primas",
+    "heroHeadline": "Activos Reales.",
+    "heroAccent": "Valor Real.",
+    "heroSubtitle": "Ideas de inversión de alta convicción en oro, cobre y ciclos macroeconómicos — para inversores que piensan en décadas, no en trimestres.",
+    "heroPrimary": "Explorar Tesis",
+    "heroSecondary": "Obtener Acceso",
+    "coverageEyebrow": "Universo de Cobertura",
+    "coverageTitle": "Pilares Estratégicos",
+    "goldLabel": "Oro",
+    "goldSub": "Metales monetarios",
+    "copperLabel": "Cobre",
+    "copperSub": "Metales industriales",
+    "macroCyclesLabel": "Ciclos Macro",
+    "macroCyclesSub": "Dinámicas globales",
+    "realAssetsLabel": "Activos Reales",
+    "realAssetsSub": "Valor tangible",
+    "researchEyebrow": "Última Investigación",
+    "researchTitle": "Tesis Destacadas",
+    "viewAll": "Ver todas →"
+  },
+  "author": {
+    "role": "Director",
+    "name": "Iñigo Ezponda Igea",
+    "title": "Director, Ezponda Capital",
+    "bio": "Inversor especializado en materias primas con un marco macroeconómico construido en torno a ciclos de tipos reales, divergencia de política monetaria y cambios estructurales en la demanda de metales industriales. Análisis para inversores que buscan la señal sin el ruido.",
+    "credential0": "Candidato CFA",
+    "credential1": "10+ Años en Mercados",
+    "credential2": "Especialista en Oro y Cobre"
+  },
+  "theses": {
+    "heroEyebrow": "Biblioteca de Investigación",
+    "heroHeadline": "Tesis de",
+    "heroAccent": "Inversión",
+    "heroSubtitle": "Investigación estructurada y de alta convicción sobre los mercados de materias primas. Cada tesis representa una visión plurianual respaldada por análisis macroeconómico.",
+    "subscribeEyebrow": "Acceso Premium",
+    "subscribeTitle": "Acceda a Perspectivas Institucionales",
+    "subscribeSubtitle": "Suscríbase para desbloquear el contenido completo de las tesis y datos macro en tiempo real.",
+    "filterAll": "Todas",
+    "emptyState": "No se encontraron tesis en esta categoría.",
+    "premiumLabel": "Premium"
+  },
+  "commodities": {
+    "heroEyebrow": "Activos Reales",
+    "heroHeadline": "Activos Reales.",
+    "heroAccent": "Valor Real.",
+    "heroSubtitle": "Una visión estructurada del panorama de materias primas — oro, cobre y las fuerzas macroeconómicas que impulsarán los retornos de la próxima década.",
+    "heroPrimary": "Comenzar",
+    "heroSecondary": "Ver Tesis",
+    "upgradeHeadline": "Acceso al Análisis Completo de Materias Primas",
+    "upgradeBody": "Profundice con datos de precios en tiempo real, contexto histórico y tesis de inversión completas para el oro, el cobre y el universo más amplio de activos reales.",
+    "subscribeEyebrow": "Perspectivas Semanales",
+    "subscribeTitle": "Inteligencia en Materias Primas, a su Alcance",
+    "subscribeSubtitle": "Anticípese a los cambios macroeconómicos con nuestro informe semanal de materias primas."
+  },
+  "sovereign": {
+    "heroEyebrow": "Macro y Soberano",
+    "heroHeadline": "Fuerzas Soberanas.",
+    "heroAccent": "Consecuencias Reales.",
+    "heroSubtitle": "Las corrientes macroeconómicas que moldean la demanda de materias primas en la próxima década — bancos centrales, sistemas monetarios y realidad fiscal.",
+    "heroPrimary": "Ver Tesis",
+    "heroSecondary": "Obtener Acceso",
+    "frameworkEyebrow": "Fuerzas Estructurales",
+    "frameworkTitle": "El Marco Macroeconómico",
+    "frameworkDesc": "Cada tesis de inversión de Ezponda Capital está anclada en una visión macro soberana. Estas son las fuerzas estructurales que monitoreamos.",
+    "theme0Title": "Reservas de Bancos Centrales",
+    "theme0Desc": "Los fondos soberanos y los bancos centrales están acumulando silenciosamente oro y activos reales a un ritmo récord, diversificando su exposición a instrumentos denominados en dólares.",
+    "theme1Title": "Desdolarización",
+    "theme1Desc": "Los acuerdos comerciales bilaterales en monedas locales, la expansión de los BRICS y la weaponización del dólar están acelerando un cambio monetario estructural.",
+    "theme2Title": "Dominancia Fiscal",
+    "theme2Desc": "Los niveles de deuda pública a nivel mundial han alcanzado un punto en el que los bancos centrales no pueden subir los tipos sin provocar crisis fiscales — un viento de cola estructural para los activos tangibles.",
+    "theme3Title": "Régimen de Tipos Reales",
+    "theme3Desc": "La era de tipos reales profundamente negativos impulsó el oro. A medida que los tipos reales se normalizan, la tesis sobre las materias primas evoluciona — pero no desaparece.",
+    "upgradeHeadline": "Acceda a la Visión Soberana Completa",
+    "upgradeBody": "Acceda a informes macro soberanos detallados, actualizados mensualmente — sobre flujos de bancos centrales, cambios en la composición de reservas y dinámicas de tipos reales."
+  },
+  "auth": {
+    "login": {
+      "title": "Iniciar Sesión — Ezponda Capital",
+      "description": "Inicie sesión para acceder a su terminal de investigación de inversión.",
+      "heading": "Acceder al Terminal",
+      "subheading": "Acceda a su panel de investigación de inversión.",
+      "google": "Continuar con Google",
+      "linkedin": "Continuar con LinkedIn",
+      "or": "o",
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "emailPlaceholder": "usted@ejemplo.com",
+      "passwordPlaceholder": "••••••••",
+      "forgot": "¿Olvidó su contraseña?",
+      "submit": "Iniciar Sesión",
+      "submitting": "Iniciando sesión…",
+      "footer": "¿No tiene acceso?",
+      "footerLink": "Solicitar Acceso",
+      "imageCaption": "Perspectiva Macro T1 2025"
+    },
+    "signup": {
+      "title": "Solicitar Acceso — Ezponda Capital",
+      "description": "Únase a un selecto grupo de inversores especializados en materias primas.",
+      "heading": "Solicitar Acceso",
+      "subheading": "Únase a un selecto grupo de inversores especializados en materias primas.",
+      "firstName": "Nombre",
+      "firstNamePlaceholder": "Eduardo",
+      "lastName": "Apellidos",
+      "lastNamePlaceholder": "Ezponda",
+      "email": "Correo electrónico",
+      "emailPlaceholder": "usted@ejemplo.com",
+      "password": "Contraseña",
+      "passwordPlaceholder": "••••••••",
+      "focus": "¿Cuál es su área de interés principal?",
+      "focusPlaceholder": "Seleccione un área…",
+      "focusGold": "Oro y Metales Preciosos",
+      "focusCopper": "Cobre y Metales Industriales",
+      "focusMacro": "Macro y Ciclos Globales",
+      "focusAll": "Todas las anteriores",
+      "submit": "Solicitar Acceso",
+      "submitting": "Creando cuenta…",
+      "emailExists": "Ya existe una cuenta con este correo electrónico.",
+      "footer": "¿Ya tiene una cuenta?",
+      "footerLink": "Iniciar Sesión",
+      "imageCaption": "Caso alcista del oro — visión estructural a 10 años"
+    },
+    "confirmEmail": {
+      "title": "Revise su Correo — Ezponda Capital",
+      "description": "Confirme su dirección de correo electrónico para completar el registro.",
+      "heading": "Revise su correo",
+      "subheading": "Le hemos enviado un enlace de confirmación a su bandeja de entrada.",
+      "body": "Haga clic en el enlace del correo para verificar su cuenta antes de iniciar sesión. Si no lo ve, revise su carpeta de spam.",
+      "backToLogin": "Volver al inicio de sesión"
+    },
+    "layout": {
+      "home": "Inicio",
+      "marketInsightLabel": "Perspectiva de Mercado",
+      "marketInsightText": "El oro ha superado a todas las principales clases de activos en los últimos 5 años.",
+      "imageAlt": "Materias primas macro"
+    }
+  },
+  "subscription": {
+    "badge": "Investigación Premium",
+    "unlockHeadline": "Acceso Completo",
+    "unlockBody": "Suscríbase para leer las tesis de inversión completas, acceder a datos macro en tiempo real y unirse a una comunidad de inversores serios en materias primas.",
+    "ctaLabel": "Obtener Premium",
+    "processing": "Procesando…",
+    "checkoutError": "No se pudo iniciar el pago. Por favor, inténtelo de nuevo.",
+    "paywallMessage": "Esta tesis está disponible exclusivamente para suscriptores premium."
+  },
+  "methodology": {
+    "eyebrow": "Nuestra Filosofía",
+    "title": "Metodología de Inversión",
+    "stepPrefix": "Paso",
+    "step0Title": "Marco Macroeconómico",
+    "step0Desc": "Comenzamos con un análisis macro descendente: ciclos monetarios, tipos reales, dinámicas del dólar y cambios estructurales en la demanda.",
+    "step1Title": "Filtrado por Convicción",
+    "step1Desc": "Solo las oportunidades asimétricas superan el filtro. Alto potencial de retorno frente a un riesgo claramente definido.",
+    "step2Title": "Enfoque Institucional",
+    "step2Desc": "La investigación está orientada a inversores serios, no a los medios financieros. Sin ruido, sin narrativas. Solo convicción estructurada."
+  },
+  "subscribe": {
+    "eyebrow": "Manténgase Informado",
+    "title": "Acceda a Perspectivas Institucionales",
+    "subtitle": "Únase a los inversores que anticipan los ciclos de materias primas.",
+    "placeholder": "su@correo.com",
+    "button": "Suscribirse",
+    "success": "Ya está en la lista. Nos pondremos en contacto."
+  },
+  "macro": {
+    "eyebrow": "Contexto de Mercado",
+    "title": "Indicadores Macro"
+  },
+  "metadata": {
+    "siteTitle": "Ezponda Capital — Investigación de Inversión en Materias Primas",
+    "siteDescription": "Ideas de inversión de alta convicción en oro, cobre y ciclos macroeconómicos. Investigación premium para inversores serios."
+  }
+}

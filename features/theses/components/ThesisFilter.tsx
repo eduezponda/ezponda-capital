@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 import { CATEGORIES } from "@/lib/api/theses";
 import { cn } from "@/lib/utils";
 
@@ -6,13 +7,16 @@ interface Props {
   active?: string;
 }
 
-export default function ThesisFilter({ active = "all" }: Props) {
+export default async function ThesisFilter({ active = "all" }: Props) {
+  const t = await getTranslations("theses");
+
   return (
     <div className="flex flex-wrap items-center gap-3">
       {CATEGORIES.map((cat) => {
         const slug = cat.toLowerCase().replace(" ", "-");
         const isActive = cat === "All" ? active === "all" : active === slug;
         const href = cat === "All" ? "/theses" : `/theses?category=${slug}`;
+        const label = cat === "All" ? t("filterAll") : cat;
         return (
           <Link
             key={cat}
@@ -24,7 +28,7 @@ export default function ThesisFilter({ active = "all" }: Props) {
                 : "bg-surface-container-low text-on-surface border-white/5 hover:bg-surface-container-high"
             )}
           >
-            {cat}
+            {label}
           </Link>
         );
       })}

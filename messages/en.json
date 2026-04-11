@@ -1,0 +1,199 @@
+{
+  "nav": {
+    "home": "Home",
+    "theses": "Theses",
+    "commodities": "Commodities",
+    "sovereign": "Sovereign",
+    "login": "Login",
+    "logout": "Logout",
+    "getAccess": "Get Access",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "footer": {
+    "tagline": "High-conviction commodity investment research. Gold, copper, and macro cycles.",
+    "links": {
+      "about": "About",
+      "theses": "Theses",
+      "contact": "Contact",
+      "legal": "Legal",
+      "privacy": "Privacy"
+    },
+    "copyright": "© {year} Ezponda Capital. All rights reserved. Not financial advice.",
+    "twitterAria": "Twitter",
+    "linkedInAria": "LinkedIn"
+  },
+  "home": {
+    "heroEyebrow": "Commodity Investment Research",
+    "heroHeadline": "Real Assets.",
+    "heroAccent": "Real Value.",
+    "heroSubtitle": "High-conviction investment ideas in gold, copper, and macro cycles — for investors who think in decades, not quarters.",
+    "heroPrimary": "Explore Theses",
+    "heroSecondary": "Get Access",
+    "coverageEyebrow": "Coverage Universe",
+    "coverageTitle": "Strategic Anchors",
+    "goldLabel": "Gold",
+    "goldSub": "Monetary metals",
+    "copperLabel": "Copper",
+    "copperSub": "Industrial metals",
+    "macroCyclesLabel": "Macro Cycles",
+    "macroCyclesSub": "Global dynamics",
+    "realAssetsLabel": "Real Assets",
+    "realAssetsSub": "Tangible value",
+    "researchEyebrow": "Latest Research",
+    "researchTitle": "Featured Theses",
+    "viewAll": "View all →"
+  },
+  "author": {
+    "role": "Principal",
+    "name": "Iñigo Ezponda Igea",
+    "title": "Principal, Ezponda Capital",
+    "bio": "Commodity-focused investor with a macro framework built around real yield cycles, monetary policy divergence, and structural demand shifts in industrial metals. Writing for investors who want the signal without the noise.",
+    "credential0": "CFA Candidate",
+    "credential1": "10+ Years Markets",
+    "credential2": "Gold & Copper Focus"
+  },
+  "theses": {
+    "heroEyebrow": "Research Library",
+    "heroHeadline": "Investment",
+    "heroAccent": "Theses",
+    "heroSubtitle": "Structured, high-conviction research on commodity markets. Each thesis represents a multi-year view backed by macro analysis.",
+    "subscribeEyebrow": "Premium Access",
+    "subscribeTitle": "Access Institutional Insights",
+    "subscribeSubtitle": "Subscribe to unlock full thesis content and live macro data.",
+    "filterAll": "All",
+    "emptyState": "No theses found in this category.",
+    "premiumLabel": "Premium"
+  },
+  "commodities": {
+    "heroEyebrow": "Real Assets",
+    "heroHeadline": "Real Assets.",
+    "heroAccent": "Real Value.",
+    "heroSubtitle": "A structured view of the commodity landscape — gold, copper, and the macro forces driving the next decade of returns.",
+    "heroPrimary": "Get Started",
+    "heroSecondary": "View Theses",
+    "upgradeHeadline": "Access Full Commodity Analysis",
+    "upgradeBody": "Go deeper with live price data, historical context, and complete investment theses for gold, copper, and the broader real assets universe.",
+    "subscribeEyebrow": "Weekly Insights",
+    "subscribeTitle": "Commodity Intelligence, Delivered",
+    "subscribeSubtitle": "Stay ahead of macro shifts with our weekly commodity brief."
+  },
+  "sovereign": {
+    "heroEyebrow": "Macro & Sovereign",
+    "heroHeadline": "Sovereign Forces.",
+    "heroAccent": "Real Consequences.",
+    "heroSubtitle": "The macro undercurrents shaping commodity demand for the next decade — central banks, monetary systems, and fiscal reality.",
+    "heroPrimary": "View Theses",
+    "heroSecondary": "Get Access",
+    "frameworkEyebrow": "Structural Forces",
+    "frameworkTitle": "The Macro Framework",
+    "frameworkDesc": "Every commodity thesis at Ezponda Capital is anchored in a sovereign macro view. These are the structural forces we track.",
+    "theme0Title": "Central Bank Reserves",
+    "theme0Desc": "Sovereign wealth funds and central banks are quietly accumulating gold and real assets at record pace, diversifying away from dollar-denominated instruments.",
+    "theme1Title": "De-Dollarization",
+    "theme1Desc": "Bilateral trade settlements in local currencies, BRICS expansion, and the weaponization of the dollar are accelerating a structural monetary shift.",
+    "theme2Title": "Fiscal Dominance",
+    "theme2Desc": "Government debt levels globally have reached a point where central banks cannot raise rates without causing fiscal crises — a structural tailwind for hard assets.",
+    "theme3Title": "Real Yield Regime",
+    "theme3Desc": "The era of deeply negative real yields supercharged gold. As real rates normalize, the commodity thesis evolves — but does not disappear.",
+    "upgradeHeadline": "Unlock the Full Sovereign View",
+    "upgradeBody": "Access deep-dive sovereign macro reports, updated monthly — covering central bank flows, reserve composition shifts, and real yield dynamics."
+  },
+  "auth": {
+    "login": {
+      "title": "Login — Ezponda Capital",
+      "description": "Login to access your investment research terminal.",
+      "heading": "Login to Terminal",
+      "subheading": "Access your investment research dashboard.",
+      "google": "Continue with Google",
+      "linkedin": "Continue with LinkedIn",
+      "or": "or",
+      "email": "Email",
+      "password": "Password",
+      "emailPlaceholder": "you@example.com",
+      "passwordPlaceholder": "••••••••",
+      "forgot": "Forgot password?",
+      "submit": "Login",
+      "submitting": "Logging in…",
+      "footer": "Don't have access?",
+      "footerLink": "Request Access",
+      "imageCaption": "Q1 2025 Macro Outlook"
+    },
+    "signup": {
+      "title": "Request Access — Ezponda Capital",
+      "description": "Join a curated group of commodity-focused investors.",
+      "heading": "Request Access",
+      "subheading": "Join a curated group of commodity-focused investors.",
+      "firstName": "First Name",
+      "firstNamePlaceholder": "Eduardo",
+      "lastName": "Last Name",
+      "lastNamePlaceholder": "Ezponda",
+      "email": "Email",
+      "emailPlaceholder": "you@example.com",
+      "password": "Password",
+      "passwordPlaceholder": "••••••••",
+      "focus": "What's your primary focus?",
+      "focusPlaceholder": "Select an interest…",
+      "focusGold": "Gold & Precious Metals",
+      "focusCopper": "Copper & Industrial Metals",
+      "focusMacro": "Macro & Global Cycles",
+      "focusAll": "All of the above",
+      "submit": "Request Access",
+      "submitting": "Creating account…",
+      "emailExists": "An account with this email already exists.",
+      "footer": "Already have an account?",
+      "footerLink": "Login",
+      "imageCaption": "Gold bull case — 10-year structural view"
+    },
+    "confirmEmail": {
+      "title": "Check Your Email — Ezponda Capital",
+      "description": "Confirm your email address to complete registration.",
+      "heading": "Check your email",
+      "subheading": "We sent a confirmation link to your inbox.",
+      "body": "Click the link in your email to verify your account before logging in. If you don't see it, check your spam folder.",
+      "backToLogin": "Back to login"
+    },
+    "layout": {
+      "home": "Home",
+      "marketInsightLabel": "Market Insight",
+      "marketInsightText": "Gold has outperformed every major asset class over the past 5 years.",
+      "imageAlt": "Macro commodities"
+    }
+  },
+  "subscription": {
+    "badge": "Premium Research",
+    "unlockHeadline": "Unlock Full Access",
+    "unlockBody": "Subscribe to read complete investment theses, access live macro data, and join a community of serious commodity investors.",
+    "ctaLabel": "Get Premium",
+    "processing": "Processing…",
+    "checkoutError": "Could not start checkout. Please try again.",
+    "paywallMessage": "This thesis is available to premium subscribers only."
+  },
+  "methodology": {
+    "eyebrow": "How We Think",
+    "title": "Investment Methodology",
+    "stepPrefix": "Step",
+    "step0Title": "Macro Framework",
+    "step0Desc": "We start with top-down macro analysis: monetary cycles, real yields, dollar dynamics, and structural demand shifts.",
+    "step1Title": "Conviction Filtering",
+    "step1Desc": "Only asymmetric opportunities make the cut. High potential return relative to clearly defined risk.",
+    "step2Title": "Institutional Lens",
+    "step2Desc": "Research is framed for serious investors — not financial media. No noise, no narratives. Just structured conviction."
+  },
+  "subscribe": {
+    "eyebrow": "Stay Informed",
+    "title": "Access Institutional Insights",
+    "subtitle": "Join investors who track commodity cycles before the crowd.",
+    "placeholder": "your@email.com",
+    "button": "Subscribe",
+    "success": "You're on the list. We'll be in touch."
+  },
+  "macro": {
+    "eyebrow": "Market Context",
+    "title": "Macro Indicators"
+  },
+  "metadata": {
+    "siteTitle": "Ezponda Capital — Commodity Investment Research",
+    "siteDescription": "High-conviction investment ideas in gold, copper, and macro cycles. Premium research for serious investors."
+  }
+}

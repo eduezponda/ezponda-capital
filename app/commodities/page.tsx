@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import Hero from "@/components/sections/Hero";
 import MacroTicker from "@/features/macro/components/MacroTicker";
 import CommoditySection from "@/features/commodities/components/CommoditySection";
@@ -9,20 +10,22 @@ import { getCommodities } from "@/features/commodities/lib/commodities";
 import { getIndicators } from "@/lib/api/indicators";
 
 export default async function CommoditiesPage() {
-  const [commodities, indicators] = await Promise.all([
+  const [commodities, indicators, t] = await Promise.all([
     getCommodities(),
     getIndicators(),
+    getTranslations("commodities"),
   ]);
+  const tMacro = await getTranslations("macro");
 
   return (
     <>
       <Hero
-        eyebrow="Real Assets"
-        headline="Real Assets."
-        headlineAccent="Real Value."
-        subtitle="A structured view of the commodity landscape — gold, copper, and the macro forces driving the next decade of returns."
-        primaryCta={{ label: "Get Started", href: "/auth/signup" }}
-        secondaryCta={{ label: "View Theses", href: "/theses" }}
+        eyebrow={t("heroEyebrow")}
+        headline={t("heroHeadline")}
+        headlineAccent={t("heroAccent")}
+        subtitle={t("heroSubtitle")}
+        primaryCta={{ label: t("heroPrimary"), href: "/auth/signup" }}
+        secondaryCta={{ label: t("heroSecondary"), href: "/theses" }}
         minHeight="min-h-[70vh]"
       />
 
@@ -41,6 +44,8 @@ export default async function CommoditiesPage() {
           direction: ind.direction,
           icon: ind.icon,
         }))}
+        eyebrow={tMacro("eyebrow")}
+        title={tMacro("title")}
       />
 
       {/* Upgrade CTA */}
@@ -48,17 +53,17 @@ export default async function CommoditiesPage() {
         <Container>
           <div className="max-w-lg mx-auto">
             <UpgradeCTA
-              headline="Access Full Commodity Analysis"
-              body="Go deeper with live price data, historical context, and complete investment theses for gold, copper, and the broader real assets universe."
+              headline={t("upgradeHeadline")}
+              body={t("upgradeBody")}
             />
           </div>
         </Container>
       </section>
 
       <SubscribeCTA
-        eyebrow="Weekly Insights"
-        title="Commodity Intelligence, Delivered"
-        subtitle="Stay ahead of macro shifts with our weekly commodity brief."
+        eyebrow={t("subscribeEyebrow")}
+        title={t("subscribeTitle")}
+        subtitle={t("subscribeSubtitle")}
       />
     </>
   );

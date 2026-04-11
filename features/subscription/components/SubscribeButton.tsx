@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 interface SubscribeButtonProps {
   priceId: string;
@@ -10,11 +11,14 @@ interface SubscribeButtonProps {
 
 export default function SubscribeButton({
   priceId,
-  label = "Get Premium",
+  label,
   className,
 }: SubscribeButtonProps) {
+  const t = useTranslations("subscription");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const resolvedLabel = label ?? t("ctaLabel");
 
   async function handleClick() {
     setIsLoading(true);
@@ -31,11 +35,11 @@ export default function SubscribeButton({
         const data = await res.json();
         window.location.href = data.url;
       } else {
-        setError("Could not start checkout. Please try again.");
+        setError(t("checkoutError"));
         setIsLoading(false);
       }
     } catch {
-      setError("Could not start checkout. Please try again.");
+      setError(t("checkoutError"));
       setIsLoading(false);
     }
   }
@@ -50,7 +54,7 @@ export default function SubscribeButton({
           "gold-gradient text-black font-bold text-[0.75rem] uppercase tracking-[0.08rem] px-7 py-3.5 rounded-xl inline-flex items-center gap-2 hover:shadow-[0_0_30px_rgba(255,224,132,0.25)] active:scale-95 transition-all disabled:opacity-60 disabled:cursor-not-allowed"
         }
       >
-        {isLoading ? "Processing…" : label}
+        {isLoading ? t("processing") : resolvedLabel}
         {!isLoading && (
           <span
             className="material-symbols-outlined"
