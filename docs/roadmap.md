@@ -5,7 +5,7 @@
 ```
 Guest (no session)
   ├── Sees all content exists (cards, pages) but EVERYTHING is blurred
-  ├── Company name hidden
+  ├── Analysed company name (ticker, exchange) hidden in thesis cards
   ├── Incentivized to register ("quick signup, free content access")
   └── Can navigate to /auth/signup or /auth/login
 
@@ -52,7 +52,7 @@ Superadmin (role: "superadmin")
 ## User Flows
 
 ### Guest → Signup FREE
-1. Guest lands on any page → all content blurred, company name hidden
+1. Guest lands on any page → all content blurred, analysed company name (ticker, exchange) hidden in thesis cards
 2. Sees "Sign up in seconds — access free research" messaging
 3. Clicks signup → `/auth/signup` → creates account (role: `free`)
 4. Redirected to `/theses` → free content now readable
@@ -127,12 +127,12 @@ Superadmin (role: "superadmin")
 - Free theses: wrap in `ContentGate requiredTier="free"` (guests see blur, logged-in see content)
 - Premium theses: keep `PremiumGate` (guests + free see blur, premium see content)
 
-### Task 8: Hide company name for guests
-**Files:** `components/layout/Navbar.tsx`, `components/layout/Footer.tsx`
+### Task 8: Hide analysed company name (ticker/exchange) for guests in ThesisCard
+**Files:** `components/sections/ThesisCard.tsx`
 
-- Navbar: show "Ezponda Capital" only when session exists; guests see generic text or nothing
-- Footer: same treatment
-- Uses session from `SessionProvider`
+- Guests see ticker and exchange blurred (`blur-sm select-none pointer-events-none`) — same treatment as the title blur
+- Free and premium users see ticker and exchange clearly
+- The "Ezponda Capital" brand name is always visible — it is needed for navigation and conversion
 
 ### Task 9: Conditional upgrade CTAs
 **Files:** `app/commodities/page.tsx`, `app/sovereign/page.tsx`, `app/theses/page.tsx`, `app/page.tsx`
