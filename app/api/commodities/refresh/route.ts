@@ -1,11 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 
+// Retention: 7 days (10,080 rows/symbol). Cleanup handled by DB trigger.
+// GoldAPI.io has no rate limits on real-time prices — safe to call every minute.
+// Vercel Hobby: ~43,800 invocations/month, well within 1M limit.
 const METALS = [
-  { symbol: "XAU", name: "Gold",      unit: "oz" },
-  { symbol: "XAG", name: "Silver",    unit: "oz" },
-  { symbol: "XPT", name: "Platinum",  unit: "oz" },
-  { symbol: "XPD", name: "Palladium", unit: "oz" },
+  { symbol: "XAU", name: "Gold",      unit: "oz",   currency: "USD" },
+  { symbol: "XAG", name: "Silver",    unit: "oz",   currency: "USD" },
+  { symbol: "XPT", name: "Platinum",  unit: "oz",   currency: "USD" },
+  { symbol: "XPD", name: "Palladium", unit: "oz",   currency: "USD" },
+  { symbol: "BTC", name: "Bitcoin",   unit: "coin", currency: "USD" },
 ];
 
 type PriceRow = {
@@ -59,7 +63,9 @@ export async function GET(req: NextRequest) {
     }
 
     const results = await Promise.all(
-      METALS.map(({ symbol, name, unit }) => fetchMetalPrice(symbol, name, unit, apiKey))
+      METALS.map(({ symbol, name, unit }) =>
+        fetchMetalPrice(symbol, name, unit, apiKey)
+      )
     );
 
     const priceRows = results.filter((r): r is PriceRow => r !== null);
