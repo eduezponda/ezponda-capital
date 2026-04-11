@@ -1,7 +1,7 @@
 import { getSession } from "@/features/auth/lib/session";
 import { hasAccess } from "@/features/subscription/lib/entitlements";
 import type { Tier } from "@/features/auth/lib/session";
-import Paywall from "./Paywall";
+import FreePremiumPaywall from "./FreePremiumPaywall";
 import GuestWall from "./GuestWall";
 
 interface ContentGateProps {
@@ -25,5 +25,5 @@ export default async function ContentGate({
     return <>{children}</>;
   }
 
-  return <Paywall previewContent={preview} />;
+  return <FreePremiumPaywall previewContent={preview} />;
 }

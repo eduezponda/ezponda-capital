@@ -1,6 +1,6 @@
 import { getSession } from "@/features/auth/lib/session";
 import { hasAccess } from "@/features/subscription/lib/entitlements";
-import Paywall from "./Paywall";
+import FreePremiumPaywall from "./FreePremiumPaywall";
 import GuestWall from "./GuestWall";
 
 interface PremiumGateProps {
@@ -17,5 +17,5 @@ export default async function PremiumGate({ children, preview }: PremiumGateProp
 
   if (hasAccess(session, "premium")) return <>{children}</>;
 
-  return <Paywall previewContent={preview} />;
+  return <FreePremiumPaywall previewContent={preview} />;
 }
