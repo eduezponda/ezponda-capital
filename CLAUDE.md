@@ -189,6 +189,27 @@ Two hooks in `.githooks/` (versioned, activated via `core.hookspath=.githooks`):
 
 ---
 
+## Supabase CLI
+
+### First-time setup
+```bash
+supabase login                              # authenticate via browser
+supabase link --project-ref <ref>           # ref: Supabase → Settings → General
+```
+
+### Common commands
+```bash
+supabase migration new <name>   # scaffold a new migration file in supabase/migrations/
+supabase db pull                # pull remote schema into local migration history
+supabase db push                # apply pending local migrations to the remote DB
+```
+
+### Rules
+- **Never run `supabase db push` automatically.** Only run it when Eduardo explicitly says so — it executes DDL against the production database.
+- Migrations live in `supabase/migrations/` and are versioned in git.
+
+---
+
 ## Phase 2 (not started)
 
 - Stripe Live Mode — swap test keys for live keys, new webhook endpoint
