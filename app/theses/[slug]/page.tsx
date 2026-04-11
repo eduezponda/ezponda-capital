@@ -7,6 +7,7 @@ import PremiumGate from "@/features/subscription/components/PremiumGate";
 import ContentGate from "@/features/subscription/components/ContentGate";
 import { getThesisBySlug, getAllTheses } from "@/lib/api/theses";
 import { formatDate } from "@/lib/utils";
+import { getSession } from "@/features/auth/lib/session";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -19,6 +20,8 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps) {
   const { slug } = await params;
+  const session = await getSession();
+  if (!session) return { title: "Ezponda Capital" };
   const thesis = await getThesisBySlug(slug);
   return {
     title: thesis ? `${thesis.title} — Ezponda Capital` : "Not Found",
@@ -31,6 +34,9 @@ export default async function ThesisPage({ params }: PageProps) {
   const thesis = await getThesisBySlug(slug);
 
   if (!thesis) notFound();
+
+  const session = await getSession();
+  if (!session) notFound();
 
   return (
     <div className="pt-28 pb-20 bg-surface min-h-screen overflow-x-hidden">
