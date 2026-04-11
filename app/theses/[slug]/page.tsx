@@ -8,6 +8,7 @@ import ContentGate from "@/features/subscription/components/ContentGate";
 import { getThesisBySlug, getAllTheses } from "@/lib/api/theses";
 import { formatDate } from "@/lib/utils";
 import { getSession } from "@/features/auth/lib/session";
+import { hasAccess } from "@/features/subscription/lib/entitlements";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -23,9 +24,13 @@ export async function generateMetadata({ params }: PageProps) {
   const session = await getSession();
   if (!session) return { title: "Ezponda Capital" };
   const thesis = await getThesisBySlug(slug);
+  if (!thesis) return { title: "Not Found" };
+  if (thesis.tier === "premium" && !hasAccess(session, "premium")) {
+    return { title: "Ezponda Capital" };
+  }
   return {
-    title: thesis ? `${thesis.title} — Ezponda Capital` : "Not Found",
-    description: thesis?.excerpt,
+    title: `${thesis.title} — Ezponda Capital`,
+    description: thesis.excerpt,
   };
 }
 
@@ -37,6 +42,8 @@ export default async function ThesisPage({ params }: PageProps) {
 
   const session = await getSession();
   if (!session) notFound();
+
+  if (thesis.tier === "premium" && !hasAccess(session, "premium")) notFound();
 
   return (
     <div className="pt-28 pb-20 bg-surface min-h-screen overflow-x-hidden">
