@@ -2,7 +2,7 @@
   "crons": [
     {
       "path": "/api/commodities/refresh",
-      "schedule": "* * * * *"
+      "schedule": "0 * * * *"
     }
   ]
 }
