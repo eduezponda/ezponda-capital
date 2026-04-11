@@ -3,9 +3,12 @@
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import Container from "./Container";
+import { useSession } from "@/features/auth/components/SessionProvider";
 
 export default function Footer() {
   const t = useTranslations("footer");
+  const session = useSession();
+  const isLoggedIn = session !== null;
 
   const FOOTER_LINKS = [
     { label: t("links.about"),   href: "#" },
@@ -19,19 +22,29 @@ export default function Footer() {
     <footer className="bg-surface-container-lowest border-t border-outline-variant/20 py-16">
       <Container>
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
-          {/* Brand */}
+          {/* Brand — hidden for guests */}
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2">
-              <span className="text-sm font-bold uppercase tracking-[0.2rem] text-white">
-                Ezponda
-              </span>
-              <span className="text-sm font-bold uppercase tracking-[0.2rem] text-gold">
-                Capital
-              </span>
+              {isLoggedIn ? (
+                <>
+                  <span className="text-sm font-bold uppercase tracking-[0.2rem] text-white">
+                    Ezponda
+                  </span>
+                  <span className="text-sm font-bold uppercase tracking-[0.2rem] text-gold">
+                    Capital
+                  </span>
+                </>
+              ) : (
+                <span className="text-sm font-bold uppercase tracking-[0.2rem] text-gold">
+                  EC
+                </span>
+              )}
             </div>
-            <p className="text-[0.6875rem] text-outline max-w-xs">
-              {t("tagline")}
-            </p>
+            {isLoggedIn && (
+              <p className="text-[0.6875rem] text-outline max-w-xs">
+                {t("tagline")}
+              </p>
+            )}
           </div>
 
           {/* Links */}
@@ -75,9 +88,11 @@ export default function Footer() {
         </div>
 
         <div className="mt-10 pt-6 border-t border-outline-variant/20">
-          <p className="text-[0.625rem] text-outline/60 uppercase tracking-[0.05rem]">
-            {t("copyright", { year: new Date().getFullYear() })}
-          </p>
+          {isLoggedIn && (
+            <p className="text-[0.625rem] text-outline/60 uppercase tracking-[0.05rem]">
+              {t("copyright", { year: new Date().getFullYear() })}
+            </p>
+          )}
         </div>
       </Container>
     </footer>

@@ -8,15 +8,18 @@ import SubscribeCTA from "@/components/sections/SubscribeCTA";
 import ThesisGallery from "@/features/theses/components/ThesisGallery";
 import Container from "@/components/layout/Container";
 import { getAllTheses } from "@/lib/api/theses";
+import { getSession } from "@/features/auth/lib/session";
 
 export default async function HomePage() {
-  const [theses, t] = await Promise.all([
+  const [theses, t, session] = await Promise.all([
     getAllTheses(),
     getTranslations("home"),
+    getSession(),
   ]);
   const tAuthor = await getTranslations("author");
   const tSubscribe = await getTranslations("subscribe");
   const featured = theses.slice(0, 3);
+  const isPremium = session?.tier === "premium";
 
   return (
     <>
@@ -26,7 +29,7 @@ export default async function HomePage() {
         headlineAccent={t("heroAccent")}
         subtitle={t("heroSubtitle")}
         primaryCta={{ label: t("heroPrimary"), href: "/theses" }}
-        secondaryCta={{ label: t("heroSecondary"), href: "/auth/signup" }}
+        secondaryCta={!session ? { label: t("heroSecondary"), href: "/auth/signup" } : undefined}
         minHeight="min-h-[70vh] md:min-h-screen"
       />
 
@@ -112,11 +115,13 @@ export default async function HomePage() {
       </section>
 
       <MethodologySteps />
-      <SubscribeCTA
-        eyebrow={tSubscribe("eyebrow")}
-        title={tSubscribe("title")}
-        subtitle={tSubscribe("subtitle")}
-      />
+      {!isPremium && (
+        <SubscribeCTA
+          eyebrow={tSubscribe("eyebrow")}
+          title={tSubscribe("title")}
+          subtitle={tSubscribe("subtitle")}
+        />
+      )}
     </>
   );
 }

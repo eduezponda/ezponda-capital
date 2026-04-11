@@ -4,6 +4,8 @@ import "./globals.css";
 import LayoutWrapper from "@/components/layout/LayoutWrapper";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
+import { SessionProvider } from "@/features/auth/components/SessionProvider";
+import { getSession } from "@/features/auth/lib/session";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -22,6 +24,10 @@ export default async function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   const locale = await getLocale();
   const messages = await getMessages();
+  const session = await getSession();
+  const clientSession = session
+    ? { id: session.id, email: session.email, name: session.name, role: session.role, tier: session.tier }
+    : null;
 
   return (
     <html lang={locale} className={inter.className}>
@@ -36,7 +42,9 @@ export default async function RootLayout({
       </head>
       <body className="antialiased">
         <NextIntlClientProvider messages={messages}>
-          <LayoutWrapper>{children}</LayoutWrapper>
+          <SessionProvider session={clientSession}>
+            <LayoutWrapper>{children}</LayoutWrapper>
+          </SessionProvider>
         </NextIntlClientProvider>
       </body>
     </html>

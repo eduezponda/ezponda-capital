@@ -2,11 +2,16 @@ import { getTranslations } from "next-intl/server";
 import type { ThesisMeta } from "@/lib/api/theses";
 import ThesisCard from "@/components/sections/ThesisCard";
 import { formatDate } from "@/lib/utils";
+import { getSession } from "@/features/auth/lib/session";
 
 interface Props { theses: ThesisMeta[] }
 
 export default async function ThesisGallery({ theses }: Props) {
-  const t = await getTranslations("theses");
+  const [t, session] = await Promise.all([
+    getTranslations("theses"),
+    getSession(),
+  ]);
+  const userTier = session?.tier ?? null;
 
   if (theses.length === 0) {
     return (
@@ -18,7 +23,7 @@ export default async function ThesisGallery({ theses }: Props) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
       {theses.map((thesis, i) => (
-        <ThesisCard key={thesis.slug} {...thesis} date={formatDate(thesis.date)} featured={i === 0} />
+        <ThesisCard key={thesis.slug} {...thesis} date={formatDate(thesis.date)} featured={i === 0} userTier={userTier} />
       ))}
     </div>
   );

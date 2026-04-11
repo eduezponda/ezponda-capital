@@ -1,11 +1,13 @@
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export type Tier = "free" | "premium";
+export type Role = "free" | "subscriber" | "superadmin";
 
 export interface UserSession {
   id: string;
   email: string;
   name?: string;
+  role: Role;
   tier: Tier;
 }
 
@@ -23,15 +25,21 @@ export async function getSession(): Promise<UserSession | null> {
     .eq("id", user.id)
     .single();
 
+  const role: Role =
+    profile?.role === "superadmin"
+      ? "superadmin"
+      : profile?.role === "subscriber"
+        ? "subscriber"
+        : "free";
+
   const tier: Tier =
-    profile?.role === "superadmin" || profile?.role === "subscriber"
-      ? "premium"
-      : "free";
+    role === "superadmin" || role === "subscriber" ? "premium" : "free";
 
   return {
     id: user.id,
     email: user.email ?? "",
     name: profile?.full_name ?? undefined,
+    role,
     tier,
   };
 }

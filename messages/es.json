@@ -6,6 +6,7 @@
     "sovereign": "Soberano",
     "login": "Iniciar Sesión",
     "logout": "Cerrar Sesión",
+    "profile": "Perfil",
     "getAccess": "Obtener Acceso",
     "openMenu": "Abrir menú",
     "closeMenu": "Cerrar menú"
@@ -122,8 +123,8 @@
     "signup": {
       "title": "Solicitar Acceso — Ezponda Capital",
       "description": "Únase a un selecto grupo de inversores especializados en materias primas.",
-      "heading": "Solicitar Acceso",
-      "subheading": "Únase a un selecto grupo de inversores especializados en materias primas.",
+      "heading": "Cree su Cuenta",
+      "subheading": "El registro es rápido — acceda al instante a la investigación gratuita.",
       "firstName": "Nombre",
       "firstNamePlaceholder": "Eduardo",
       "lastName": "Apellidos",
@@ -138,8 +139,10 @@
       "focusCopper": "Cobre y Metales Industriales",
       "focusMacro": "Macro y Ciclos Globales",
       "focusAll": "Todas las anteriores",
-      "submit": "Solicitar Acceso",
+      "submit": "Crear Cuenta Gratuita",
       "submitting": "Creando cuenta…",
+      "goPremium": "O hazte Premium — acceso completo desde el primer día",
+      "goPremiumCta": "Regístrate y Hazte Premium",
       "emailExists": "Ya existe una cuenta con este correo electrónico.",
       "footer": "¿Ya tiene una cuenta?",
       "footerLink": "Iniciar Sesión",
@@ -168,6 +171,27 @@
     "processing": "Procesando…",
     "checkoutError": "No se pudo iniciar el pago. Por favor, inténtelo de nuevo.",
     "paywallMessage": "Esta tesis está disponible exclusivamente para suscriptores premium."
+  },
+  "guestWall": {
+    "headline": "Regístrese para Acceder a Esta Investigación",
+    "body": "Cree una cuenta gratuita en segundos — acceda al instante a nuestra biblioteca de investigación gratuita.",
+    "signupFree": "Registro Gratuito",
+    "login": "Iniciar Sesión"
+  },
+  "profile": {
+    "title": "Tu Perfil",
+    "plan": "Plan Actual",
+    "planFree": "Gratuito",
+    "planPremium": "Premium",
+    "planSuperadmin": "Superadmin",
+    "email": "Correo electrónico",
+    "name": "Nombre",
+    "memberSince": "Miembro desde",
+    "upgradeHeadline": "Mejora a Premium",
+    "upgradeBody": "Desbloquea acceso completo a todas las tesis de inversión, datos macro en tiempo real e investigación exclusiva.",
+    "upgradeCta": "Obtener Premium",
+    "premiumActive": "Tu suscripción premium está activa. Tienes acceso completo a todo el contenido.",
+    "superadminNote": "Acceso completo de administrador concedido."
   },
   "methodology": {
     "eyebrow": "Nuestra Filosofía",

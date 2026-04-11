@@ -16,12 +16,9 @@ export default function SignupForm() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [premiumLoading, setPremiumLoading] = useState(false);
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setError(null);
-    setIsLoading(true);
-
+  async function createAccount() {
     const supabase = createSupabaseBrowserClient();
     const { data, error: authError } = await supabase.auth.signUp({
       email,
@@ -35,26 +32,67 @@ export default function SignupForm() {
 
     if (authError) {
       setError(authError.message);
-      setIsLoading(false);
-      return;
+      return null;
     }
 
     if (data.user?.identities?.length === 0) {
       setError(t("emailExists"));
+      return null;
+    }
+
+    return data.user;
+  }
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setError(null);
+    setIsLoading(true);
+
+    const user = await createAccount();
+    if (!user) {
       setIsLoading(false);
       return;
     }
 
-    router.push("/auth/confirm-email");
+    router.push("/theses");
     router.refresh();
+  }
+
+  async function handlePremiumSignup() {
+    setError(null);
+    setPremiumLoading(true);
+
+    const user = await createAccount();
+    if (!user) {
+      setPremiumLoading(false);
+      return;
+    }
+
+    try {
+      const res = await fetch("/api/stripe/create-checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ priceId: "price_1TJXvzKe83gRrUXhfkaTgFXt" }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        window.location.href = data.url;
+      } else {
+        router.push("/theses");
+        router.refresh();
+      }
+    } catch {
+      router.push("/theses");
+      router.refresh();
+    }
   }
 
   return (
     <div className="flex flex-col gap-8">
       <div>
         <Link href="/" className="flex items-center gap-2 mb-8">
-          <span className="text-sm font-bold uppercase tracking-[0.2rem] text-white">Ezponda</span>
-          <span className="text-sm font-bold uppercase tracking-[0.2rem] text-gold">Capital</span>
+          <span className="text-sm font-bold uppercase tracking-[0.2rem] text-gold">EC</span>
         </Link>
         <h1 className="text-2xl font-bold text-white tracking-tight">{t("heading")}</h1>
         <p className="text-[0.875rem] text-outline mt-1">
@@ -123,12 +161,39 @@ export default function SignupForm() {
 
         <button
           type="submit"
-          disabled={isLoading}
+          disabled={isLoading || premiumLoading}
           className="gold-gradient text-black font-bold text-[0.75rem] uppercase tracking-[0.08rem] px-8 py-4 rounded-xl hover:shadow-[0_0_30px_rgba(255,224,132,0.25)] active:scale-95 transition-all mt-2 disabled:opacity-60 disabled:cursor-not-allowed"
         >
           {isLoading ? t("submitting") : t("submit")}
         </button>
       </form>
+
+      <div className="relative">
+        <div className="absolute inset-0 flex items-center">
+          <div className="w-full border-t border-outline-variant/30" />
+        </div>
+        <div className="relative flex justify-center">
+          <span className="bg-surface-container px-4 text-[0.75rem] text-outline uppercase tracking-wide">
+            {t("goPremium")}
+          </span>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        onClick={handlePremiumSignup}
+        disabled={isLoading || premiumLoading}
+        className="glass-panel border border-tertiary/20 text-tertiary font-bold text-[0.75rem] uppercase tracking-[0.08rem] px-8 py-4 rounded-xl hover:border-tertiary/40 hover:shadow-[0_0_30px_rgba(255,224,132,0.15)] active:scale-95 transition-all disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+      >
+        <span
+          className="material-symbols-outlined"
+          style={{ fontSize: 16, fontVariationSettings: "'FILL' 1, 'wght' 400" }}
+          aria-hidden="true"
+        >
+          workspace_premium
+        </span>
+        {premiumLoading ? t("submitting") : t("goPremiumCta")}
+      </button>
 
       <p className="text-center text-[0.8125rem] text-outline">
         {t("footer")}{" "}

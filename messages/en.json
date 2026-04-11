@@ -6,6 +6,7 @@
     "sovereign": "Sovereign",
     "login": "Login",
     "logout": "Logout",
+    "profile": "Profile",
     "getAccess": "Get Access",
     "openMenu": "Open menu",
     "closeMenu": "Close menu"
@@ -122,8 +123,8 @@
     "signup": {
       "title": "Request Access — Ezponda Capital",
       "description": "Join a curated group of commodity-focused investors.",
-      "heading": "Request Access",
-      "subheading": "Join a curated group of commodity-focused investors.",
+      "heading": "Create Your Account",
+      "subheading": "Registration is quick — get instant access to free research.",
       "firstName": "First Name",
       "firstNamePlaceholder": "Eduardo",
       "lastName": "Last Name",
@@ -138,8 +139,10 @@
       "focusCopper": "Copper & Industrial Metals",
       "focusMacro": "Macro & Global Cycles",
       "focusAll": "All of the above",
-      "submit": "Request Access",
+      "submit": "Create Free Account",
       "submitting": "Creating account…",
+      "goPremium": "Or go Premium — full access from day one",
+      "goPremiumCta": "Sign Up & Go Premium",
       "emailExists": "An account with this email already exists.",
       "footer": "Already have an account?",
       "footerLink": "Login",
@@ -168,6 +171,27 @@
     "processing": "Processing…",
     "checkoutError": "Could not start checkout. Please try again.",
     "paywallMessage": "This thesis is available to premium subscribers only."
+  },
+  "guestWall": {
+    "headline": "Sign Up to Access This Research",
+    "body": "Create a free account in seconds — get instant access to our free research library.",
+    "signupFree": "Sign Up Free",
+    "login": "Log In"
+  },
+  "profile": {
+    "title": "Your Profile",
+    "plan": "Current Plan",
+    "planFree": "Free",
+    "planPremium": "Premium",
+    "planSuperadmin": "Superadmin",
+    "email": "Email",
+    "name": "Name",
+    "memberSince": "Member since",
+    "upgradeHeadline": "Upgrade to Premium",
+    "upgradeBody": "Unlock full access to all investment theses, live macro data, and exclusive research.",
+    "upgradeCta": "Get Premium",
+    "premiumActive": "Your premium subscription is active. You have full access to all content.",
+    "superadminNote": "Full admin access granted."
   },
   "methodology": {
     "eyebrow": "How We Think",

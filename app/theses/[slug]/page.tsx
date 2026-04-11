@@ -4,6 +4,7 @@ import remarkGfm from "remark-gfm";
 import Container from "@/components/layout/Container";
 import Badge from "@/components/ui/Badge";
 import PremiumGate from "@/features/subscription/components/PremiumGate";
+import ContentGate from "@/features/subscription/components/ContentGate";
 import { getThesisBySlug, getAllTheses } from "@/lib/api/theses";
 import { formatDate } from "@/lib/utils";
 
@@ -100,9 +101,21 @@ export default async function ThesisPage({ params }: PageProps) {
             </div>
           </PremiumGate>
         ) : (
-          <div className="thesis-prose">
-            <MDXRemote source={thesis.source} options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }} />
-          </div>
+          <ContentGate
+            requiredTier="free"
+            preview={
+              <div className="thesis-prose">
+                <MDXRemote
+                  source={thesis.source.slice(0, 500)}
+                  options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }}
+                />
+              </div>
+            }
+          >
+            <div className="thesis-prose">
+              <MDXRemote source={thesis.source} options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }} />
+            </div>
+          </ContentGate>
         )}
       </Container>
     </div>
