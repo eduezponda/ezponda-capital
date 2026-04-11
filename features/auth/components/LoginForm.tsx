@@ -43,7 +43,8 @@ export default function LoginForm() {
       {/* Header */}
       <div>
         <Link href="/" className="flex items-center gap-2 mb-8">
-          <span className="text-sm font-bold uppercase tracking-[0.2rem] text-gold">EC</span>
+          <span className="text-sm font-bold uppercase tracking-[0.2rem] text-white">Ezponda</span>
+          <span className="text-sm font-bold uppercase tracking-[0.2rem] text-gold">Capital</span>
         </Link>
         <h1 className="text-2xl font-bold text-white tracking-tight">{t("heading")}</h1>
         <p className="text-[0.875rem] text-outline mt-1">

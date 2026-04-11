@@ -58,22 +58,14 @@ export default function Navbar() {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-surface/80 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
       <Container className="py-5">
         <div className="flex items-center justify-between">
-          {/* Logo — hidden for guests */}
+          {/* Logo */}
           <Link href="/" className="flex items-center gap-2" onClick={close}>
-            {isLoggedIn ? (
-              <>
-                <span className="text-sm font-bold uppercase tracking-[0.2rem] text-white">
-                  Ezponda
-                </span>
-                <span className="text-sm font-bold uppercase tracking-[0.2rem] text-gold">
-                  Capital
-                </span>
-              </>
-            ) : (
-              <span className="text-sm font-bold uppercase tracking-[0.2rem] text-gold">
-                EC
-              </span>
-            )}
+            <span className="text-sm font-bold uppercase tracking-[0.2rem] text-white">
+              Ezponda
+            </span>
+            <span className="text-sm font-bold uppercase tracking-[0.2rem] text-gold">
+              Capital
+            </span>
           </Link>
 
           {/* Desktop nav links */}
