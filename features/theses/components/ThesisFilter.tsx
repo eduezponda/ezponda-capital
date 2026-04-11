@@ -3,7 +3,7 @@
 import { useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { CATEGORIES } from "@/lib/api/theses";
+import { CATEGORIES } from "@/lib/api/categories";
 import { cn } from "@/lib/utils";
 
 interface Props {
