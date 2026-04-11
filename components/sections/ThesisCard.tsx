@@ -15,6 +15,8 @@ interface ThesisCardProps {
   userTier?: Tier | null;
   className?: string;
   featured?: boolean;
+  ticker?: string;
+  exchange?: string;
 }
 
 export default async function ThesisCard({
@@ -28,6 +30,8 @@ export default async function ThesisCard({
   userTier = null,
   className,
   featured = false,
+  ticker,
+  exchange,
 }: ThesisCardProps) {
   const t = await getTranslations("theses");
 
@@ -98,6 +102,14 @@ export default async function ThesisCard({
             shouldBlur && "blur-sm select-none pointer-events-none"
           )}>
             {excerpt}
+          </p>
+        )}
+        {(ticker || exchange) && (
+          <p className={cn(
+            "text-[0.6875rem] uppercase tracking-[0.05rem] text-outline",
+            isGuest && "blur-sm select-none pointer-events-none"
+          )}>
+            {ticker}{ticker && exchange ? " · " : ""}{exchange}
           </p>
         )}
         <p className="text-[0.6875rem] uppercase tracking-[0.05rem] text-outline">
