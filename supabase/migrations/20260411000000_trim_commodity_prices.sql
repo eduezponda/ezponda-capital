@@ -1,4 +1,4 @@
--- Retention policy: keep only the latest 168 rows per symbol (7 days × 24h).
+-- Retention policy: keep only the latest 7 rows per symbol (7 days × 1 run/day).
 -- Triggered after every INSERT on commodity_prices so the table never grows unbounded.
 
 CREATE OR REPLACE FUNCTION trim_commodity_prices()
@@ -12,7 +12,7 @@ BEGIN
     FROM commodity_prices
     WHERE symbol = NEW.symbol
     ORDER BY fetched_at DESC
-    OFFSET 168
+    OFFSET 7
   );
   RETURN NULL;
 END;

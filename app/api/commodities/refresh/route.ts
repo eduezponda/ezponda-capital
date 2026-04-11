@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 
-// Retention: 7 days (168 rows/symbol). Cleanup handled by DB trigger.
-// GoldAPI.io has no rate limits on real-time prices — safe to call every hour.
-// Vercel Hobby: ~720 invocations/month, well within 1M limit.
+// Retention: 7 days (7 rows/symbol). Cleanup handled by DB trigger.
+// GoldAPI.io has no rate limits on real-time prices — safe to call daily.
+// Vercel Hobby: 1 invocation/day (daily cron limit on Hobby plan).
 const METALS = [
   { symbol: "XAU", name: "Gold",      unit: "oz",   currency: "USD" },
   { symbol: "XAG", name: "Silver",    unit: "oz",   currency: "USD" },
