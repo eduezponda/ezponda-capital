@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import Badge from "@/components/ui/Badge";
+import type { Tier } from "@/features/auth/lib/session";
 import { cn } from "@/lib/utils";
 
 interface ThesisCardProps {
@@ -11,6 +12,7 @@ interface ThesisCardProps {
   date: string;
   image?: string;
   tier?: "free" | "premium";
+  userTier?: Tier | null;
   className?: string;
   featured?: boolean;
 }
@@ -23,10 +25,18 @@ export default async function ThesisCard({
   date,
   image,
   tier = "premium",
+  userTier = null,
   className,
   featured = false,
 }: ThesisCardProps) {
   const t = await getTranslations("theses");
+
+  const isGuest = userTier === null;
+  const isFree = userTier === "free";
+  const shouldBlur =
+    isGuest || (isFree && tier === "premium");
+
+  const showLock = tier === "premium" && !isGuest;
 
   return (
     <Link
@@ -54,7 +64,7 @@ export default async function ThesisCard({
       <div className="relative z-10 p-8 md:p-10 flex flex-col gap-3">
         <div className="flex items-center justify-between">
           <Badge category={category} />
-          {tier === "premium" && (
+          {showLock && (
             <span className="text-[0.625rem] uppercase tracking-[0.08rem] font-bold text-tertiary flex items-center gap-1">
               <span className="material-symbols-outlined text-base" style={{ fontVariationSettings: "'FILL' 1, 'wght' 400" }}>
                 lock
@@ -62,8 +72,16 @@ export default async function ThesisCard({
               {t("premiumLabel")}
             </span>
           )}
+          {isGuest && (
+            <span className="text-[0.625rem] uppercase tracking-[0.08rem] font-bold text-outline flex items-center gap-1">
+              <span className="material-symbols-outlined text-base" style={{ fontVariationSettings: "'FILL' 1, 'wght' 400" }}>
+                visibility_off
+              </span>
+              {tier === "premium" ? t("premiumLabel") : ""}
+            </span>
+          )}
         </div>
-        {tier === "premium" ? (
+        {shouldBlur ? (
           <div className="relative">
             <h3 className={cn("font-bold text-white tracking-tight leading-tight blur-sm select-none pointer-events-none", featured ? "text-2xl md:text-3xl" : "text-xl")}>
               {title}
@@ -75,7 +93,10 @@ export default async function ThesisCard({
           </h3>
         )}
         {featured && (
-          <p className="text-[0.875rem] text-on-surface-variant leading-relaxed line-clamp-2">
+          <p className={cn(
+            "text-[0.875rem] text-on-surface-variant leading-relaxed line-clamp-2",
+            shouldBlur && "blur-sm select-none pointer-events-none"
+          )}>
             {excerpt}
           </p>
         )}

@@ -1,20 +1,21 @@
 import { getSession } from "@/features/auth/lib/session";
 import { hasAccess } from "@/features/subscription/lib/entitlements";
 import Paywall from "./Paywall";
+import GuestWall from "./GuestWall";
 
 interface PremiumGateProps {
   children: React.ReactNode;
   preview?: React.ReactNode;
 }
 
-/**
- * Server component — reads session, renders children or Paywall.
- */
 export default async function PremiumGate({ children, preview }: PremiumGateProps) {
   const session = await getSession();
-  const allowed = hasAccess(session, "premium");
 
-  if (allowed) return <>{children}</>;
+  if (!session) {
+    return <GuestWall previewContent={preview} />;
+  }
+
+  if (hasAccess(session, "premium")) return <>{children}</>;
 
   return <Paywall previewContent={preview} />;
 }
