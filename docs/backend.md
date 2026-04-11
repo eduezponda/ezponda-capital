@@ -88,6 +88,34 @@ stripe listen --forward-to localhost:3000/api/stripe/webhook
 - Free theses render fully for all visitors
 - Premium theses wrap the MDX body in `<PremiumGate>` — subscribers and superadmins see full content, others see `Paywall`
 
+### 10 — Git hooks ✅
+
+Hooks live in `.githooks/` (versioned) and are activated via `git config core.hookspath .githooks`.
+
+| Hook | Feature branch | `main` |
+|---|---|---|
+| `pre-commit` | `npx tsc --noEmit` | `npm run build` |
+| `pre-push` | `npx tsc --noEmit` | `npm run build` |
+
+Feature branches get a fast type check on every commit and push. `main` requires a full production build — any failure blocks the commit or push.
+
+### 11 — GitHub Actions CI ✅
+
+`.github/workflows/ci.yml` runs `npm run build` on every pull request targeting `main`. This mirrors the pre-push hook for the remote side and prevents broken builds from being merged.
+
+### 12 — Internationalization (i18n) ✅
+
+- **Library:** `next-intl` v4 — no URL prefix, no route restructure
+- **Locales:** English (`en`, default) and Spanish (`es`)
+- **Persistence:** `NEXT_LOCALE` cookie (1-year expiry, set on toggle)
+- **Toggle:** `LanguageToggle` component in the Navbar (desktop and mobile); calls `router.refresh()` after writing the cookie
+- **Translation files:** `messages/en.json` and `messages/es.json` — ~150 keys, nested by section
+- **Server components:** use `await getTranslations('namespace')` from `next-intl/server`
+- **Client components** (Navbar, Footer, forms, SubscribeCTA, SubscribeButton): use `useTranslations('namespace')` from `next-intl`
+- **Locale config:** `i18n/request.ts` reads the `NEXT_LOCALE` cookie via `cookies()` and falls back to `en`
+- **Provider:** `NextIntlClientProvider` wraps the app in `app/layout.tsx`; `lang` attribute on `<html>` is set dynamically via `getLocale()`
+- MDX thesis content is not translated — stays in English
+
 ---
 
 ## Pending
