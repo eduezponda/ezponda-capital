@@ -180,6 +180,15 @@
     "signupCta": "Crear cuenta gratuita",
     "loginCta": "Iniciar Sesión"
   },
+  "thesisBanner": {
+    "guestHeadline": "Inicie sesión para acceder a nuestras tesis de inversión gratuitas",
+    "guestBody": "Cree una cuenta gratuita en segundos. Acceso instantáneo a investigación gratuita de materias primas — sin tarjeta de crédito.",
+    "guestPrimaryCta": "Crear cuenta gratuita",
+    "guestSecondaryCta": "Iniciar Sesión",
+    "freeHeadline": "Suscríbase para acceder a todas las tesis y contenido exclusivo",
+    "freeBody": "Los suscriptores premium obtienen acceso completo a todas las tesis de inversión, datos macro en tiempo real y análisis detallado de materias primas.",
+    "freeCta": "Obtener Premium"
+  },
   "profile": {
     "title": "Tu Perfil",
     "plan": "Plan Actual",

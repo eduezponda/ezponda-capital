@@ -180,6 +180,15 @@
     "signupCta": "Create free account",
     "loginCta": "Login"
   },
+  "thesisBanner": {
+    "guestHeadline": "Login to access our free investment theses",
+    "guestBody": "Create a free account in seconds. Instant access to free commodity research — no credit card required.",
+    "guestPrimaryCta": "Create free account",
+    "guestSecondaryCta": "Login",
+    "freeHeadline": "Subscribe to access all theses and exclusive content",
+    "freeBody": "Premium subscribers get full access to all investment theses, live macro data, and in-depth commodity analysis.",
+    "freeCta": "Get Premium"
+  },
   "profile": {
     "title": "Your Profile",
     "plan": "Current Plan",

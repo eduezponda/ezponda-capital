@@ -6,6 +6,7 @@ import AuthorCard from "@/components/sections/AuthorCard";
 import MethodologySteps from "@/components/sections/MethodologySteps";
 import SubscribeCTA from "@/components/sections/SubscribeCTA";
 import ThesisGallery from "@/features/theses/components/ThesisGallery";
+import ThesisBanner from "@/features/subscription/components/ThesisBanner";
 import Container from "@/components/layout/Container";
 import { getAllTheses } from "@/lib/api/theses";
 import { getSession } from "@/features/auth/lib/session";
@@ -109,6 +110,8 @@ export default async function HomePage() {
               {t("viewAll")}
             </Link>
           </div>
+
+          <ThesisBanner />
 
           <ThesisGallery theses={featured} />
         </Container>
