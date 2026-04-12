@@ -22,23 +22,15 @@ export default function Footer() {
     <footer className="bg-surface-container-lowest border-t border-outline-variant/20 py-16">
       <Container>
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
-          {/* Brand — hidden for guests */}
+          {/* Brand */}
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2">
-              {isLoggedIn ? (
-                <>
-                  <span className="text-sm font-bold uppercase tracking-[0.2rem] text-white">
-                    Ezponda
-                  </span>
-                  <span className="text-sm font-bold uppercase tracking-[0.2rem] text-gold">
-                    Capital
-                  </span>
-                </>
-              ) : (
-                <span className="text-sm font-bold uppercase tracking-[0.2rem] text-gold">
-                  EC
-                </span>
-              )}
+              <span className="text-sm font-bold uppercase tracking-[0.2rem] text-white">
+                Ezponda
+              </span>
+              <span className="text-sm font-bold uppercase tracking-[0.2rem] text-gold">
+                Capital
+              </span>
             </div>
             {isLoggedIn && (
               <p className="text-[0.6875rem] text-outline max-w-xs">
