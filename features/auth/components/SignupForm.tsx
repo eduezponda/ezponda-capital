@@ -143,19 +143,6 @@ export default function SignupForm() {
           required
         />
 
-        <div className="mt-2">
-          <label className="text-[0.6875rem] uppercase tracking-[0.05rem] font-medium text-secondary block mb-2">
-            {t("focus")}
-          </label>
-          <select className="w-full bg-surface-container-highest text-on-surface px-6 py-4 rounded outline-none border border-transparent focus:ring-1 focus:ring-tertiary transition-all">
-            <option value="">{t("focusPlaceholder")}</option>
-            <option value="gold">{t("focusGold")}</option>
-            <option value="copper">{t("focusCopper")}</option>
-            <option value="macro">{t("focusMacro")}</option>
-            <option value="all">{t("focusAll")}</option>
-          </select>
-        </div>
-
         {error && (
           <p className="text-[0.8125rem] text-red-400">{error}</p>
         )}
