@@ -121,7 +121,7 @@ export default function Navbar() {
                   href="/auth/signup"
                   className="gold-gradient text-black text-[0.75rem] uppercase tracking-[0.08rem] font-bold px-5 py-2 rounded-full hover:shadow-[0_0_24px_rgba(255,224,132,0.3)] transition-all"
                 >
-                  {t("getAccess")}
+                  {t("signup")}
                 </Link>
               </>
             )}
@@ -197,7 +197,7 @@ export default function Navbar() {
                     onClick={close}
                     className="gold-gradient text-black text-[0.75rem] uppercase tracking-[0.08rem] font-bold px-5 py-3.5 rounded-full text-center hover:shadow-[0_0_24px_rgba(255,224,132,0.3)] transition-all"
                   >
-                    {t("getAccess")}
+                    {t("signup")}
                   </Link>
                 </>
               )}

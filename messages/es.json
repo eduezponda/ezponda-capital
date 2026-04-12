@@ -8,6 +8,7 @@
     "logout": "Cerrar Sesión",
     "profile": "Perfil",
     "getAccess": "Obtener Acceso",
+    "signup": "Regístrate",
     "openMenu": "Abrir menú",
     "closeMenu": "Cerrar menú"
   },
@@ -125,6 +126,9 @@
       "description": "Únase a un selecto grupo de inversores especializados en materias primas.",
       "heading": "Cree su Cuenta",
       "subheading": "El registro es rápido — acceda al instante a la investigación gratuita.",
+      "google": "Regístrate con Google",
+      "linkedin": "Regístrate con LinkedIn",
+      "or": "o",
       "firstName": "Nombre",
       "firstNamePlaceholder": "Eduardo",
       "lastName": "Apellidos",

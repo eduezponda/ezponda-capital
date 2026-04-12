@@ -8,6 +8,7 @@
     "logout": "Logout",
     "profile": "Profile",
     "getAccess": "Get Access",
+    "signup": "Sign Up",
     "openMenu": "Open menu",
     "closeMenu": "Close menu"
   },
@@ -125,6 +126,9 @@
       "description": "Join a curated group of commodity-focused investors.",
       "heading": "Create Your Account",
       "subheading": "Registration is quick — get instant access to free research.",
+      "google": "Sign up with Google",
+      "linkedin": "Sign up with LinkedIn",
+      "or": "or",
       "firstName": "First Name",
       "firstNamePlaceholder": "Eduardo",
       "lastName": "Last Name",
