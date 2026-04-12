@@ -2,105 +2,26 @@
 
 Premium investment research platform focused on commodities — gold, copper, and macro cycles. Built for sophisticated investors who want independent, high-conviction analysis beyond mainstream financial media.
 
-The platform follows a subscription model: free public browsing → email capture → premium full-access tier. The conversion funnel runs: browse theses → open thesis → hit paywall → login/signup → upgrade.
+Subscription model: public browsing → login → free research → upgrade to premium full-access tier.
 
----
-
-## Who is it for?
-
-- Investors seeking independent commodity and macro research
-- Portfolio managers tracking gold, copper, and real asset cycles
-- Analysts who value systematic, evidence-based investment theses
+Production: https://ezponda-capital.vercel.app
 
 ---
 
 ## Tech Stack
 
-| Technology | Version |
+| Layer | Technology |
 |---|---|
-| Next.js | 15.5.14 |
-| React | 19.1.0 |
-| TypeScript | ^5 |
-| Tailwind CSS | ^4 |
-| ESLint | ^9 |
-| clsx | ^2.1.1 |
-| tailwind-merge | ^3.5.0 |
-
-**Planned integrations (stubs in place):**
-- NextAuth.js v5 — Google + LinkedIn + credentials
-- Stripe — subscription checkout + webhooks
-- next-mdx-remote — MDX content loader for theses
-
----
-
-## Project Structure
-
-```
-ezponda_capital/
-├── app/                          # Next.js App Router (RSC-first)
-│   ├── layout.tsx                # Root layout: Inter font, Navbar, Footer
-│   ├── page.tsx                  # / — Home page (public)
-│   ├── globals.css               # Tailwind base + design tokens + utilities
-│   ├── commodities/page.tsx      # /commodities — Overview (public)
-│   ├── sovereign/page.tsx        # /sovereign — Macro teaser (public)
-│   ├── theses/
-│   │   ├── page.tsx              # /theses — Gallery with URL-based filtering
-│   │   └── [slug]/page.tsx       # /theses/[slug] — Full thesis (premium gated)
-│   └── auth/
-│       ├── login/page.tsx        # /auth/login
-│       └── signup/page.tsx       # /auth/signup
-│
-├── components/                   # Generic, reusable UI
-│   ├── layout/
-│   │   ├── Navbar.tsx            # Fixed top nav, active links, auth buttons
-│   │   ├── Footer.tsx            # Brand links, social icons
-│   │   └── Container.tsx         # max-w-[1440px] mx-auto px-6 md:px-12
-│   ├── ui/
-│   │   ├── Button.tsx            # Variants: primary, secondary, tertiary, filter
-│   │   ├── Card.tsx              # Variants: data, image, glass
-│   │   ├── Badge.tsx             # Category tags: Gold, Copper, Macro, Real Assets
-│   │   ├── Input.tsx             # Email/password with autofill-safe styles
-│   │   └── Ticker.tsx            # Marquee strip, pauses on hover (client)
-│   └── sections/
-│       ├── Hero.tsx              # Full-height hero with dual CTA
-│       ├── ThesisCard.tsx        # Image card with overlay, badge, hover scale
-│       ├── MacroIndicators.tsx   # Bento: CPI, Real Yields, DXY, Sentiment
-│       ├── MethodologySteps.tsx  # 3-step trust section with icons
-│       ├── SubscribeCTA.tsx      # Email capture in dark section
-│       └── AuthorCard.tsx        # Profile image, credentials, signature
-│
-├── features/                     # Domain-specific logic
-│   ├── auth/
-│   │   ├── components/
-│   │   │   ├── AuthLayout.tsx    # Split panel: form (45%) | macro image (55%)
-│   │   │   ├── LoginForm.tsx     # Email/password + Google + LinkedIn (client)
-│   │   │   └── SignupForm.tsx    # Request access form (client)
-│   │   └── lib/session.ts        # getSession(), requireAuth(), getSessionTier() stubs
-│   ├── subscription/
-│   │   ├── components/
-│   │   │   ├── PremiumGate.tsx   # RSC: decides content vs paywall
-│   │   │   ├── Paywall.tsx       # Blur overlay + lock icon + UpgradeCTA
-│   │   │   └── UpgradeCTA.tsx    # Gold CTA card — also used standalone
-│   │   └── lib/entitlements.ts   # hasAccess(session, tier), getTier(session) stubs
-│   ├── theses/
-│   │   └── components/
-│   │       ├── ThesisGallery.tsx # Bento grid: featured card + rest
-│   │       └── ThesisFilter.tsx  # Filter buttons → ?category= URL params (client)
-│   ├── commodities/
-│   │   ├── components/CommoditySection.tsx  # Asymmetric image + content layout
-│   │   └── lib/commodities.ts    # Static commodity data stubs
-│   └── macro/
-│       └── components/MacroTicker.tsx  # Wires macro data → Ticker component
-│
-├── lib/
-│   ├── api/
-│   │   ├── theses.ts             # getAllTheses(), getThesisBySlug() — stub data
-│   │   ├── indicators.ts         # getIndicators() — revalidate: 900s
-│   │   └── prices.ts             # getSpotPrices() — revalidate: 300s (stub)
-│   └── utils.ts                  # cn(), formatDate(), formatPrice(), formatPct()
-│
-└── middleware.ts                  # Route protection for /theses/:slug*
-```
+| Framework | Next.js 15 (App Router, RSC-first) |
+| Runtime | React 19 · TypeScript 5 |
+| Styling | Tailwind CSS v4 · Inter · Material Symbols + lucide-react |
+| Auth | Supabase Auth (`@supabase/ssr`, email/password) |
+| Database | Supabase (PostgreSQL + RLS) |
+| Payments | Stripe (Checkout + webhooks) |
+| Content | MDX via `next-mdx-remote` + `gray-matter` |
+| i18n | `next-intl` v4 (en / es, cookie-based) |
+| Prices | GoldAPI.io (metals) + api-ninjas.com (Bitcoin), refreshed via Vercel Cron |
+| Hosting | Vercel |
 
 ---
 
@@ -108,117 +29,102 @@ ezponda_capital/
 
 ### Prerequisites
 
-- Node.js 18+
-- npm 9+
+- Node.js 20+
+- npm 10+
+- Environment variables — see `.env.local.example` (Supabase, Stripe, commodity APIs, `CRON_SECRET`)
 
-### Installation
+### Install and run
 
 ```bash
 git clone https://github.com/eduezponda/ezponda-capital.git
 cd ezponda-capital
 npm install
-```
-
-### Run in development
-
-```bash
+cp .env.local.example .env.local  # fill in the real values
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Open http://localhost:3000.
 
-### Other scripts
+### Scripts
 
 ```bash
+npm run dev      # Next.js dev server (Turbopack)
 npm run build    # Production build
 npm run start    # Start production server
-npm run lint     # Run ESLint
+npm run lint     # ESLint
+```
+
+Type-check only: `npx tsc --noEmit` (used by git hooks on feature branches).
+
+---
+
+## Project Structure
+
+```
+app/                        # Next.js App Router
+  api/                      # commodities (prices/refresh), email-list, stripe (checkout/webhook)
+  auth/                     # login, signup, confirm-email
+  theses/[slug]/            # Thesis detail — gated via ContentGate based on MDX tier
+  commodities/, sovereign/  # Public pages
+  profile/                  # User plan + upgrade
+
+components/
+  layout/                   # Navbar, Footer, Container, LanguageToggle
+  ui/                       # Button, Card, Badge, Input, Ticker
+  sections/                 # Hero, ThesisCard, MacroIndicators, etc.
+
+features/
+  auth/                     # LoginForm, SignupForm, SessionProvider, session.ts
+  subscription/             # ContentGate, GuestWall, UpgradeCTA, SubscribeButton, entitlements.ts
+  theses/                   # ThesisGallery, ThesisFilter
+  commodities/, macro/      # Domain data and sections
+
+lib/
+  supabase/                 # client.ts (browser), server.ts (RSC), admin.ts (service role)
+  api/                      # theses.ts, indicators.ts, prices.ts
+  stripe.ts, utils.ts
+
+content/theses/             # MDX files — frontmatter: title, category, tier, ticker, etc.
+messages/                   # en.json, es.json
+i18n/                       # next-intl request config
+supabase/                   # schema.sql + migrations
+middleware.ts               # Supabase session refresh only — no route blocking
+vercel.json                 # Cron schedule for /api/commodities/refresh
 ```
 
 ---
 
 ## Architecture Principles
 
-- **Server-first:** React Server Components by default. Only forms, filters, and tickers are `"use client"`.
-- **URL as state:** Category filters use `?category=` search params — bookmarkable, no React state.
-- **No Zustand:** Session read server-side via `getSession()`. UI state lives in the URL.
-- **Server Actions:** Auth operations go through `features/auth/actions/` — no client-side fetch.
-- **Separation of concerns:** `components/` (generic UI) / `features/` (domain logic) / `lib/api/` (data layer).
+- **Server-first:** RSC by default. `"use client"` only where strictly needed (forms, `Ticker`, `ThesisFilter`, `Navbar` auth state).
+- **URL as state:** Filters use `?category=` searchParams — bookmarkable, no React state.
+- **No global client state:** Session is read server-side via `getSession()` and passed to client components through `SessionProvider`.
+- **Single gating component:** `ContentGate` is the sole access check. Guest → `GuestWall`. Logged in with access → children. Logged in without access → inline premium paywall.
+- **Separation:** `components/` (generic UI) · `features/` (domain logic) · `lib/` (data + infra).
 
 ---
 
-## Design System
+## Access Model
 
-### Color Palette
+| Role | DB `profiles.role` | Session tier | Access |
+|---|---|---|---|
+| Guest | — | `null` | Public pages + thesis gallery; thesis detail returns 404 |
+| Free | `free` | `free` | Free theses fully · premium theses see inline paywall |
+| Subscriber | `subscriber` | `premium` | All content |
+| Superadmin | `superadmin` | `premium` | All content |
 
-| Token | Value | Use |
-|---|---|---|
-| `surface` | `#131313` | Page background |
-| `surface-container` | `#201f1f` | Cards, panels |
-| `surface-container-high` | `#2a2a2a` | Elevated surfaces |
-| `on-surface` | `#e5e2e1` | Primary text |
-| `on-surface-variant` | `#c6c6c6` | Secondary text |
-| `tertiary` | `#ffe084` | Gold accent |
-| `outline` | `#919191` | Borders |
-
-### Global CSS Utilities
-
-```css
-.gold-gradient   /* Radial gold background */
-.text-gold       /* Gold gradient text */
-.glass-panel     /* rgba(32,31,31,0.8) + backdrop-blur(20px) */
-.animate-marquee /* 30s linear marquee, pauses on hover */
-```
+Gating happens at the component level via `ContentGate`, not in middleware. Thesis detail pages additionally return 404 for guests.
 
 ---
 
-## Features Implemented
+## Deployment
 
-### Public pages
-- [x] Home page (`/`) — hero, macro ticker, thesis previews, methodology, author, subscribe CTA
-- [x] Commodities overview (`/commodities`) — asymmetric sections per commodity
-- [x] Sovereign/Macro teaser (`/sovereign`) — public teaser + upgrade CTA
-- [x] Theses gallery (`/theses`) — bento grid, URL-based category filtering
-- [x] Thesis detail (`/theses/[slug]`) — premium gated via `PremiumGate` RSC
+- Every push to a feature branch gets a Vercel preview deployment
+- PRs to `main` run `npm run build` in GitHub Actions
+- Merging to `main` triggers a production deployment
+- Cron runs at 08:00 UTC daily (`0 8 * * *`) — Vercel Hobby supports at most one cron invocation per day
 
-### Auth
-- [x] Login page (`/auth/login`) — email/password + Google + LinkedIn UI
-- [x] Signup page (`/auth/signup`) — request access form
-- [x] Split-panel `AuthLayout` (form left, macro image right)
-- [x] Session stubs: `getSession()`, `requireAuth()`, `getSessionTier()`
-- [x] Middleware protecting `/theses/:slug*`
-
-### Subscription / Monetization
-- [x] `PremiumGate` — RSC that decides: show content or paywall
-- [x] `Paywall` — blur overlay, lock icon, upgrade prompt
-- [x] `UpgradeCTA` — standalone gold CTA card (used in sovereign, commodities, paywall)
-- [x] `entitlements.ts` stubs: `hasAccess()`, `getTier()`
-
-### UI System
-- [x] `Button` — 4 variants (primary, secondary, tertiary, filter)
-- [x] `Card` — 3 variants (data, image, glass)
-- [x] `Badge` — category tags
-- [x] `Input` — autofill-safe styles
-- [x] `Ticker` — animated marquee with hover pause
-- [x] `Container` — consistent max-width wrapper
-
-### Data layer (stubs)
-- [x] `getAllTheses()`, `getThesisBySlug()` — inline stub data
-- [x] `getIndicators()` — stub with 15-min revalidation
-- [x] `getSpotPrices()` — stub with 5-min revalidation
-
----
-
-## Pending / Planned
-
-- [ ] NextAuth.js v5 — wire Google, LinkedIn, and credentials providers
-- [ ] Stripe Checkout — subscription tiers + webhook handler (`/api/webhooks/stripe`)
-- [ ] MDX content loader — load theses from `/content/theses/*.mdx` via gray-matter
-- [ ] Live price API — replace `getSpotPrices()` stub with real data source
-- [ ] Live macro indicators API — replace `getIndicators()` stub
-- [ ] Mobile nav — collapse/hamburger menu
-- [ ] Dashboard / terminal (Phase 2)
-- [ ] `/api/indicators` route
+See `docs/backend.md` for full backend setup, environment variables, Stripe configuration, and API routes.
 
 ---
 
