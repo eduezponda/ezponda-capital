@@ -143,23 +143,6 @@ export default function SignupForm() {
         <div className="flex-1 h-px bg-outline-variant/40" />
       </div>
 
-      {/* Go Premium CTA — above the fold */}
-      <button
-        type="button"
-        onClick={handlePremiumSignup}
-        disabled={isLoading || premiumLoading}
-        className="glass-panel border border-tertiary/20 text-tertiary font-bold text-[0.75rem] uppercase tracking-[0.08rem] px-8 py-3 rounded-xl hover:border-tertiary/40 hover:shadow-[0_0_30px_rgba(255,224,132,0.15)] active:scale-95 transition-all disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-      >
-        <span
-          className="material-symbols-outlined"
-          style={{ fontSize: 16, fontVariationSettings: "'FILL' 1, 'wght' 400" }}
-          aria-hidden="true"
-        >
-          workspace_premium
-        </span>
-        {premiumLoading ? t("submitting") : t("goPremiumCta")}
-      </button>
-
       <form onSubmit={handleSubmit} className="flex flex-col gap-3">
         <div className="flex flex-col sm:flex-row gap-3">
           <Input
@@ -214,6 +197,34 @@ export default function SignupForm() {
           {isLoading ? t("submitting") : t("submit")}
         </button>
       </form>
+
+      {/* Go Premium divider + CTA */}
+      <div className="relative">
+        <div className="absolute inset-0 flex items-center">
+          <div className="w-full border-t border-outline-variant/30" />
+        </div>
+        <div className="relative flex justify-center">
+          <span className="bg-surface-container px-4 text-[0.75rem] text-outline uppercase tracking-wide">
+            {t("goPremium")}
+          </span>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        onClick={handlePremiumSignup}
+        disabled={isLoading || premiumLoading}
+        className="glass-panel border border-tertiary/20 text-tertiary font-bold text-[0.75rem] uppercase tracking-[0.08rem] px-8 py-3 rounded-xl hover:border-tertiary/40 hover:shadow-[0_0_30px_rgba(255,224,132,0.15)] active:scale-95 transition-all disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+      >
+        <span
+          className="material-symbols-outlined"
+          style={{ fontSize: 16, fontVariationSettings: "'FILL' 1, 'wght' 400" }}
+          aria-hidden="true"
+        >
+          workspace_premium
+        </span>
+        {premiumLoading ? t("submitting") : t("goPremiumCta")}
+      </button>
 
       <p className="text-center text-[0.8125rem] text-outline">
         {t("footer")}{" "}
