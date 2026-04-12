@@ -9,6 +9,8 @@ const LABEL_MAP: Record<string, string> = {
   BTC: "Bitcoin (BTC/USD)",
 };
 
+const DISPLAY_ORDER = ["XAU", "XAG", "BTC", "XPT", "XPD"];
+
 export async function getSpotPrices(): Promise<TickerItem[]> {
   try {
     const supabase = createSupabaseAdminClient();
@@ -21,11 +23,15 @@ export async function getSpotPrices(): Promise<TickerItem[]> {
     if (error) throw error;
     if (!data || data.length === 0) return [];
 
-    const seen = new Set<string>();
-    const items: TickerItem[] = [];
+    const latestBySymbol = new Map<string, (typeof data)[number]>();
     for (const row of data) {
-      if (seen.has(row.symbol)) continue;
-      seen.add(row.symbol);
+      if (!latestBySymbol.has(row.symbol)) latestBySymbol.set(row.symbol, row);
+    }
+
+    const items: TickerItem[] = [];
+    for (const symbol of DISPLAY_ORDER) {
+      const row = latestBySymbol.get(symbol);
+      if (!row) continue;
       const pct = row.change_pct ?? 0;
       items.push({
         label: LABEL_MAP[row.symbol] ?? `${row.name} (${row.symbol})`,
