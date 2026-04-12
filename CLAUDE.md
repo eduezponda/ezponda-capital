@@ -15,11 +15,12 @@ Conversion funnel: browse theses → click thesis → hit paywall → login/sign
 - **Styling:** Tailwind CSS v4
 - **Icons:** Material Symbols Outlined (decorative) + lucide-react (interactive UI)
 - **Fonts:** Inter (100–900) via `next/font`
-- **Auth:** Supabase Auth via `@supabase/ssr`
+- **Auth:** Supabase Auth via `@supabase/ssr` — email/password and Google OAuth
 - **Database:** Supabase (Postgres) — `lib/supabase/client.ts`, `server.ts`, `admin.ts`
 - **Payments:** Stripe — `lib/stripe.ts`, Checkout + webhook fully wired
 - **Content:** MDX via `next-mdx-remote` + `gray-matter` — theses live in `content/theses/*.mdx`
-- **Commodity prices:** GoldAPI.io — refreshed daily via Vercel cron → Supabase
+- **i18n:** `next-intl` v4 (en / es, cookie-based) — messages in `messages/`, request config in `i18n/request.ts`
+- **Commodity prices:** GoldAPI.io (metals) + api-ninjas.com (Bitcoin) — refreshed daily via Vercel cron → Supabase
 
 ---
 
@@ -38,17 +39,19 @@ Conversion funnel: browse theses → click thesis → hit paywall → login/sign
 app/                        # Next.js App Router pages and API routes
   api/                      # commodities prices/refresh, email-list, stripe checkout/webhook
   auth/login, signup/       # Auth pages (confirm-email for post-signup flow)
-  theses/[slug]/            # Thesis detail — free or PremiumGate'd based on MDX tier field
+  theses/[slug]/            # Thesis detail — gated via ContentGate based on MDX tier field
   commodities/, sovereign/  # Public pages
+  profile/                  # Authenticated user plan + upgrade
+  legal/, privacy/          # Static legal pages
 
 components/
-  layout/                   # Navbar, Footer, Container, LayoutWrapper
+  layout/                   # Navbar, Footer, Container, LanguageToggle
   ui/                       # Button, Card, Badge, Input, Ticker
   sections/                 # Hero, ThesisCard, MacroIndicators, MethodologySteps, etc.
 
 features/
-  auth/                     # AuthLayout, LoginForm, SignupForm, session.ts
-  subscription/             # PremiumGate, Paywall, UpgradeCTA, SubscribeButton, entitlements.ts
+  auth/                     # AuthLayout, LoginForm, SignupForm, SessionProvider, session.ts
+  subscription/             # ContentGate, GuestWall, UpgradeCTA, SubscribeButton, ThesisBanner
   theses/                   # ThesisGallery, ThesisFilter
   commodities/              # CommoditySection, commodities.ts
   macro/                    # MacroTicker
@@ -61,6 +64,8 @@ lib/
   utils.ts                  # cn(), formatDate(), formatPrice(), formatPct()
 
 content/theses/             # MDX thesis files — frontmatter drives gallery + gating
+messages/                   # next-intl translations (en.json, es.json)
+i18n/request.ts             # next-intl request config
 middleware.ts               # Session refresh only — no route blocking
 ```
 
@@ -113,27 +118,29 @@ All Inter. Labels: uppercase + wide tracking.
 ## Monetization Layer
 
 ```
-Public   → thesis gallery, previews, macro teaser
-Premium  → /theses/[slug] full content (when tier: "premium" in MDX frontmatter)
+Guest      → thesis gallery, previews, macro teaser — thesis detail returns 404
+Free       → free theses in full; premium theses render with inline paywall
+Subscriber → all content
 ```
 
-Gating stack: `PremiumGate` (RSC) → `Paywall` → `UpgradeCTA` → `SubscribeButton` → Stripe Checkout.
+Gating stack: `ContentGate` (RSC, single gate) → `GuestWall` (unauth) or `UpgradeCTA` → `SubscribeButton` → Stripe Checkout.
 
-Individual thesis pages read `tier` from MDX frontmatter. `tier: "free"` renders fully; `tier: "premium"` wraps the body in `<PremiumGate>`. The gallery is always public.
+`ContentGate` is the sole access check. Guest → `GuestWall`. Logged in with access → children. Logged in without access → inline premium paywall. Individual thesis pages read `tier` from MDX frontmatter; thesis detail pages additionally return 404 for guests.
 
 ---
 
 ## Auth
 
-- Provider: Supabase Auth — email and password only, no OAuth, no magic links
-- Registration: open — anyone can self-register
+- Provider: Supabase Auth — email/password and Google OAuth (no magic links)
+- Registration: open — anyone can self-register via either method
 - Email confirmation: disabled
-- Session: managed by `@supabase/ssr` via cookies, refreshed in `middleware.ts` on every request
+- Session: managed by `@supabase/ssr` via cookies, refreshed in `middleware.ts` on every request. Server reads via `getSession()`; client components consume via `SessionProvider`
+- OAuth users: `handle_new_user` Postgres trigger populates `public.profiles` from `auth.users.raw_user_meta_data` (email + name fall back via `COALESCE`)
 - On login/signup success: redirect to `/theses`
 - Role hierarchy: `superadmin` > `subscriber` > `free`
 - Tier mapping: `superadmin` + `subscriber` → premium access · `free` → free access only
-- No routes are blocked at middleware level — content gating happens at the component level via `PremiumGate`
-- Do NOT add OAuth providers without explicit instruction
+- No routes are blocked at middleware level — content gating happens at the component level via `ContentGate`
+- Do NOT add additional OAuth providers (beyond Google) without explicit instruction
 - Do NOT enable email confirmation without explicit instruction
 
 ---
