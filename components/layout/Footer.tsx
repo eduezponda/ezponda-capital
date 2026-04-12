@@ -14,8 +14,8 @@ export default function Footer() {
     { label: t("links.about"),   href: "#" },
     { label: t("links.theses"),  href: "/theses" },
     { label: t("links.contact"), href: "#" },
-    { label: t("links.legal"),   href: "#" },
-    { label: t("links.privacy"), href: "#" },
+    { label: t("links.legal"),   href: "/legal" },
+    { label: t("links.privacy"), href: "/privacy" },
   ];
 
   return (
