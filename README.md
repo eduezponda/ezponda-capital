@@ -15,7 +15,7 @@ Production: https://ezponda-capital.vercel.app
 | Framework | Next.js 15 (App Router, RSC-first) |
 | Runtime | React 19 · TypeScript 5 |
 | Styling | Tailwind CSS v4 · Inter · Material Symbols + lucide-react |
-| Auth | Supabase Auth (`@supabase/ssr`, email/password) |
+| Auth | Supabase Auth (`@supabase/ssr`, email/password + Google OAuth) |
 | Database | Supabase (PostgreSQL + RLS) |
 | Payments | Stripe (Checkout + webhooks) |
 | Content | MDX via `next-mdx-remote` + `gray-matter` |
