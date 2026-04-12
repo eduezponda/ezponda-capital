@@ -226,5 +226,37 @@
   "metadata": {
     "siteTitle": "Ezponda Capital — Investigación de Inversión en Materias Primas",
     "siteDescription": "Ideas de inversión de alta convicción en oro, cobre y ciclos macroeconómicos. Investigación premium para inversores serios."
+  },
+  "privacy": {
+    "title": "Política de Privacidad — Ezponda Capital",
+    "description": "Cómo Ezponda Capital recoge, utiliza y protege sus datos personales.",
+    "eyebrow": "Legal",
+    "heading": "Política de Privacidad",
+    "subheading": "Lo mantenemos sencillo: recogemos lo necesario para prestar el servicio, nada más.",
+    "lastUpdated": "Última actualización: 12 de abril de 2026",
+    "collectTitle": "Qué datos recogemos",
+    "collectBody": "Cuando crea una cuenta recogemos su nombre y su dirección de correo electrónico. Si contrata un plan premium, los datos de pago son gestionados directamente por Stripe — nosotros nunca vemos ni almacenamos los datos de su tarjeta, solo el estado de suscripción que Stripe nos comunica.",
+    "useTitle": "Cómo los utilizamos",
+    "useBody": "Utilizamos sus datos para autenticarle, gestionar su suscripción, entregar la investigación a la que se ha suscrito y enviarle correos ocasionales relacionados con su cuenta. No vendemos ni alquilamos su información personal, y no la utilizamos con fines publicitarios.",
+    "thirdPartiesTitle": "Terceros",
+    "thirdPartiesBody": "Nos apoyamos en un reducido grupo de proveedores de confianza para operar el servicio: Supabase (autenticación y base de datos), Stripe (pagos de suscripción) y Vercel (hosting y analítica). Cada uno procesa datos únicamente en la medida necesaria para su parte del producto.",
+    "contactTitle": "Contacto",
+    "contactBody": "¿Preguntas sobre sus datos, o desea ejercer sus derechos de acceso, rectificación o supresión? Escríbanos a privacy@ezponda.com y le responderemos a la mayor brevedad."
+  },
+  "legal": {
+    "title": "Términos del Servicio — Ezponda Capital",
+    "description": "Los términos que regulan el uso del servicio de investigación de Ezponda Capital.",
+    "eyebrow": "Legal",
+    "heading": "Términos del Servicio",
+    "subheading": "Por favor, lea estos términos detenidamente antes de usar el servicio.",
+    "lastUpdated": "Última actualización: 12 de abril de 2026",
+    "serviceTitle": "Descripción del servicio",
+    "serviceBody": "Ezponda Capital es una plataforma de investigación por suscripción centrada en materias primas — oro, cobre y ciclos macroeconómicos. Publicamos tesis de inversión, análisis de materias primas y comentarios macro. Parte del contenido es de acceso gratuito; la biblioteca completa está reservada a los suscriptores premium.",
+    "subscriptionTitle": "Suscripción y pagos",
+    "subscriptionBody": "El acceso premium se vende en formato de suscripción mensual, facturada a través de Stripe. Puede cancelar en cualquier momento desde su cuenta — la cancelación detiene las renovaciones futuras, y su acceso permanece activo hasta el final del período de facturación en curso. No ofrecemos reembolsos por períodos parciales.",
+    "disclaimerTitle": "No constituye asesoramiento financiero",
+    "disclaimerBody": "Todo el contenido publicado en Ezponda Capital tiene únicamente fines informativos y educativos. No constituye asesoramiento de inversión, recomendación, ni oferta de compra o venta de ningún valor, materia prima o instrumento financiero. Usted es el único responsable de sus decisiones de inversión y debe consultar a un profesional cualificado antes de actuar sobre cualquier información aquí presentada.",
+    "lawTitle": "Legislación aplicable",
+    "lawBody": "Estos términos se rigen por las leyes de España. Cualquier disputa derivada del uso del servicio será resuelta por los tribunales competentes de España, sin atender a principios de conflicto de leyes."
   }
 }

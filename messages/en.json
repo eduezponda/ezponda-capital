@@ -226,5 +226,37 @@
   "metadata": {
     "siteTitle": "Ezponda Capital — Commodity Investment Research",
     "siteDescription": "High-conviction investment ideas in gold, copper, and macro cycles. Premium research for serious investors."
+  },
+  "privacy": {
+    "title": "Privacy Policy — Ezponda Capital",
+    "description": "How Ezponda Capital collects, uses, and protects your personal data.",
+    "eyebrow": "Legal",
+    "heading": "Privacy Policy",
+    "subheading": "We keep things simple: we collect what we need to run the service, nothing more.",
+    "lastUpdated": "Last updated: April 12, 2026",
+    "collectTitle": "What data we collect",
+    "collectBody": "When you create an account we collect your name and email address. If you subscribe to a premium plan, payment details are handled directly by Stripe — we never see or store your card information, only the subscription status Stripe reports back to us.",
+    "useTitle": "How we use it",
+    "useBody": "We use your data to authenticate you, manage your subscription, deliver the research you signed up for, and send occasional service emails related to your account. We do not sell or rent your personal information, and we do not use it for advertising.",
+    "thirdPartiesTitle": "Third parties",
+    "thirdPartiesBody": "We rely on a small set of trusted providers to operate the service: Supabase (authentication and database), Stripe (subscription payments), and Vercel (hosting and analytics). Each processes data only to the extent needed to deliver their part of the product.",
+    "contactTitle": "Contact",
+    "contactBody": "Questions about your data, or would you like to exercise your access, correction, or deletion rights? Write to us at privacy@ezponda.com and we will respond promptly."
+  },
+  "legal": {
+    "title": "Terms of Service — Ezponda Capital",
+    "description": "The terms that govern your use of Ezponda Capital's research service.",
+    "eyebrow": "Legal",
+    "heading": "Terms of Service",
+    "subheading": "Please read these terms carefully before using the service.",
+    "lastUpdated": "Last updated: April 12, 2026",
+    "serviceTitle": "Service description",
+    "serviceBody": "Ezponda Capital is a subscription-based research platform focused on commodities — gold, copper, and macro cycles. We publish investment theses, commodity analysis, and macro commentary. Some content is freely accessible; the full library is reserved for premium subscribers.",
+    "subscriptionTitle": "Subscription and payments",
+    "subscriptionBody": "Premium access is sold on a monthly subscription, billed through Stripe. You may cancel at any time from your account — cancellation stops future renewals, and your access remains active until the end of the current billing period. We do not offer refunds for partial periods.",
+    "disclaimerTitle": "Not financial advice",
+    "disclaimerBody": "All content published on Ezponda Capital is for informational and educational purposes only. It does not constitute investment advice, a recommendation, or an offer to buy or sell any security, commodity, or financial instrument. You are solely responsible for your own investment decisions and should consult a qualified professional before acting on any information presented here.",
+    "lawTitle": "Governing law",
+    "lawBody": "These terms are governed by the laws of Spain. Any dispute arising from your use of the service will be resolved by the competent courts of Spain, without regard to conflict-of-law principles."
   }
 }
