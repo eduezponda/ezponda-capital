@@ -3,6 +3,7 @@ import Hero from "@/components/sections/Hero";
 import MacroTicker from "@/features/macro/components/MacroTicker";
 import ThesisGallery from "@/features/theses/components/ThesisGallery";
 import ThesisFilter from "@/features/theses/components/ThesisFilter";
+import ThesisBanner from "@/features/subscription/components/ThesisBanner";
 import SubscribeCTA from "@/components/sections/SubscribeCTA";
 import Container from "@/components/layout/Container";
 import { getAllTheses } from "@/lib/api/theses";
@@ -38,6 +39,8 @@ export default async function ThesesPage({ searchParams }: PageProps) {
           <div className="mb-10">
             <ThesisFilter active={category ?? "all"} />
           </div>
+
+          <ThesisBanner />
 
           <ThesisGallery theses={theses} />
         </Container>
