@@ -79,12 +79,36 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 pt-6 border-t border-outline-variant/20">
+        <div className="mt-10 pt-6 border-t border-outline-variant/20 flex flex-col gap-2">
           {isLoggedIn && (
             <p className="text-[0.625rem] text-outline/60 uppercase tracking-[0.05rem]">
               {t("copyright", { year: new Date().getFullYear() })}
             </p>
           )}
+          <p className="text-xs text-outline/60">
+            {t("builtBy")}{" "}
+            <a
+              href="https://www.linkedin.com/in/eduardo-ezponda-igea-104538230/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-tertiary transition-colors"
+            >
+              Eduardo Ezponda Igea
+            </a>
+            <span className="mx-2 text-outline/40">·</span>
+            <span>
+              {t.rich("freelance", {
+                email: (chunks) => (
+                  <a
+                    href="mailto:eduezponda@gmail.com"
+                    className="hover:text-tertiary transition-colors"
+                  >
+                    {chunks}
+                  </a>
+                ),
+              })}
+            </span>
+          </p>
         </div>
       </Container>
     </footer>
