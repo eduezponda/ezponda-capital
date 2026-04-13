@@ -115,6 +115,9 @@ export default function LoginForm() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
+          showPasswordToggle
+          showPasswordLabel={t("showPassword")}
+          hidePasswordLabel={t("hidePassword")}
         />
         <div className="flex justify-end">
           <Link href="#" className="text-[0.75rem] text-outline hover:text-tertiary transition-colors">

@@ -183,6 +183,9 @@ export default function SignupForm() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
+          showPasswordToggle
+          showPasswordLabel={t("showPassword")}
+          hidePasswordLabel={t("hidePassword")}
         />
 
         {error && (
