@@ -91,7 +91,7 @@ export default function Footer() {
               href="https://www.linkedin.com/in/eduardo-ezponda-igea-104538230/"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-tertiary transition-colors"
+              className="text-gold hover:opacity-80 transition-opacity"
             >
               Eduardo Ezponda Igea
             </a>
@@ -101,7 +101,17 @@ export default function Footer() {
                 email: (chunks) => (
                   <a
                     href="mailto:eduezponda@gmail.com"
-                    className="hover:text-tertiary transition-colors"
+                    className="text-gold hover:opacity-80 transition-opacity"
+                  >
+                    {chunks}
+                  </a>
+                ),
+                linkedin: (chunks) => (
+                  <a
+                    href="https://www.linkedin.com/in/eduardo-ezponda-igea-104538230/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gold hover:opacity-80 transition-opacity"
                   >
                     {chunks}
                   </a>
