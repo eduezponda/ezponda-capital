@@ -2,7 +2,7 @@
 
 ### Commodities Data
 
-- **Copper price** — fetch and display in `/commodities` section and in the commodities price bar (ticker). Extend the existing GoldAPI/api-ninjas cron pipeline or pick a provider that exposes copper.
+- ~~**Copper price**~~ — done. Fetched via api-ninjas `commodityprice?name=copper` in cron pipeline, displayed in ticker as `HG/USD`.
 - **Macro indicators for `/commodities`** — wire up a second API to pull:
   - CPI
   - Dollar Index (DXY)
