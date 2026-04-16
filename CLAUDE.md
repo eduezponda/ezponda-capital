@@ -20,7 +20,7 @@ Conversion funnel: browse theses → click thesis → hit paywall → login/sign
 - **Payments:** Stripe — `lib/stripe.ts`, Checkout + webhook fully wired
 - **Content:** MDX via `next-mdx-remote` + `gray-matter` — theses live in `content/theses/*.mdx`
 - **i18n:** `next-intl` v4 (en / es, cookie-based) — messages in `messages/`, request config in `i18n/request.ts`
-- **Commodity prices:** GoldAPI.io (metals) + api-ninjas.com (Bitcoin) — refreshed daily via Vercel cron → Supabase
+- **Commodity prices:** GoldAPI.io (metals) + api-ninjas.com (Bitcoin, Copper) — refreshed daily via Vercel cron → Supabase
 
 ---
 

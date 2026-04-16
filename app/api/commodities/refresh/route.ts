@@ -114,7 +114,7 @@ export async function GET(req: NextRequest) {
     const priceRows = results.filter((r): r is PriceRow => r !== null);
 
     // Fetch api-ninjas commodities (Bitcoin + Copper)
-    const ninjasKey = process.env.BITCOIN_API_KEY;
+    const ninjasKey = process.env.BTC_COPPER_API_KEY;
     if (ninjasKey) {
       const [btcRow, copperRow] = await Promise.all([
         fetchBitcoinPrice(ninjasKey),
@@ -123,7 +123,7 @@ export async function GET(req: NextRequest) {
       if (btcRow) priceRows.push(btcRow);
       if (copperRow) priceRows.push(copperRow);
     } else {
-      console.error("[refresh] BITCOIN_API_KEY is not set — skipping BTC & copper");
+      console.error("[refresh] BTC_COPPER_API_KEY is not set — skipping BTC & copper");
     }
 
     if (priceRows.length === 0) {

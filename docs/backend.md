@@ -22,18 +22,18 @@
 
 All variables set in `.env.local` (local) and Vercel (production):
 
-| Variable                             | Source                                        |
-| ------------------------------------ | --------------------------------------------- |
-| `NEXT_PUBLIC_SUPABASE_URL`           | Supabase → Settings → API                     |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY`      | Supabase → Settings → API                     |
-| `SUPABASE_SERVICE_ROLE_KEY`          | Supabase → Settings → API                     |
-| `STRIPE_SECRET_KEY`                  | Stripe → Developers → API keys                |
-| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Stripe → Developers → API keys                |
-| `STRIPE_WEBHOOK_SECRET`              | Stripe → Developers → Webhooks                |
-| `COMMODITY_API_KEY`                  | GoldAPI.io access token (XAU/XAG/XPT/XPD)     |
-| `BITCOIN_API_KEY`                    | api-ninjas.com access token (BTC)             |
-| `NEXT_PUBLIC_APP_URL`                | `https://ezponda-capital.vercel.app`          |
-| `CRON_SECRET`                        | Random string — `openssl rand -hex 32`        |
+| Variable                             | Source                                    |
+| ------------------------------------ | ----------------------------------------- |
+| `NEXT_PUBLIC_SUPABASE_URL`           | Supabase → Settings → API                 |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY`      | Supabase → Settings → API                 |
+| `SUPABASE_SERVICE_ROLE_KEY`          | Supabase → Settings → API                 |
+| `STRIPE_SECRET_KEY`                  | Stripe → Developers → API keys            |
+| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Stripe → Developers → API keys            |
+| `STRIPE_WEBHOOK_SECRET`              | Stripe → Developers → Webhooks            |
+| `COMMODITY_API_KEY`                  | GoldAPI.io access token (XAU/XAG/XPT/XPD) |
+| `BTC_COPPER_API_KEY`                 | api-ninjas.com access token (BTC)         |
+| `NEXT_PUBLIC_APP_URL`                | `https://ezponda-capital.vercel.app`      |
+| `CRON_SECRET`                        | Random string — `openssl rand -hex 32`    |
 
 ### 3 — Stripe
 
@@ -84,9 +84,10 @@ stripe listen --forward-to localhost:3000/api/stripe/webhook
 Two providers, one cron invocation:
 
 - **Metals (XAU/XAG/XPT/XPD)** — `https://www.goldapi.io/api/{symbol}/USD`, header `x-access-token: COMMODITY_API_KEY`
-- **Bitcoin (BTC)** — `https://api.api-ninjas.com/v1/bitcoin`, header `X-Api-Key: BITCOIN_API_KEY`
-- Both fetched in `app/api/commodities/refresh/route.ts` and inserted into the shared `commodity_prices` table
-- Ticker display order (enforced in `lib/api/prices.ts`): Gold → Silver → Bitcoin → Platinum → Palladium
+- **Bitcoin (BTC)** — `https://api.api-ninjas.com/v1/bitcoin`, header `X-Api-Key: BTC_COPPER_API_KEY`
+- **Copper (HG)** — `https://api.api-ninjas.com/v1/commodityprice?name=copper`, header `X-Api-Key: BTC_COPPER_API_KEY`
+- All fetched in `app/api/commodities/refresh/route.ts` and inserted into the shared `commodity_prices` table
+- Ticker display order (enforced in `lib/api/prices.ts`): Gold → Silver → Copper → Bitcoin → Platinum → Palladium
 - If a symbol fails to fetch, the ticker shows the previous day's value. If the whole table is empty or the query fails, the ticker is hidden entirely (no stub data)
 
 ### 9 — Thesis gating
@@ -100,10 +101,10 @@ Two providers, one cron invocation:
 
 Hooks live in `.githooks/` (versioned) and are activated via `git config core.hookspath .githooks`.
 
-| Hook | Feature branch | `main` |
-|---|---|---|
+| Hook         | Feature branch     | `main`          |
+| ------------ | ------------------ | --------------- |
 | `pre-commit` | `npx tsc --noEmit` | `npm run build` |
-| `pre-push` | `npx tsc --noEmit` | `npm run build` |
+| `pre-push`   | `npx tsc --noEmit` | `npm run build` |
 
 Feature branches get a fast type check on every commit and push. `main` requires a full production build — any failure blocks the commit or push.
 
