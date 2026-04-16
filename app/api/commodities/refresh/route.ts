@@ -46,12 +46,7 @@ async function fetchMetalPrice(
   }
 }
 
-async function fetchBitcoinPrice(): Promise<PriceRow | null> {
-  const apiKey = process.env.BITCOIN_API_KEY;
-  if (!apiKey) {
-    console.error("[refresh] BITCOIN_API_KEY is not set — skipping BTC");
-    return null;
-  }
+async function fetchBitcoinPrice(apiKey: string): Promise<PriceRow | null> {
   try {
     const res = await fetch("https://api.api-ninjas.com/v1/bitcoin", {
       headers: { "X-Api-Key": apiKey },
@@ -68,6 +63,29 @@ async function fetchBitcoinPrice(): Promise<PriceRow | null> {
     };
   } catch (err) {
     console.error("[refresh] Failed to fetch BTC:", err);
+    return null;
+  }
+}
+
+async function fetchCopperPrice(apiKey: string): Promise<PriceRow | null> {
+  try {
+    const res = await fetch(
+      "https://api.api-ninjas.com/v1/commodityprice?name=copper",
+      { headers: { "X-Api-Key": apiKey } }
+    );
+    if (!res.ok)
+      throw new Error(`api-ninjas responded ${res.status} for copper`);
+    const data = await res.json();
+    return {
+      symbol: "HG",
+      name: "Copper",
+      price: data.price,
+      change_pct: data.change_percent,
+      currency: "USD",
+      unit: "lb",
+    };
+  } catch (err) {
+    console.error("[refresh] Failed to fetch copper:", err);
     return null;
   }
 }
@@ -95,9 +113,18 @@ export async function GET(req: NextRequest) {
 
     const priceRows = results.filter((r): r is PriceRow => r !== null);
 
-    // Fetch Bitcoin from api-ninjas.com (separate provider)
-    const btcRow = await fetchBitcoinPrice();
-    if (btcRow) priceRows.push(btcRow);
+    // Fetch api-ninjas commodities (Bitcoin + Copper)
+    const ninjasKey = process.env.BTC_COPPER_API_KEY;
+    if (ninjasKey) {
+      const [btcRow, copperRow] = await Promise.all([
+        fetchBitcoinPrice(ninjasKey),
+        fetchCopperPrice(ninjasKey),
+      ]);
+      if (btcRow) priceRows.push(btcRow);
+      if (copperRow) priceRows.push(copperRow);
+    } else {
+      console.error("[refresh] BTC_COPPER_API_KEY is not set — skipping BTC & copper");
+    }
 
     if (priceRows.length === 0) {
       return NextResponse.json({ error: "All price fetches failed" }, { status: 500 });
