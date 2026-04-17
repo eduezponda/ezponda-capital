@@ -111,7 +111,6 @@ export async function GET(req: NextRequest) {
 
     const supabase = createSupabaseAdminClient();
 
-    // All external fetches + last BTC price query run in parallel
     const [metalResults, metalsDevRows, lastBtc] = await Promise.all([
       Promise.all(METALS.map(({ symbol, name, unit }) =>
         fetchMetalPrice(symbol, name, unit, goldApiKey)
@@ -126,16 +125,14 @@ export async function GET(req: NextRequest) {
         .maybeSingle(),
     ]);
 
-    // Calculate BTC change_pct from yesterday's stored price
-    const btcRow = metalsDevRows.find((r) => r.symbol === "BTC");
-    if (btcRow && lastBtc.data) {
-      btcRow.change_pct =
-        ((btcRow.price - lastBtc.data.price) / lastBtc.data.price) * 100;
-    }
-
+    // metals.dev returns 0 for change_pct — compute it from yesterday's stored price
     const priceRows: PriceRow[] = [
       ...metalResults.filter((r): r is PriceRow => r !== null),
-      ...metalsDevRows,
+      ...metalsDevRows.map((r) =>
+        r.symbol === "BTC" && lastBtc.data
+          ? { ...r, change_pct: ((r.price - lastBtc.data.price) / lastBtc.data.price) * 100 }
+          : r
+      ),
     ];
 
     if (priceRows.length === 0) {
