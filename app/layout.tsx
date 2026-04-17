@@ -17,6 +17,7 @@ export const metadata: Metadata = {
   title: "Ezponda Capital — Commodity Investment Research",
   description:
     "High-conviction investment ideas in gold, copper, and macro cycles. Premium research for serious investors.",
+  icons: { icon: "/logo.webp" },
 };
 
 export default async function RootLayout({
