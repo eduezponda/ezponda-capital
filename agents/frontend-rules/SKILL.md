@@ -55,18 +55,34 @@ All thesis cards in the gallery must have the same structure and dimensions. No
 featured/non-featured distinction in the gallery — pass no `featured` prop so all
 cards use the default uniform layout.
 
-Card dimensions: `min-h-[320px]` for all cards.
+### Dimensions and container
 
-Card text: `text-xl font-bold` for titles on all cards. No excerpt shown on cards.
+- `min-h-[360px]`, `rounded-xl`
+- Background: `bg-surface-container` (#201f1f) — slightly lighter than the page (#131313)
+- Border: `border border-outline-variant/40`, on hover: `border-outline-variant`
+- This border is critical for visual separation from the dark page background
 
-Background image: use `grayscale brightness-[0.18]` so both light (parchment) and
-dark source SVGs render as consistently dark card backgrounds. Add `object-center`
-for reliable positioning. Gradient overlay: `from-surface via-surface/50 to-transparent`.
+### Content structure (bottom-anchored, flex col, gap-2, p-6)
 
-Premium badge visibility:
-- Show lock icon + "Premium" label only for `free` tier users viewing a premium thesis (`showLock = tier === "premium" && isFree`)
-- Never show the lock to `premium` or `superadmin` users — they have access
-- For guests viewing premium content, show `visibility_off` icon instead
+1. Row: `<Badge>` left + lock/visibility icon right
+2. Title: `text-2xl font-bold text-white tracking-tight leading-tight`
+3. Excerpt phrase: `text-[0.8125rem] text-on-surface-variant line-clamp-2` — always shown
+4. Ticker/exchange: `text-[0.6875rem] uppercase tracking-[0.05rem] text-outline mt-1`
+5. Date: `text-[0.6875rem] uppercase tracking-[0.05rem] text-outline`
+
+### Background image
+
+- No grayscale or heavy brightness filter — show the image naturally
+- Position: `object-cover object-top` so the top of the SVG (company name area) is visible
+- Gradient overlay: `from-surface-container from-45% via-surface-container/90 to-surface-container/10`
+  This keeps the bottom content area readable while letting the image show in the upper half
+- Only render the image when `!shouldBlur` (guest or free-on-premium sees no image)
+
+### Premium badge visibility
+
+- `showLock = tier === "premium" && isFree`: lock shown only for free-tier users
+- Never show the lock to `premium` or `superadmin` — they have access
+- Guests viewing premium content: show `visibility_off` icon + "Premium" label instead
 
 ## What NOT to do
 

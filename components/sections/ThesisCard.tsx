@@ -44,26 +44,27 @@ export default async function ThesisCard({
     <Link
       href={`/theses/${slug}`}
       className={cn(
-        "group relative overflow-hidden rounded-lg flex flex-col justify-end",
-        "bg-surface-container-low hover:bg-surface-container-high transition-all duration-300",
-        "min-h-[320px]",
+        "group relative overflow-hidden rounded-xl flex flex-col justify-end",
+        "bg-surface-container border border-outline-variant/40",
+        "hover:border-outline-variant hover:bg-surface-container-high",
+        "transition-all duration-300 min-h-[360px]",
         className
       )}
     >
-      {/* Background image */}
+      {/* Background image — visible in upper portion, gradient fades toward content */}
       {image && !shouldBlur && (
         <>
           <img
             src={image}
             alt={title}
-            className="absolute inset-0 w-full h-full object-cover object-center grayscale brightness-[0.18] group-hover:scale-105 transition-transform duration-500"
+            className="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-surface via-surface/50 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-surface-container from-45% via-surface-container/90 to-surface-container/10" />
         </>
       )}
 
-      {/* Content overlay */}
-      <div className="relative z-10 p-8 flex flex-col gap-3">
+      {/* Content */}
+      <div className="relative z-10 p-6 flex flex-col gap-2">
         <div className="flex items-center justify-between">
           <Badge category={category} />
           {showLock && (
@@ -83,18 +84,24 @@ export default async function ThesisCard({
             </span>
           )}
         </div>
-        {shouldBlur ? (
-          <h3 className="text-xl font-bold text-white tracking-tight leading-tight blur-sm select-none pointer-events-none">
-            {title}
-          </h3>
-        ) : (
-          <h3 className="text-xl font-bold text-white tracking-tight leading-tight">
-            {title}
-          </h3>
-        )}
+
+        <h3 className={cn(
+          "text-2xl font-bold text-white tracking-tight leading-tight",
+          shouldBlur && "blur-sm select-none pointer-events-none"
+        )}>
+          {title}
+        </h3>
+
+        <p className={cn(
+          "text-[0.8125rem] text-on-surface-variant leading-relaxed line-clamp-2",
+          shouldBlur && "blur-sm select-none pointer-events-none"
+        )}>
+          {excerpt}
+        </p>
+
         {(ticker || exchange) && (
           <p className={cn(
-            "text-[0.6875rem] uppercase tracking-[0.05rem] text-outline",
+            "text-[0.6875rem] uppercase tracking-[0.05rem] text-outline mt-1",
             isGuest && "blur-sm select-none pointer-events-none"
           )}>
             {ticker}{ticker && exchange ? " · " : ""}{exchange}
