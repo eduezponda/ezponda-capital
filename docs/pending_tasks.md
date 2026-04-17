@@ -1,14 +1,5 @@
 ## Pending Manual Tasks
 
-### Commodities Data
-
-- ~~**Copper price**~~ — done. Fetched via api-ninjas `commodityprice?name=copper` in cron pipeline, displayed in ticker as `HG/USD`.
-- **Macro indicators for `/commodities`** — wire up a second API to pull:
-  - CPI
-  - Dollar Index (DXY)
-  - Real 10Y yield
-  - Sentiment score
-
 ### Content & Pages
 
 - **Home — Iñigo intro video (decide)** — decide whether to include a video of Iñigo presenting the project as the analyst. If yes, scope recording + hosting.
