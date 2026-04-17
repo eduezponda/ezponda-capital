@@ -84,6 +84,7 @@ export default async function HomePage() {
         name={tAuthor("name")}
         title={tAuthor("title")}
         bio={tAuthor("bio")}
+        image="/images/inigo_ezponda_igea_profile.jfif"
         credentials={[
           tAuthor("credential0"),
           tAuthor("credential1"),
