@@ -22,6 +22,13 @@ If not provided, ask for:
 
 - Cover image: SVG inline OR visual description (if none, use the parchment template)
 
+## Pending tasks
+
+- **Thesis card logos:** Cards currently show no image. Eduardo will provide a logo per thesis in
+  the future. When received, add `logo` field to ThesisFrontmatter and ThesisMeta in lib/api/theses.ts,
+  render it in ThesisCard (small, top area of card, not as background). Do NOT use coverImage as a
+  card background — it is for the thesis detail header only.
+
 ## Steps
 
 ### 1 — Derive slug

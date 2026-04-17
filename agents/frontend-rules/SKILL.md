@@ -59,7 +59,7 @@ cards use the default uniform layout.
 
 - `min-h-[360px]`, `rounded-xl`
 - Background: `bg-surface-container` (#201f1f) — slightly lighter than the page (#131313)
-- Border: `border border-outline-variant/40`, on hover: `border-outline-variant`
+- Border: `border border-outline-variant/40`, on hover (accessible only): `border-outline-variant`
 - This border is critical for visual separation from the dark page background
 
 ### Content structure (bottom-anchored, flex col, gap-2, p-6)
@@ -67,16 +67,21 @@ cards use the default uniform layout.
 1. Row: `<Badge>` left + lock/visibility icon right
 2. Title: `text-2xl font-bold text-white tracking-tight leading-tight`
 3. Excerpt phrase: `text-[0.8125rem] text-on-surface-variant line-clamp-2` — always shown
-4. Ticker/exchange: `text-[0.6875rem] uppercase tracking-[0.05rem] text-outline mt-1`
+4. Ticker/exchange: shown only when `!shouldBlur` — completely absent from DOM for blocked users
 5. Date: `text-[0.6875rem] uppercase tracking-[0.05rem] text-outline`
 
-### Background image
+### No background image on cards
 
-- No grayscale or heavy brightness filter — show the image naturally
-- Position: `object-cover object-top` so the top of the SVG (company name area) is visible
-- Gradient overlay: `from-surface-container from-45% via-surface-container/90 to-surface-container/10`
-  This keeps the bottom content area readable while letting the image show in the upper half
-- Only render the image when `!shouldBlur` (guest or free-on-premium sees no image)
+Cards do not use background images. Logo support is a pending task (see ezponda-thesis SKILL.md).
+Do not add image rendering back to ThesisCard until logos are provided.
+
+### Link vs blocked div
+
+Cards render as `<Link href="/theses/[slug]">` only when the user has access (`!shouldBlur`).
+When `shouldBlur` is true, the card renders as a plain `<div className="cursor-default">` with
+no `href` attribute — the slug is completely absent from the HTML. No hover effects on blocked cards.
+
+This prevents any user from discovering thesis slugs by inspecting the DOM.
 
 ### Premium badge visibility
 
