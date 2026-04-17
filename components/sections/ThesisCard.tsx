@@ -10,11 +10,9 @@ interface ThesisCardProps {
   excerpt: string;
   category: string;
   date: string;
-  image?: string;
   tier?: "free" | "premium";
   userTier?: Tier | null;
   className?: string;
-  featured?: boolean;
   ticker?: string;
   exchange?: string;
 }
@@ -25,11 +23,9 @@ export default async function ThesisCard({
   excerpt,
   category,
   date,
-  image: _image,
   tier = "premium",
   userTier = null,
   className,
-  featured: _featured = false,
   ticker,
   exchange,
 }: ThesisCardProps) {
@@ -38,7 +34,6 @@ export default async function ThesisCard({
   const isGuest = userTier === null;
   const isFree = userTier === "free";
   const shouldBlur = isGuest || (isFree && tier === "premium");
-  const showLock = tier === "premium" && isFree;
 
   const cardClasses = cn(
     "relative overflow-hidden rounded-xl flex flex-col justify-end",
@@ -48,21 +43,16 @@ export default async function ThesisCard({
   );
 
   const content = (
-    <div className="relative z-10 p-6 flex flex-col gap-2">
+    <div className="p-6 flex flex-col gap-2">
       <div className="flex items-center justify-between">
         <Badge category={category} />
-        {showLock && (
-          <span className="text-[0.625rem] uppercase tracking-[0.08rem] font-bold text-tertiary flex items-center gap-1">
+        {tier === "premium" && shouldBlur && (
+          <span className={cn(
+            "text-[0.625rem] uppercase tracking-[0.08rem] font-bold flex items-center gap-1",
+            isFree ? "text-tertiary" : "text-outline"
+          )}>
             <span className="material-symbols-outlined text-base" style={{ fontVariationSettings: "'FILL' 1, 'wght' 400" }}>
-              lock
-            </span>
-            {t("premiumLabel")}
-          </span>
-        )}
-        {isGuest && tier === "premium" && (
-          <span className="text-[0.625rem] uppercase tracking-[0.08rem] font-bold text-outline flex items-center gap-1">
-            <span className="material-symbols-outlined text-base" style={{ fontVariationSettings: "'FILL' 1, 'wght' 400" }}>
-              visibility_off
+              {isFree ? "lock" : "visibility_off"}
             </span>
             {t("premiumLabel")}
           </span>
