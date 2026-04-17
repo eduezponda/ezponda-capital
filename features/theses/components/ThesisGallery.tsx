@@ -23,7 +23,7 @@ export default async function ThesisGallery({ theses }: Props) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
       {theses.map((thesis, i) => (
-        <ThesisCard key={thesis.slug} {...thesis} date={formatDate(thesis.date)} featured={i === 0} userTier={userTier} />
+        <ThesisCard key={thesis.slug} {...thesis} date={formatDate(thesis.date)} userTier={userTier} />
       ))}
     </div>
   );

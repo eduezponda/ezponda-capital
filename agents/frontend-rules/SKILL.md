@@ -49,6 +49,25 @@ This project uses TWO icon libraries. They are NOT interchangeable.
 - No custom CSS unless Tailwind cannot handle it
 - No hardcoded colors — use design tokens from the existing color system
 
+## Thesis card rules (ThesisCard.tsx + ThesisGallery.tsx)
+
+All thesis cards in the gallery must have the same structure and dimensions. No
+featured/non-featured distinction in the gallery — pass no `featured` prop so all
+cards use the default uniform layout.
+
+Card dimensions: `min-h-[320px]` for all cards.
+
+Card text: `text-xl font-bold` for titles on all cards. No excerpt shown on cards.
+
+Background image: use `grayscale brightness-[0.18]` so both light (parchment) and
+dark source SVGs render as consistently dark card backgrounds. Add `object-center`
+for reliable positioning. Gradient overlay: `from-surface via-surface/50 to-transparent`.
+
+Premium badge visibility:
+- Show lock icon + "Premium" label only for `free` tier users viewing a premium thesis (`showLock = tier === "premium" && isFree`)
+- Never show the lock to `premium` or `superadmin` users — they have access
+- For guests viewing premium content, show `visibility_off` icon instead
+
 ## What NOT to do
 
 - Do not use Material Symbols for navbar, buttons, or any interactive element
@@ -56,3 +75,4 @@ This project uses TWO icon libraries. They are NOT interchangeable.
 - Do not add new global CSS without checking globals.css first
 - Do not use next/image for SVG files — use plain `<img>` tag instead
 - Do not run `npm run build` for routine checks — use `npx tsc --noEmit && npm run lint`
+- Do not make thesis cards different sizes or layouts from each other
