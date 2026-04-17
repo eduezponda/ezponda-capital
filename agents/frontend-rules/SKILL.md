@@ -49,6 +49,46 @@ This project uses TWO icon libraries. They are NOT interchangeable.
 - No custom CSS unless Tailwind cannot handle it
 - No hardcoded colors — use design tokens from the existing color system
 
+## Thesis card rules (ThesisCard.tsx + ThesisGallery.tsx)
+
+All thesis cards in the gallery must have the same structure and dimensions. No
+featured/non-featured distinction in the gallery — pass no `featured` prop so all
+cards use the default uniform layout.
+
+### Dimensions and container
+
+- `min-h-[360px]`, `rounded-xl`
+- Background: `bg-surface-container` (#201f1f) — slightly lighter than the page (#131313)
+- Border: `border border-outline-variant/40`, on hover (accessible only): `border-outline-variant`
+- This border is critical for visual separation from the dark page background
+
+### Content structure (bottom-anchored, flex col, gap-2, p-6)
+
+1. Row: `<Badge>` left + lock/visibility icon right
+2. Title: `text-2xl font-bold text-white tracking-tight leading-tight`
+3. Excerpt phrase: `text-[0.8125rem] text-on-surface-variant line-clamp-2` — always shown
+4. Ticker/exchange: shown only when `!shouldBlur` — completely absent from DOM for blocked users
+5. Date: `text-[0.6875rem] uppercase tracking-[0.05rem] text-outline`
+
+### No background image on cards
+
+Cards do not use background images. Logo support is a pending task (see ezponda-thesis SKILL.md).
+Do not add image rendering back to ThesisCard until logos are provided.
+
+### Link vs blocked div
+
+Cards render as `<Link href="/theses/[slug]">` only when the user has access (`!shouldBlur`).
+When `shouldBlur` is true, the card renders as a plain `<div className="cursor-default">` with
+no `href` attribute — the slug is completely absent from the HTML. No hover effects on blocked cards.
+
+This prevents any user from discovering thesis slugs by inspecting the DOM.
+
+### Premium badge visibility
+
+- `showLock = tier === "premium" && isFree`: lock shown only for free-tier users
+- Never show the lock to `premium` or `superadmin` — they have access
+- Guests viewing premium content: show `visibility_off` icon + "Premium" label instead
+
 ## What NOT to do
 
 - Do not use Material Symbols for navbar, buttons, or any interactive element
@@ -56,3 +96,4 @@ This project uses TWO icon libraries. They are NOT interchangeable.
 - Do not add new global CSS without checking globals.css first
 - Do not use next/image for SVG files — use plain `<img>` tag instead
 - Do not run `npm run build` for routine checks — use `npx tsc --noEmit && npm run lint`
+- Do not make thesis cards different sizes or layouts from each other

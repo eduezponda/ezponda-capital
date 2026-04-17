@@ -25,11 +25,11 @@ export default async function ThesisCard({
   excerpt,
   category,
   date,
-  image,
+  image: _image,
   tier = "premium",
   userTier = null,
   className,
-  featured = false,
+  featured: _featured = false,
   ticker,
   exchange,
 }: ThesisCardProps) {
@@ -37,85 +37,78 @@ export default async function ThesisCard({
 
   const isGuest = userTier === null;
   const isFree = userTier === "free";
-  const shouldBlur =
-    isGuest || (isFree && tier === "premium");
+  const shouldBlur = isGuest || (isFree && tier === "premium");
+  const showLock = tier === "premium" && isFree;
 
-  const showLock = tier === "premium" && !isGuest;
+  const cardClasses = cn(
+    "relative overflow-hidden rounded-xl flex flex-col justify-end",
+    "bg-surface-container border border-outline-variant/40",
+    "transition-all duration-300 min-h-[360px]",
+    className
+  );
+
+  const content = (
+    <div className="relative z-10 p-6 flex flex-col gap-2">
+      <div className="flex items-center justify-between">
+        <Badge category={category} />
+        {showLock && (
+          <span className="text-[0.625rem] uppercase tracking-[0.08rem] font-bold text-tertiary flex items-center gap-1">
+            <span className="material-symbols-outlined text-base" style={{ fontVariationSettings: "'FILL' 1, 'wght' 400" }}>
+              lock
+            </span>
+            {t("premiumLabel")}
+          </span>
+        )}
+        {isGuest && tier === "premium" && (
+          <span className="text-[0.625rem] uppercase tracking-[0.08rem] font-bold text-outline flex items-center gap-1">
+            <span className="material-symbols-outlined text-base" style={{ fontVariationSettings: "'FILL' 1, 'wght' 400" }}>
+              visibility_off
+            </span>
+            {t("premiumLabel")}
+          </span>
+        )}
+      </div>
+
+      <h3 className={cn(
+        "text-2xl font-bold text-white tracking-tight leading-tight",
+        shouldBlur && "blur-sm select-none pointer-events-none"
+      )}>
+        {title}
+      </h3>
+
+      <p className={cn(
+        "text-[0.8125rem] text-on-surface-variant leading-relaxed line-clamp-2",
+        shouldBlur && "blur-sm select-none pointer-events-none"
+      )}>
+        {excerpt}
+      </p>
+
+      {!shouldBlur && (ticker || exchange) && (
+        <p className="text-[0.6875rem] uppercase tracking-[0.05rem] text-outline mt-1">
+          {ticker}{ticker && exchange ? " · " : ""}{exchange}
+        </p>
+      )}
+
+      <p className="text-[0.6875rem] uppercase tracking-[0.05rem] text-outline">
+        {date}
+      </p>
+    </div>
+  );
+
+  if (shouldBlur) {
+    return (
+      <div className={cn(cardClasses, "cursor-default")}>
+        {content}
+      </div>
+    );
+  }
 
   return (
     <Link
       href={`/theses/${slug}`}
-      className={cn(
-        "group relative overflow-hidden rounded-lg flex flex-col justify-end",
-        "bg-surface-container-low hover:bg-surface-container-high transition-all duration-300",
-        featured ? "min-h-[440px]" : "min-h-[280px]",
-        className
-      )}
+      className={cn(cardClasses, "hover:border-outline-variant hover:bg-surface-container-high")}
     >
-      {/* Background image — hidden when content is gated */}
-      {image && !shouldBlur && (
-        <>
-          <img
-            src={image}
-            alt={title}
-            className="absolute inset-0 w-full h-full object-cover grayscale brightness-50 group-hover:scale-105 transition-transform duration-500"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-surface via-surface/40 to-transparent" />
-        </>
-      )}
-
-      {/* Content overlay */}
-      <div className="relative z-10 p-8 md:p-10 flex flex-col gap-3">
-        <div className="flex items-center justify-between">
-          <Badge category={category} />
-          {showLock && (
-            <span className="text-[0.625rem] uppercase tracking-[0.08rem] font-bold text-tertiary flex items-center gap-1">
-              <span className="material-symbols-outlined text-base" style={{ fontVariationSettings: "'FILL' 1, 'wght' 400" }}>
-                lock
-              </span>
-              {t("premiumLabel")}
-            </span>
-          )}
-          {isGuest && (
-            <span className="text-[0.625rem] uppercase tracking-[0.08rem] font-bold text-outline flex items-center gap-1">
-              <span className="material-symbols-outlined text-base" style={{ fontVariationSettings: "'FILL' 1, 'wght' 400" }}>
-                visibility_off
-              </span>
-              {tier === "premium" ? t("premiumLabel") : ""}
-            </span>
-          )}
-        </div>
-        {shouldBlur ? (
-          <div className="relative">
-            <h3 className={cn("font-bold text-white tracking-tight leading-tight blur-sm select-none pointer-events-none", featured ? "text-2xl md:text-3xl" : "text-xl")}>
-              {title}
-            </h3>
-          </div>
-        ) : (
-          <h3 className={cn("font-bold text-white tracking-tight leading-tight", featured ? "text-2xl md:text-3xl" : "text-xl")}>
-            {title}
-          </h3>
-        )}
-        {featured && (
-          <p className={cn(
-            "text-[0.875rem] text-on-surface-variant leading-relaxed line-clamp-2",
-            shouldBlur && "blur-sm select-none pointer-events-none"
-          )}>
-            {excerpt}
-          </p>
-        )}
-        {(ticker || exchange) && (
-          <p className={cn(
-            "text-[0.6875rem] uppercase tracking-[0.05rem] text-outline",
-            isGuest && "blur-sm select-none pointer-events-none"
-          )}>
-            {ticker}{ticker && exchange ? " · " : ""}{exchange}
-          </p>
-        )}
-        <p className="text-[0.6875rem] uppercase tracking-[0.05rem] text-outline">
-          {date}
-        </p>
-      </div>
+      {content}
     </Link>
   );
 }
