@@ -29,7 +29,7 @@ export default function VerifyEmailForm({ email, next }: Props) {
   }, [resendCooldown]);
 
   async function handleVerify(codeToVerify: string) {
-    if (codeToVerify.length !== 6 || isVerifying) return;
+    if (codeToVerify.length !== 8 || isVerifying) return;
     setError(null);
     setIsVerifying(true);
 
@@ -74,7 +74,7 @@ export default function VerifyEmailForm({ email, next }: Props) {
   function handleCodeChange(e: React.ChangeEvent<HTMLInputElement>) {
     const val = e.target.value.replace(/\D/g, "").slice(0, 6);
     setCode(val);
-    if (val.length === 6) handleVerify(val);
+    if (val.length === 8) handleVerify(val);
   }
 
   async function handleResend() {
@@ -108,7 +108,7 @@ export default function VerifyEmailForm({ email, next }: Props) {
           type="text"
           inputMode="numeric"
           pattern="[0-9]*"
-          maxLength={6}
+          maxLength={8}
           label={t("codeLabel")}
           placeholder={t("codePlaceholder")}
           value={code}
@@ -123,7 +123,7 @@ export default function VerifyEmailForm({ email, next }: Props) {
         <button
           type="button"
           onClick={() => handleVerify(code)}
-          disabled={isVerifying || code.length !== 6}
+          disabled={isVerifying || code.length !== 8}
           className="gold-gradient text-black font-bold text-[0.75rem] uppercase tracking-[0.08rem] px-8 py-4 rounded-xl hover:shadow-[0_0_30px_rgba(255,224,132,0.25)] active:scale-95 transition-all disabled:opacity-60 disabled:cursor-not-allowed"
         >
           {isVerifying ? t("submitting") : t("submit")}
