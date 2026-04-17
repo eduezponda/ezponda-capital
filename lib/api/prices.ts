@@ -4,13 +4,13 @@ import type { TickerItem } from "@/components/ui/Ticker";
 const LABEL_MAP: Record<string, string> = {
   XAU: "Gold (XAU/USD)",
   XAG: "Silver (XAG/USD)",
-  HG: "Copper (HG/USD)",
+  XCU: "Copper (XCU/USD)",
   XPT: "Platinum",
   XPD: "Palladium",
   BTC: "Bitcoin (BTC/USD)",
 };
 
-const DISPLAY_ORDER = ["XAU", "XAG", "HG", "BTC", "XPT", "XPD"];
+const DISPLAY_ORDER = ["XAU", "XCU", "XAG", "BTC", "XPT", "XPD"];
 
 export async function getSpotPrices(): Promise<TickerItem[]> {
   try {

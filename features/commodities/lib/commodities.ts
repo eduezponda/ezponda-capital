@@ -1,3 +1,5 @@
+import { createSupabaseAdminClient } from "@/lib/supabase/admin";
+
 export interface Commodity {
   id: string;
   name: string;
@@ -43,5 +45,30 @@ export const COMMODITIES: Commodity[] = [
 ];
 
 export async function getCommodities(): Promise<Commodity[]> {
-  return COMMODITIES;
+  try {
+    const supabase = createSupabaseAdminClient();
+    const { data } = await supabase
+      .from("commodity_prices")
+      .select("symbol, price")
+      .eq("symbol", "XCU")
+      .order("fetched_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (!data) return COMMODITIES;
+
+    return COMMODITIES.map((c) => {
+      if (c.id !== "copper") return c;
+      return {
+        ...c,
+        stats: c.stats.map((s) =>
+          s.label === "Current Price"
+            ? { ...s, value: `$${(data.price as number).toFixed(2)} / lb` }
+            : s
+        ),
+      };
+    });
+  } catch {
+    return COMMODITIES;
+  }
 }
