@@ -150,12 +150,33 @@
       "footerLink": "Iniciar Sesión",
       "imageCaption": "Caso alcista del oro — visión estructural a 10 años"
     },
-    "confirmEmail": {
-      "title": "Revise su Correo — Ezponda Capital",
-      "description": "Confirme su dirección de correo electrónico para completar el registro.",
-      "heading": "Revise su correo",
-      "subheading": "Le hemos enviado un enlace de confirmación a su bandeja de entrada.",
-      "body": "Haga clic en el enlace del correo para verificar su cuenta antes de iniciar sesión. Si no lo ve, revise su carpeta de spam.",
+    "verifyEmail": {
+      "title": "Verifica tu Correo — Ezponda Capital",
+      "description": "Introduce el código de 6 dígitos que te hemos enviado para completar el registro.",
+      "heading": "Revisa tu bandeja de entrada",
+      "subheading": "Hemos enviado un código de 6 dígitos a {email}",
+      "codeLabel": "Código de verificación",
+      "codePlaceholder": "123456",
+      "submit": "Verificar correo",
+      "submitting": "Verificando…",
+      "resend": "Reenviar código",
+      "resending": "Reenviando…",
+      "resendCooldown": "Reenviar en {seconds}s",
+      "resendSuccess": "Se ha enviado un nuevo código.",
+      "errorExpired": "Este código ha caducado. Solicita uno nuevo.",
+      "errorInvalid": "Código incorrecto. Inténtalo de nuevo.",
+      "errorGeneric": "La verificación ha fallado. Inténtalo de nuevo.",
+      "backToSignup": "Volver al registro"
+    },
+    "resendVerification": {
+      "title": "Reenviar Código de Verificación — Ezponda Capital",
+      "description": "Solicita un nuevo código de verificación de 6 dígitos para tu cuenta.",
+      "heading": "Reenviar código de verificación",
+      "subheading": "Enviaremos un nuevo código de 6 dígitos a {email}",
+      "submit": "Enviar nuevo código",
+      "submitting": "Enviando…",
+      "resendCooldown": "Reenviar en {seconds}s",
+      "errorGeneric": "No se pudo enviar el código. Inténtalo de nuevo.",
       "backToLogin": "Volver al inicio de sesión"
     },
     "layout": {

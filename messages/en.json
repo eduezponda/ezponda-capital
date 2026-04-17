@@ -150,12 +150,33 @@
       "footerLink": "Login",
       "imageCaption": "Gold bull case — 10-year structural view"
     },
-    "confirmEmail": {
-      "title": "Check Your Email — Ezponda Capital",
-      "description": "Confirm your email address to complete registration.",
-      "heading": "Check your email",
-      "subheading": "We sent a confirmation link to your inbox.",
-      "body": "Click the link in your email to verify your account before logging in. If you don't see it, check your spam folder.",
+    "verifyEmail": {
+      "title": "Verify Your Email — Ezponda Capital",
+      "description": "Enter the 6-digit code we sent to your email to complete registration.",
+      "heading": "Check your inbox",
+      "subheading": "We sent a 6-digit code to {email}",
+      "codeLabel": "Verification code",
+      "codePlaceholder": "123456",
+      "submit": "Verify Email",
+      "submitting": "Verifying…",
+      "resend": "Resend code",
+      "resending": "Resending…",
+      "resendCooldown": "Resend in {seconds}s",
+      "resendSuccess": "A new code has been sent.",
+      "errorExpired": "This code has expired. Request a new one.",
+      "errorInvalid": "Incorrect code. Please try again.",
+      "errorGeneric": "Verification failed. Please try again.",
+      "backToSignup": "Back to sign up"
+    },
+    "resendVerification": {
+      "title": "Resend Verification Code — Ezponda Capital",
+      "description": "Request a new 6-digit verification code for your account.",
+      "heading": "Resend verification code",
+      "subheading": "We'll send a new 6-digit code to {email}",
+      "submit": "Send new code",
+      "submitting": "Sending…",
+      "resendCooldown": "Resend in {seconds}s",
+      "errorGeneric": "Could not send the code. Please try again.",
       "backToLogin": "Back to login"
     },
     "layout": {
