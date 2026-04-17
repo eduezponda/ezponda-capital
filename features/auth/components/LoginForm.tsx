@@ -47,6 +47,10 @@ export default function LoginForm() {
     });
 
     if (authError) {
+      if (authError.message === "Email not confirmed") {
+        router.push(`/auth/resend-verification?email=${encodeURIComponent(email)}`);
+        return;
+      }
       setError(authError.message);
       setIsLoading(false);
       return;

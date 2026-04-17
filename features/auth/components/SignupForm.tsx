@@ -73,8 +73,7 @@ export default function SignupForm() {
       return;
     }
 
-    router.push("/theses");
-    router.refresh();
+    router.push(`/auth/confirm-email?email=${encodeURIComponent(email)}&next=free`);
   }
 
   async function handlePremiumSignup() {
@@ -87,24 +86,7 @@ export default function SignupForm() {
       return;
     }
 
-    try {
-      const res = await fetch("/api/stripe/create-checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ priceId: "price_1TJXvzKe83gRrUXhfkaTgFXt" }),
-      });
-
-      if (res.ok) {
-        const data = await res.json();
-        window.location.href = data.url;
-      } else {
-        router.push("/theses");
-        router.refresh();
-      }
-    } catch {
-      router.push("/theses");
-      router.refresh();
-    }
+    router.push(`/auth/confirm-email?email=${encodeURIComponent(email)}&next=premium`);
   }
 
   return (

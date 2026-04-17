@@ -1,24 +1,24 @@
 import { redirect } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import AuthLayout from "@/features/auth/components/AuthLayout";
-import VerifyEmailForm from "@/features/auth/components/VerifyEmailForm";
+import ResendVerificationForm from "@/features/auth/components/ResendVerificationForm";
 
 export async function generateMetadata() {
-  const t = await getTranslations("auth.verifyEmail");
+  const t = await getTranslations("auth.resendVerification");
   return { title: t("title"), description: t("description") };
 }
 
-export default async function ConfirmEmailPage({
+export default async function ResendVerificationPage({
   searchParams,
 }: {
-  searchParams: Promise<{ email?: string; next?: string }>;
+  searchParams: Promise<{ email?: string }>;
 }) {
-  const { email, next } = await searchParams;
+  const { email } = await searchParams;
   if (!email) redirect("/auth/signup");
 
   return (
     <AuthLayout>
-      <VerifyEmailForm email={email} next={next ?? "free"} />
+      <ResendVerificationForm email={email} />
     </AuthLayout>
   );
 }
