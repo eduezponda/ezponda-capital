@@ -72,7 +72,7 @@ export default function VerifyEmailForm({ email, next }: Props) {
   }
 
   function handleCodeChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const val = e.target.value.replace(/\D/g, "").slice(0, 6);
+    const val = e.target.value.replace(/\D/g, "").slice(0, 8);
     setCode(val);
     if (val.length === 8) handleVerify(val);
   }
