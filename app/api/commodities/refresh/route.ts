@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 
 // Retention: 7 days (7 rows/symbol). Cleanup handled by DB trigger.
-// GoldAPI.io has no rate limits on real-time prices — safe to call daily.
 // Vercel Hobby: 1 invocation/day (daily cron limit on Hobby plan).
 const METALS = [
   { symbol: "XAU", name: "Gold",      unit: "oz",   currency: "USD" },
@@ -10,6 +9,9 @@ const METALS = [
   { symbol: "XPT", name: "Platinum",  unit: "oz",   currency: "USD" },
   { symbol: "XPD", name: "Palladium", unit: "oz",   currency: "USD" },
 ];
+
+// Troy ounces per pound — used to convert metals.dev copper (USD/toz) to USD/lb
+const TOZ_PER_LB = 14.5833;
 
 type PriceRow = {
   symbol: string;
@@ -46,47 +48,43 @@ async function fetchMetalPrice(
   }
 }
 
-async function fetchBitcoinPrice(apiKey: string): Promise<PriceRow | null> {
-  try {
-    const res = await fetch("https://api.api-ninjas.com/v1/bitcoin", {
-      headers: { "X-Api-Key": apiKey },
-    });
-    if (!res.ok) throw new Error(`api-ninjas responded ${res.status} for BTC`);
-    const data = await res.json();
-    return {
-      symbol: "BTC",
-      name: "Bitcoin",
-      price: data.price,
-      change_pct: data["24h_price_change_percent"],
-      currency: "USD",
-      unit: "coin",
-    };
-  } catch (err) {
-    console.error("[refresh] Failed to fetch BTC:", err);
-    return null;
-  }
-}
-
-async function fetchCopperPrice(apiKey: string): Promise<PriceRow | null> {
+async function fetchMetalsDevPrices(apiKey: string): Promise<PriceRow[]> {
   try {
     const res = await fetch(
-      "https://api.api-ninjas.com/v1/commodityprice?name=copper",
-      { headers: { "X-Api-Key": apiKey } }
+      `https://api.metals.dev/v1/latest?api_key=${apiKey}&currency=USD&unit=toz`
     );
-    if (!res.ok)
-      throw new Error(`api-ninjas responded ${res.status} for copper`);
+    if (!res.ok) throw new Error(`metals.dev responded ${res.status}`);
     const data = await res.json();
-    return {
-      symbol: "HG",
-      name: "Copper",
-      price: data.price,
-      change_pct: data.change_percent,
-      currency: "USD",
-      unit: "lb",
-    };
+    const metals = data.metals as Record<string, number>;
+
+    const rows: PriceRow[] = [];
+
+    if (metals.copper != null) {
+      rows.push({
+        symbol: "XCU",
+        name: "Copper",
+        price: metals.copper * TOZ_PER_LB,
+        change_pct: 0,
+        currency: "USD",
+        unit: "lb",
+      });
+    }
+
+    if (metals.btc != null) {
+      rows.push({
+        symbol: "BTC",
+        name: "Bitcoin",
+        price: metals.btc,
+        change_pct: 0,
+        currency: "USD",
+        unit: "coin",
+      });
+    }
+
+    return rows;
   } catch (err) {
-    console.error("[refresh] Failed to fetch copper:", err);
-    return null;
+    console.error("[refresh] Failed to fetch metals.dev prices:", err);
+    return [];
   }
 }
 
@@ -99,43 +97,55 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const apiKey = process.env.COMMODITY_API_KEY;
-    if (!apiKey) {
+    const goldApiKey = process.env.COMMODITY_API_KEY;
+    const metalsDevKey = process.env.METALS_DEV_API_KEY;
+
+    if (!goldApiKey) {
       console.error("[refresh] COMMODITY_API_KEY is not set");
       return NextResponse.json({ error: "API key not configured" }, { status: 500 });
     }
-
-    const results = await Promise.all(
-      METALS.map(({ symbol, name, unit }) =>
-        fetchMetalPrice(symbol, name, unit, apiKey)
-      )
-    );
-
-    const priceRows = results.filter((r): r is PriceRow => r !== null);
-
-    // Fetch api-ninjas commodities (Bitcoin + Copper)
-    const ninjasKey = process.env.BTC_COPPER_API_KEY;
-    if (ninjasKey) {
-      const [btcRow, copperRow] = await Promise.all([
-        fetchBitcoinPrice(ninjasKey),
-        fetchCopperPrice(ninjasKey),
-      ]);
-      if (btcRow) priceRows.push(btcRow);
-      if (copperRow) priceRows.push(copperRow);
-    } else {
-      console.error("[refresh] BTC_COPPER_API_KEY is not set — skipping BTC & copper");
+    if (!metalsDevKey) {
+      console.error("[refresh] METALS_DEV_API_KEY is not set");
+      return NextResponse.json({ error: "API key not configured" }, { status: 500 });
     }
+
+    const supabase = createSupabaseAdminClient();
+
+    // All external fetches + last BTC price query run in parallel
+    const [metalResults, metalsDevRows, lastBtc] = await Promise.all([
+      Promise.all(METALS.map(({ symbol, name, unit }) =>
+        fetchMetalPrice(symbol, name, unit, goldApiKey)
+      )),
+      fetchMetalsDevPrices(metalsDevKey),
+      supabase
+        .from("commodity_prices")
+        .select("price")
+        .eq("symbol", "BTC")
+        .order("fetched_at", { ascending: false })
+        .limit(1)
+        .maybeSingle(),
+    ]);
+
+    // Calculate BTC change_pct from yesterday's stored price
+    const btcRow = metalsDevRows.find((r) => r.symbol === "BTC");
+    if (btcRow && lastBtc.data) {
+      btcRow.change_pct =
+        ((btcRow.price - lastBtc.data.price) / lastBtc.data.price) * 100;
+    }
+
+    const priceRows: PriceRow[] = [
+      ...metalResults.filter((r): r is PriceRow => r !== null),
+      ...metalsDevRows,
+    ];
 
     if (priceRows.length === 0) {
       return NextResponse.json({ error: "All price fetches failed" }, { status: 500 });
     }
 
-    const supabase = createSupabaseAdminClient();
     const fetched_at = new Date().toISOString();
     const rows = priceRows.map((p) => ({ ...p, fetched_at }));
 
     const { error } = await supabase.from("commodity_prices").insert(rows);
-
     if (error) throw error;
 
     return NextResponse.json({ refreshed: rows.length, at: fetched_at });
