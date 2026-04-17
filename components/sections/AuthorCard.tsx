@@ -27,7 +27,7 @@ export default async function AuthorCard({
             <img
               src={image}
               alt={name}
-              className="w-24 h-24 rounded-full object-cover grayscale shrink-0"
+              className="w-24 h-24 rounded-full object-cover shrink-0"
             />
           ) : (
             <div className="w-24 h-24 rounded-full bg-surface-container border border-outline-variant/30 flex items-center justify-center shrink-0">

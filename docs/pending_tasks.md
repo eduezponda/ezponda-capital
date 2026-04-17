@@ -11,10 +11,8 @@
 
 ### Content & Pages
 
-- **`/privacy`** — change contact email to `inigoezpondaigea@gmail.com`.
-- **Home — Iñigo profile photo** — add a profile photo of Iñigo on the home page.
 - **Home — Iñigo intro video (decide)** — decide whether to include a video of Iñigo presenting the project as the analyst. If yes, scope recording + hosting.
-- **New theses** — add new thesis MDX files under `content/theses/`, including at least one real-world worked example.
+- **New theses** — add new real worldthesis MDX files under `content/theses/`.
 - **Webpages content & restructure** — revise copy and restructure pages once the final content direction is clear (parked until scope is defined).
 
 ### Custom Domain & Google OAuth (blocked until domain purchase)
