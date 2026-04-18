@@ -1,5 +1,11 @@
 # Ezponda Capital — CLAUDE.md
 
+## Pending Tasks
+
+Pending tasks are tracked as markdown files in `/docs`. Always check `/docs` before reporting what's pending.
+
+---
+
 ## Product Overview
 
 Premium investment research platform focused on commodities (gold, copper, macro cycles).
