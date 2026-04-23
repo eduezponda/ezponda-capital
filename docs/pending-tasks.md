@@ -32,21 +32,29 @@ When a custom domain is purchased (e.g. ezponda.com):
 
 ## Mutation Testing
 
-**What it is:** A technique to evaluate test suite quality. Instead of asking "do the tests pass?", mutation testing asks "would the tests catch a bug if there was one?".
+**Tool:** Stryker Mutator (`@stryker-mutator/core` + `@stryker-mutator/vitest-runner`)
+**Config:** `stryker.config.mjs` — already committed, targets pure logic files only
 
-**How it works:**
-- A tool automatically introduces small code changes called *mutants* (e.g. `>` → `>=`, `+` → `-`, `return x` → `return None`)
-- The test suite is run against each mutant
-- If tests fail → mutant is killed ✅ (tests are effective)
-- If tests pass → mutant survives ❌ (there is a coverage gap)
-- Goal: maximize the **mutation score** = `killed / total`
+### Pending: run locally once back at computer
 
-**Why it matters for AI-generated tests:** When tests are written after the code already exists (which is what Claude Code does by default), they tend to validate current behavior rather than verify correctness. Mutation testing provides an objective feedback loop to detect those gaps.
+```bash
+npm run test:mutation
+```
 
-**Correct workflow:**
-1. Write or generate the code
-2. Generate an initial test suite
-3. Collect surviving mutants using specific tool for language (for example mumut in python)
-4. For each surviving mutant, prompt Claude Code: *"This mutant survived: `>` was changed to `>=` on line X. Write a test that kills it."*
-5. Re-run `mutmut` → check new mutation score
-6. Repeat until score is above 80–90%
+Results land at `reports/mutation/mutation.html` — open in browser to inspect surviving mutants.
+
+### Scoped files
+
+- `lib/utils.ts`
+- `lib/api/prices.ts`
+- `lib/api/theses.ts`
+- `lib/stripe.ts`
+- `features/subscription/lib/entitlements.ts`
+
+### Workflow to improve mutation score
+
+1. Run `npm run test:mutation`
+2. Open `reports/mutation/mutation.html`
+3. Find surviving mutants (shown in red)
+4. For each survivor, tell Claude Code: *"This mutant survived: `>` was changed to `>=` on line X in `lib/utils.ts`. Write a test that kills it."*
+5. Re-run until score is above 80–90%
