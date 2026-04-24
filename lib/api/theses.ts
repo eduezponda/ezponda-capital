@@ -54,11 +54,11 @@ function readAllFrontmatters(): ThesisMeta[] {
         excerpt: fm.summary,
         category: fm.category,
         date: fm.date,
-        tier: fm.tier ?? "free",
+        tier: fm.tier,
         image: fm.coverImage,
-        tags: fm.tags ?? [],
-        ticker: fm.ticker ?? "",
-        exchange: fm.exchange ?? "",
+        tags: fm.tags,
+        ticker: fm.ticker,
+        exchange: fm.exchange,
       };
     })
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
@@ -90,11 +90,11 @@ export async function getThesisBySlug(
     excerpt: fm.summary,
     category: fm.category,
     date: fm.date,
-    tier: fm.tier ?? "free",
+    tier: fm.tier,
     image: fm.coverImage,
-    tags: fm.tags ?? [],
-    ticker: fm.ticker ?? "",
-    exchange: fm.exchange ?? "",
+    tags: fm.tags,
+    ticker: fm.ticker,
+    exchange: fm.exchange,
     source: content,
   };
 }

@@ -202,6 +202,19 @@ Two hooks in `.githooks/` (versioned, activated via `core.hookspath=.githooks`):
 
 ---
 
+## Mutation Testing
+
+**Tool:** Stryker Mutator — `stryker.config.mjs` at project root
+**Command:** `npm run test:mutation`
+**Runner:** `@stryker-mutator/vitest-runner` (wraps the existing Vitest config)
+**Scope:** `lib/utils.ts`, `lib/api/prices.ts`, `lib/api/theses.ts`, `lib/stripe.ts`, `features/subscription/lib/entitlements.ts`
+**Report:** `reports/mutation/mutation.html` (gitignored)
+**Goal:** mutation score ≥ 80–90%
+
+When a mutant survives, tell Claude Code: *"This mutant survived: `<diff>` on line X in `<file>`. Write a test that kills it."*
+
+---
+
 ## Supabase CLI
 
 ### First-time setup

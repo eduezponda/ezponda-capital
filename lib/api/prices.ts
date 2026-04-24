@@ -1,15 +1,6 @@
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import type { TickerItem } from "@/components/ui/Ticker";
 
-const LABEL_MAP: Record<string, string> = {
-  XAU: "Gold (XAU/USD)",
-  XAG: "Silver (XAG/USD)",
-  XCU: "Copper (XCU/USD)",
-  XPT: "Platinum",
-  XPD: "Palladium",
-  BTC: "Bitcoin (BTC/USD)",
-};
-
 const DISPLAY_ORDER = ["XAU", "XCU", "XAG", "BTC", "XPT", "XPD"];
 
 export async function getSpotPrices(): Promise<TickerItem[]> {
@@ -22,7 +13,7 @@ export async function getSpotPrices(): Promise<TickerItem[]> {
       .order("fetched_at", { ascending: false });
 
     if (error) throw error;
-    if (!data || data.length === 0) return [];
+    if (!data?.length) return [];
 
     const latestBySymbol = new Map<string, (typeof data)[number]>();
     for (const row of data) {
@@ -35,7 +26,7 @@ export async function getSpotPrices(): Promise<TickerItem[]> {
       if (!row) continue;
       const pct = row.change_pct ?? 0;
       items.push({
-        label: LABEL_MAP[row.symbol] ?? `${row.name} (${row.symbol})`,
+        label: `${row.name} (${row.symbol}/USD)`,
         value: `$${row.price.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
         change: `${pct >= 0 ? "+" : ""}${pct.toFixed(2)}%`,
         direction: pct > 0 ? "up" : pct < 0 ? "down" : "neutral",
