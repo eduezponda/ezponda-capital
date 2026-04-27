@@ -35,14 +35,6 @@ When a custom domain is purchased (e.g. ezponda.com):
 **Tool:** Stryker Mutator (`@stryker-mutator/core` + `@stryker-mutator/vitest-runner`)
 **Config:** `stryker.config.mjs` — already committed, targets pure logic files only
 
-### Pending: run locally once back at computer
-
-```bash
-npm run test:mutation
-```
-
-Results land at `reports/mutation/mutation.html` — open in browser to inspect surviving mutants.
-
 ### Scoped files
 
 - `lib/utils.ts`
